@@ -11,6 +11,8 @@ library(glossary)
 glossary_path("glossary.yml")
 ```
 
+# About this book
+
 In the modern business landscape, data isn't just an asset – it's the raw
 material from which informed decisions are forged. Data, however, does not speak
 for itself. The extraction of actionable insights requires not only technical
@@ -22,7 +24,16 @@ background in economics, as economists generally possess the analytical skills,
 statistical training, and problem-solving mindset essential to excel in this
 role.
 
-However, it's important to note that this does not mean all economists will automatically make good business data scientists, nor that only economists are suited for this career. Other academic backgrounds that can prepare you well for this field include statistics, biostatistics, computer science, and even certain areas of psychology or sociology that emphasize quantitative methods. The key is to remember that technical knowledge alone is not sufficient. A successful business data scientist must be able to engage effectively with stakeholders, understand the decisions they're grappling with, help frame business questions that can be answered with data, and communicate findings in a clear, actionable manner.
+However, it's important to note that this does not mean all economists will
+automatically make good business data scientists, nor that only economists are
+suited for this career. Other academic backgrounds that can prepare you well for
+this field include statistics, biostatistics, computer science, and even certain
+areas of psychology or sociology that emphasize quantitative methods. The key is
+to remember that technical knowledge alone is not sufficient. A successful
+business data scientist must be able to engage effectively with stakeholders,
+understand the decisions they're grappling with, help frame business questions
+that can be answered with data, and communicate findings in a clear, actionable
+manner.
 
 This book is your compass in the dynamic world of business data science,
 designed for those aspiring to not just analyze data, but to truly understand
