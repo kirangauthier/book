@@ -16,11 +16,7 @@ book:
     utterances:
       repo: ignacio82/book
       label: Utterances
-  navbar:
-    right:
-      - icon: github
-        href: https://github.com/ignacio82/book
-        aria-label: GitHub  
+
   date: "07/03/2024"
   cover-image: cover.png
   chapters:
