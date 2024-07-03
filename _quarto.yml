@@ -7,6 +7,11 @@ book:
   subtitle: A guide for data-driven decisions
   author: "Ignacio Martinez, ..."
   license: "CC BY-NC"
+  repo-actions: [edit]
+  site-url: https://book.martinez.fyi
+  repo-url: https://github.com/ignacio82/book
+  repo-branch: master
+
   comments:
     utterances:
       repo: ignacio82/book
@@ -55,7 +60,17 @@ format:
     theme: cosmo
     number-depth: 2
     code-tools:
-      source: true    
+      source: true   
+
+    filters:
+      - social-share
+    share:
+      permalink: "https://book.martinez.fyi/"
+      description: "Business Data Science"
+      linkedin: true
+      email: true
+      mastodon: true
+      
   pdf:
     documentclass: scrreprt      
 execute:
