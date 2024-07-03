@@ -45,36 +45,34 @@ glossary_add(term = "Meaningful threshold",
 
 ## A Decisions First Framework
 
-In the realm of `r glossary("data-driven")` decision-making, it's tempting to
-succumb to the allure of the "null ritual." This ritual, as outlined in
-Gigerenzer et al. (2004), involves a rigid adherence to Null Hypothesis
-Significance Testing (NHST), a statistical method used to determine if a result
-is due to chance. Often, this is done without a clear understanding of its
-underlying assumptions or limitations. It's a bit like blindly following a
-recipe without tasting the ingredients – you might end up with a statistically
-significant result, but it may not be a meaningful or useful one.
+In the world of `r glossary("data-driven")` decision-making, it's all too easy to
+fall into the trap of the "null ritual." This ritual, as @gigerenzer2004null
+point out, involves a slavish adherence to Null Hypothesis Significance Testing
+(NHST) without truly grasping its foundations or limitations. It's akin to
+following a recipe without tasting the ingredients - you might end up with a
+statistically significant result, but one that lacks real-world meaning or
+utility.
 
-Instead of mindlessly performing this ritual, we should adopt a more thoughtful
-and purposeful approach. A `r glossary("Decisions First Framework")` offers a
-refreshing alternative, putting the focus squarely on the decisions we need to
-make and using data as a tool to illuminate the path forward. This framework
-helps us avoid several pitfalls, including the
-`r glossary("Lure of Incredible Certitude")`, a concept described by
-@manski2020lure. This refers to the tendency to present research findings with
-unwarranted certainty, often driven by incentives to provide clear-cut answers
-even when the data is inconclusive or riddled with uncertainty.
+Instead of mindlessly performing this ritual, we need a more thoughtful,
+purposeful approach. Enter the r glossary("Decisions First Framework"). This
+approach flips the script, putting the focus squarely on the decisions we need
+to make and using data as a tool to illuminate the path forward. It helps us
+sidestep several pitfalls, including what @manski2020lure calls the 
+`r glossary("Lure of Incredible Certitude")`- the tendency to present research
+findings with unwarranted certainty, often driven by pressure to provide
+clear-cut answers even when the data is ambiguous or uncertain.
 
-One crucial reason for this shift is that NHST doesn't always align with the
-practical questions businesses need to answer. Furthermore, there's a widespread
-misinterpretation of `r glossary("p-value", "p-values")`. The American
-Statistical Association wrote a rare statement in 2016 to raise the alarm over
-this problem [see @wasserstein2016asa].
-They noted that "practices that reduce data analysis or scientific
-inference to mechanical 'bright-line' rules (such as 'p \< 0.05') for justifying
-scientific claims or conclusions can lead to erroneous beliefs and poor decision
-making." They further clarified that "a p-value does not measure the probability
-that the studied hypothesis is true, or the probability that the data were
-produced by random chance alone."
+One crucial reason for this shift is that NHST often misses the mark when it
+comes to answering the practical questions businesses need to address. Moreover,
+there's a widespread misunderstanding of `r glossary("p-value", "p-values")`.
+The American Statistical Association took the unusual step of issuing a
+statement in 2016 to sound the alarm on this issue [see @wasserstein2016asa].
+They noted that "practices that reduce data analysis or scientific inference to
+mechanical 'bright-line' rules (such as 'p \< 0.05') for justifying scientific
+claims or conclusions can lead to erroneous beliefs and poor decision making."
+They further clarified that "a p-value does not measure the probability that the
+studied hypothesis is true, or the probability that the data were produced by
+random chance alone."
 
 The "Decisions First" framework offers an antidote to the null ritual by
 embracing a Bayesian perspective. This approach treats learning from data as a
@@ -91,36 +89,22 @@ credibility across various possibilities.
 #### Define the Decision(s): The Cornerstone of Data-Driven Choices {.unnumbered}
 
 The first, and arguably most crucial, step is to **clearly articulate the
-decision(s) you need to make.** This might involve launching a new product,
-adjusting pricing strategies, or optimizing marketing campaigns. Avoid vague
-statements and strive for specificity. For instance, instead of saying, "We need
-to improve customer satisfaction," refine it to, "Should we implement a chatbot
-to reduce customer wait times and boost satisfaction scores?"
-
-A well-structured decision question can be surprisingly simple, often following
-the format "Does A do B among C compared to D?"
-
-  - A: The intervention or action under evaluation (e.g., chatbot, new pricing).
-  - B: Your clear definition of success (e.g., reduce wait times, increase
-    sales).
-  - C: The target population (e.g., all customers, a specific segment).
-  - D: The alternative or baseline for comparison (e.g., no chatbot, current
-    pricing).
-
-However, sometimes you'll encounter more nuanced questions like "What works for
-whom?" These situations involve evaluating multiple alternatives with the
-understanding that different options might be optimal for different groups
-within your population.
+decision(s) you need to make**. This might involve launching a new product,
+adjusting pricing strategies, or optimizing marketing campaigns. Some decisions
+will be binary, but that's not always the case. The key is that the optimal
+decision should hinge on the information available. If no amount of evidence
+will change your mind, there's little point in designing a study to collect it.
 
 #### Formulate Data-Driven Questions: Asking the Right Questions  {.unnumbered}
 
 With your decision clearly defined, it's time to craft questions that data can
 answer and that directly inform your decision. These questions should be
 focused, actionable, and revolve around
-`r glossary("meaningful threshold", "meaningful threshold")`,
-rather than fixating solely on the null hypothesis (zero effect).
+`r glossary("meaningful threshold", "meaningful thresholds")`, rather than
+fixating solely on the null hypothesis (zero effect).
 
-For instance, in the chatbot scenario, you might ask:
+For instance, in a scenario involving the implementation of a chatbot, you might
+ask:
 
   + "Will a chatbot reduce average customer wait time by at least 15%?" Here,
     the threshold of interest isn't whether there's any reduction in wait time,
@@ -133,7 +117,28 @@ For instance, in the chatbot scenario, you might ask:
 
 By establishing these thresholds, we align our data analysis with the real-world
 impact of our decisions. A 5% reduction in wait times, even if statistically
-significant, might not be worth the cost of implementing a chatbot.
+significant, might not justify the cost of implementing a chatbot.
+
+In many cases, a well-structured question can be surprisingly simple, often
+following the format "Does <span style="color:#EA4335;">A</span> do
+<span style="color:#34A853;">B</span> among
+<span style="color:#4285F4;">C</span> compared to
+<span style="color:#FBBC04;">D</span>?"
+
+  - <span style="color:#EA4335;">A</span>: The intervention or action under
+    evaluation (e.g., chatbot, new pricing).
+  - <span style="color:#34A853;">B</span>: Your clear definition of success
+    (e.g., reduce wait times, increase sales).
+  - <span style="color:#4285F4;">C</span>: The target population (e.g., all
+    customers, a specific segment).
+  - <span style="color:#FBBC04;">D</span>: The alternative or baseline for
+    comparison (e.g., no chatbot, current pricing).
+
+However, sometimes you'll encounter more nuanced questions like "What works for
+whom?" These situations involve evaluating multiple alternatives with the
+understanding that different options might be optimal for different groups
+within your population.
+
 
 #### Design the Study: Tailoring Research to Your Decision  {.unnumbered}
 
@@ -188,7 +193,9 @@ rewards when making decisions.
 
 By adopting the "Decisions First" framework and embracing a Bayesian approach,
 you can transform data analysis from a ritualistic exercise into a powerful tool
-for making informed, impactful decisions.
+for making informed, impactful decisions. This approach not only aligns your
+research with your business objectives but also acknowledges the complexities
+and uncertainties inherent in real-world decision-making.
 
 
 
