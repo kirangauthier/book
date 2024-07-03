@@ -84,9 +84,8 @@ quantify and integrate it into the decision-making process. In essence,
 `r glossary("Bayesian Statistics")` allows us to use data to reallocate
 credibility across various possibilities.
 
-### The Framework  {.unnumbered}
 
-#### Define the Decision(s): The Cornerstone of Data-Driven Choices {.unnumbered}
+## Define the Decision(s): The Cornerstone of Data-Driven Choices
 
 The first, and arguably most crucial, step is to **clearly articulate the
 decision(s) you need to make**. This might involve launching a new product,
@@ -95,7 +94,7 @@ will be binary, but that's not always the case. The key is that the optimal
 decision should hinge on the information available. If no amount of evidence
 will change your mind, there's little point in designing a study to collect it.
 
-#### Formulate Data-Driven Questions: Asking the Right Questions  {.unnumbered}
+## Formulate Data-Driven Questions: Asking the Right Questions
 
 With your decision clearly defined, it's time to craft questions that data can
 answer and that directly inform your decision. These questions should be
@@ -140,7 +139,7 @@ understanding that different options might be optimal for different groups
 within your population.
 
 
-#### Design the Study: Tailoring Research to Your Decision  {.unnumbered}
+## Design the Study: Tailoring Research to Your Decision  
 
 This stage involves selecting the appropriate research methodology to answer
 your questions. Crucially, **the study design must be tailored to the specific
@@ -164,8 +163,7 @@ The key is to ensure your study design mirrors the real-world conditions of the
 decision as closely as possible.
 
 
-#### Present Findings and Implications: Communicating Clearly and Transparently  {.unnumbered}
-
+## Present Findings and Implications: Communicating Clearly and Transparently
 
 After conducting your study, present the results clearly, concisely, and
 accessibly. Avoid jargon that could confuse your audience. Even a meticulously
@@ -181,7 +179,7 @@ Even with a flawless experimental design, questions of external validity might
 remain. For example, a chatbot study conducted with tech-savvy users might
 not apply to an older demographic.
 
-#### Real-World Constraints and the Path Forward  {.unnumbered}
+## Real-World Constraints and the Path Forward
 
 Real-world constraints often prevent us from conducting the "perfect" study with
 both impeccable internal and external validity. Therefore, it's essential to
