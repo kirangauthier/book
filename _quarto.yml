@@ -23,7 +23,7 @@ book:
       chapters: 
         - chapter_01.qmd
         - potential_outcome.qmd
-        - chapter_02.qmd
+        - decisions_first.qmd
         - rce.qmd
         - surrogates.qmd
     - part: rct.qmd

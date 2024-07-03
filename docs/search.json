@@ -129,8 +129,8 @@
     ]
   },
   {
-    "objectID": "chapter_02.html",
-    "href": "chapter_02.html",
+    "objectID": "decisions_first.html",
+    "href": "decisions_first.html",
     "title": "3  A Decisions First Framework",
     "section": "",
     "text": "3.1 Define the Decision(s): The Cornerstone of Data-Driven Choices\nThe first, and arguably most crucial, step is to clearly articulate the decision(s) you need to make. This might involve launching a new product, adjusting pricing strategies, or optimizing marketing campaigns. Some decisions will be binary, but that’s not always the case. The key is that the optimal decision should hinge on the information available. If no amount of evidence will change your mind, there’s little point in designing a study to collect it.",
@@ -140,8 +140,8 @@
     ]
   },
   {
-    "objectID": "chapter_02.html#formulate-data-driven-questions-asking-the-right-questions",
-    "href": "chapter_02.html#formulate-data-driven-questions-asking-the-right-questions",
+    "objectID": "decisions_first.html#formulate-data-driven-questions-asking-the-right-questions",
+    "href": "decisions_first.html#formulate-data-driven-questions-asking-the-right-questions",
     "title": "3  A Decisions First Framework",
     "section": "3.2 Formulate Data-Driven Questions: Asking the Right Questions",
     "text": "3.2 Formulate Data-Driven Questions: Asking the Right Questions\nWith your decision clearly defined, it’s time to craft questions that data can answer and that directly inform your decision. These questions should be focused, actionable, and revolve around meaningful thresholds, rather than fixating solely on the null hypothesis (zero effect).\nFor instance, in a scenario involving the implementation of a chatbot, you might ask:\n\n“Will a chatbot reduce average customer wait time by at least 15%?” Here, the threshold of interest isn’t whether there’s any reduction in wait time, but whether the reduction is substantial enough (15% or more) to justify implementing the chatbot.\n“Will a chatbot increase customer satisfaction scores by at least 10 points?” Similarly, the focus is on a meaningful increase in satisfaction, not just any statistically significant difference from the current baseline.\n\nBy establishing these thresholds, we align our data analysis with the real-world impact of our decisions. A 5% reduction in wait times, even if statistically significant, might not justify the cost of implementing a chatbot.\nIn many cases, a well-structured question can be surprisingly simple, often following the format “Does A do B among C compared to D?”\n\nA: The intervention or action under evaluation (e.g., chatbot, new pricing).\nB: Your clear definition of success (e.g., reduce wait times, increase sales).\nC: The target population (e.g., all customers, a specific segment).\nD: The alternative or baseline for comparison (e.g., no chatbot, current pricing).\n\nHowever, sometimes you’ll encounter more nuanced questions like “What works for whom?” These situations involve evaluating multiple alternatives with the understanding that different options might be optimal for different groups within your population.",
@@ -151,8 +151,8 @@
     ]
   },
   {
-    "objectID": "chapter_02.html#design-the-study-tailoring-research-to-your-decision",
-    "href": "chapter_02.html#design-the-study-tailoring-research-to-your-decision",
+    "objectID": "decisions_first.html#design-the-study-tailoring-research-to-your-decision",
+    "href": "decisions_first.html#design-the-study-tailoring-research-to-your-decision",
     "title": "3  A Decisions First Framework",
     "section": "3.3 Design the Study: Tailoring Research to Your Decision",
     "text": "3.3 Design the Study: Tailoring Research to Your Decision\nThis stage involves selecting the appropriate research methodology to answer your questions. Crucially, the study design must be tailored to the specific decision you’re facing. Factors to consider include data availability, experimental design, and potential biases. Additionally, ethical considerations should be at the forefront of your design, ensuring the study does no harm and respects the rights of participants.\n\nChatbot Example: If you’re exploring whether to offer a chatbot as an option, an A/B test where some customers are offered the chatbot while others follow the standard process might be suitable. However, if you’re considering making the chatbot the only option, your study design needs to reflect this forced-choice scenario.\nEvent Invitation Example: If you want to understand the value of inviting people to an event, randomizing invitations and analyzing attendance rates is a valid approach. But if you want to understand the value of actually attending the event, you’d focus on outcomes for attendees, even if the data comes from the same experiment.\n\nThe key is to ensure your study design mirrors the real-world conditions of the decision as closely as possible.",
@@ -162,8 +162,8 @@
     ]
   },
   {
-    "objectID": "chapter_02.html#present-findings-and-implications-communicating-clearly-and-transparently",
-    "href": "chapter_02.html#present-findings-and-implications-communicating-clearly-and-transparently",
+    "objectID": "decisions_first.html#present-findings-and-implications-communicating-clearly-and-transparently",
+    "href": "decisions_first.html#present-findings-and-implications-communicating-clearly-and-transparently",
     "title": "3  A Decisions First Framework",
     "section": "3.4 Present Findings and Implications: Communicating Clearly and Transparently",
     "text": "3.4 Present Findings and Implications: Communicating Clearly and Transparently\nAfter conducting your study, present the results clearly, concisely, and accessibly. Avoid jargon that could confuse your audience. Even a meticulously designed study can lead to misinformed decisions if the findings are poorly communicated. Be transparent about your learnings, acknowledge any limitations of the study, and highlight new questions that have arisen.\nIn discussing limitations, it’s crucial to distinguish between Internal Validity (the confidence that the observed effects are due to the factor you’re studying) and External Validity (the extent to which the results can be generalized to other situations). Even with a flawless experimental design, questions of external validity might remain. For example, a chatbot study conducted with tech-savvy users might not apply to an older demographic.",
@@ -173,8 +173,8 @@
     ]
   },
   {
-    "objectID": "chapter_02.html#real-world-constraints-and-the-path-forward",
-    "href": "chapter_02.html#real-world-constraints-and-the-path-forward",
+    "objectID": "decisions_first.html#real-world-constraints-and-the-path-forward",
+    "href": "decisions_first.html#real-world-constraints-and-the-path-forward",
     "title": "3  A Decisions First Framework",
     "section": "3.5 Real-World Constraints and the Path Forward",
     "text": "3.5 Real-World Constraints and the Path Forward\nReal-world constraints often prevent us from conducting the “perfect” study with both impeccable internal and external validity. Therefore, it’s essential to view evidence quality as a spectrum, not a binary. Learning is an ongoing process. Embrace uncertainty, acknowledging that no single study provides all the answers. Instead of thinking in terms of “success” or “failure,” consider the weight of evidence, the specific context, and the potential risks and rewards when making decisions.\nBy adopting the “Decisions First” framework and embracing a Bayesian approach, you can transform data analysis from a ritualistic exercise into a powerful tool for making informed, impactful decisions. This approach not only aligns your research with your business objectives but also acknowledges the complexities and uncertainties inherent in real-world decision-making.\n\n\n\n\n\n\nGigerenzer, Gerd, Stefan Krauss, and Oliver Vitouch. 2004. “The Null Ritual.” The Sage Handbook of Quantitative Methodology for the Social Sciences, 391–408.\n\n\nManski, Charles F. 2020. “The Lure of Incredible Certitude.” Economics & Philosophy 36 (2): 216–45. https://www.nber.org/system/files/working_papers/w24905/w24905.pdf.\n\n\nWasserstein, Ronald L, and Nicole A Lazar. 2016. “The ASA Statement on p-Values: Context, Process, and Purpose.” The American Statistician. Taylor & Francis. https://www.tandfonline.com/doi/pdf/10.1080/00031305.2016.1154108.",
