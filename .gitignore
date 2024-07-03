@@ -1,0 +1,7 @@
+*.pdf
+/.quarto/
+.Rproj
+.so
+.o
+*pdf
+.Rproj.user

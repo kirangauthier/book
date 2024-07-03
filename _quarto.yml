@@ -1,0 +1,62 @@
+project:
+  type: book
+
+book:
+  title: "Business Data Science"
+  subtitle: A guide for data-driven decisions
+  author: "Ignacio Martinez, ..."
+  license: "CC BY-NC"
+  comments:
+    utterances:
+      repo: ignacio82/book
+      label: Utterances
+  navbar:
+    right:
+      - icon: github
+        href: https://github.com/ignacio82/book
+        aria-label: GitHub  
+  date: "07/03/2024"
+  cover-image: cover.png
+  chapters:
+    - part: index.qmd
+      chapters: 
+        - chapter_01.qmd
+        - potential_outcome.qmd
+        - chapter_02.qmd
+        - rce.qmd
+        - surrogates.qmd
+    - part: rct.qmd
+      chapters: 
+        - rct_basic.qmd
+        - bad.qmd
+        - factorial.qmd
+        - iv.qmd    
+    - part: other_methods.qmd
+      chapters: 
+        - chapter_05.qmd
+        - causalimpact.qmd
+        - bsynth.qmd
+    - part: glm.qmd
+      chapters: 
+        - blm.qmd     
+        - meta-analysis.qmd
+        - beyond_normality.qmd        
+    - part: ml.qmd    
+      chapters: 
+        - bart.qmd       
+    - references.qmd
+  sidebar: 
+    logo: hex.png
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    number-depth: 2
+    code-tools:
+      source: true    
+  pdf:
+    documentclass: scrreprt      
+execute:
+  freeze: auto  #
+

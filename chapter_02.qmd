@@ -1,0 +1,194 @@
+```{r}
+#| warning: false
+#| echo: false
+#| results: asis
+
+library(glossary)
+glossary_path("glossary.yml")
+glossary_popup("hover")
+glossary_style("purple", "underline")
+glossary_popup("hover")
+
+glossary_add(term = "Bayesian Statistics",
+             def = "A statistical approach that allows for updating beliefs or probabilities based on new evidence, rather than relying on fixed hypotheses.",
+             replace = TRUE)
+
+glossary_add(term = "Decisions First Framework",
+             def = "A decision-making approach that prioritizes clearly defining the decision to be made before gathering and analyzing data.",
+             replace = TRUE)
+
+glossary_add(term = "External Validity",
+             def = "The extent to which the results of a study can be generalized to other populations, settings, or situations.",
+             replace = TRUE)
+
+glossary_add(term = "Internal Validity",
+             def = "The confidence that the observed effects in a study are truly caused by the factor being studied, rather than other confounding variables.",
+             replace = TRUE)
+
+glossary_add(term = "Lure of Incredible Certitude",
+             def = "The tendency to present research findings with unwarranted certainty, often driven by pressure to provide clear-cut answers.",
+             replace = TRUE)
+
+glossary_add(term = "Null Ritual",
+             def = "The practice of rigidly adhering to NHST without fully understanding its assumptions or limitations.",
+             replace = TRUE)
+
+glossary_add(term = "P-value",
+             def = 'the probability, assuming a certain statistical model, that a statistical summary of the data (such as the sample mean difference between two groups) would be equal to or more extreme than its observed value. While a P-value indicates how "incompatible" the data are with a specified statistical model, it does not measure the probability that the hypothesis under study is true nor does it measure the probability that the data were produced by random chance alone.',
+             replace = TRUE)
+
+glossary_add(term = "Meaningful threshold",
+             def = "A predetermined level of effect or change that is considered meaningful for decision-making purposes.",
+             replace = TRUE)
+
+```
+
+## A Decisions First Framework
+
+In the realm of `r glossary("data-driven")` decision-making, it's tempting to
+succumb to the allure of the "null ritual." This ritual, as outlined in
+Gigerenzer et al. (2004), involves a rigid adherence to Null Hypothesis
+Significance Testing (NHST), a statistical method used to determine if a result
+is due to chance. Often, this is done without a clear understanding of its
+underlying assumptions or limitations. It's a bit like blindly following a
+recipe without tasting the ingredients – you might end up with a statistically
+significant result, but it may not be a meaningful or useful one.
+
+Instead of mindlessly performing this ritual, we should adopt a more thoughtful
+and purposeful approach. A `r glossary("Decisions First Framework")` offers a
+refreshing alternative, putting the focus squarely on the decisions we need to
+make and using data as a tool to illuminate the path forward. This framework
+helps us avoid several pitfalls, including the
+`r glossary("Lure of Incredible Certitude")`, a concept described by
+@manski2020lure. This refers to the tendency to present research findings with
+unwarranted certainty, often driven by incentives to provide clear-cut answers
+even when the data is inconclusive or riddled with uncertainty.
+
+One crucial reason for this shift is that NHST doesn't always align with the
+practical questions businesses need to answer. Furthermore, there's a widespread
+misinterpretation of `r glossary("p-value", "p-values")`. The American
+Statistical Association wrote a rare statement in 2016 to raise the alarm over
+this problem [see @wasserstein2016asa].
+They noted that "practices that reduce data analysis or scientific
+inference to mechanical 'bright-line' rules (such as 'p \< 0.05') for justifying
+scientific claims or conclusions can lead to erroneous beliefs and poor decision
+making." They further clarified that "a p-value does not measure the probability
+that the studied hypothesis is true, or the probability that the data were
+produced by random chance alone."
+
+The "Decisions First" framework offers an antidote to the null ritual by
+embracing a Bayesian perspective. This approach treats learning from data as a
+continuous process, not a binary "accept/reject" decision based on a single
+p-value. Rather than fixating on point estimates, p-values, or confidence
+intervals, it emphasizes estimating probabilities that are relevant to the
+decisions at hand. It acknowledges the inherent uncertainty in data and seeks to
+quantify and integrate it into the decision-making process. In essence,
+`r glossary("Bayesian Statistics")` allows us to use data to reallocate
+credibility across various possibilities.
+
+### The Framework  {.unnumbered}
+
+#### Define the Decision(s): The Cornerstone of Data-Driven Choices {.unnumbered}
+
+The first, and arguably most crucial, step is to **clearly articulate the
+decision(s) you need to make.** This might involve launching a new product,
+adjusting pricing strategies, or optimizing marketing campaigns. Avoid vague
+statements and strive for specificity. For instance, instead of saying, "We need
+to improve customer satisfaction," refine it to, "Should we implement a chatbot
+to reduce customer wait times and boost satisfaction scores?"
+
+A well-structured decision question can be surprisingly simple, often following
+the format "Does A do B among C compared to D?"
+
+  - A: The intervention or action under evaluation (e.g., chatbot, new pricing).
+  - B: Your clear definition of success (e.g., reduce wait times, increase
+    sales).
+  - C: The target population (e.g., all customers, a specific segment).
+  - D: The alternative or baseline for comparison (e.g., no chatbot, current
+    pricing).
+
+However, sometimes you'll encounter more nuanced questions like "What works for
+whom?" These situations involve evaluating multiple alternatives with the
+understanding that different options might be optimal for different groups
+within your population.
+
+#### Formulate Data-Driven Questions: Asking the Right Questions  {.unnumbered}
+
+With your decision clearly defined, it's time to craft questions that data can
+answer and that directly inform your decision. These questions should be
+focused, actionable, and revolve around
+`r glossary("meaningful threshold", "meaningful threshold")`,
+rather than fixating solely on the null hypothesis (zero effect).
+
+For instance, in the chatbot scenario, you might ask:
+
+  + "Will a chatbot reduce average customer wait time by at least 15%?" Here,
+    the threshold of interest isn't whether there's any reduction in wait time,
+    but whether the reduction is substantial enough (15% or more) to justify
+    implementing the chatbot.
+
+  + "Will a chatbot increase customer satisfaction scores by at least 10
+    points?" Similarly, the focus is on a meaningful increase in satisfaction,
+    not just any statistically significant difference from the current baseline.
+
+By establishing these thresholds, we align our data analysis with the real-world
+impact of our decisions. A 5% reduction in wait times, even if statistically
+significant, might not be worth the cost of implementing a chatbot.
+
+#### Design the Study: Tailoring Research to Your Decision  {.unnumbered}
+
+This stage involves selecting the appropriate research methodology to answer
+your questions. Crucially, **the study design must be tailored to the specific
+decision you're facing.** Factors to consider include data availability,
+experimental design, and potential biases. **Additionally, ethical
+considerations should be at the forefront of your design, ensuring the study
+does no harm and respects the rights of participants.**
+
+  - **Chatbot Example:** If you're exploring whether to offer a chatbot as an
+    option, an A/B test where some customers are offered the chatbot while
+    others follow the standard process might be suitable. However, if you're
+    considering making the chatbot the only option, your study design needs to
+    reflect this forced-choice scenario.
+  - **Event Invitation Example:** If you want to understand the value of
+    inviting people to an event, randomizing invitations and analyzing
+    attendance rates is a valid approach. But if you want to understand the
+    value of actually attending the event, you'd focus on outcomes for
+    attendees, even if the data comes from the same experiment.
+
+The key is to ensure your study design mirrors the real-world conditions of the
+decision as closely as possible.
+
+
+#### Present Findings and Implications: Communicating Clearly and Transparently  {.unnumbered}
+
+
+After conducting your study, present the results clearly, concisely, and
+accessibly. Avoid jargon that could confuse your audience. Even a meticulously
+designed study can lead to misinformed decisions if the findings are poorly
+communicated. Be transparent about your learnings, acknowledge any limitations
+of the study, and highlight new questions that have arisen.
+
+In discussing limitations, it's crucial to distinguish between
+`r glossary("Internal Validity")` (the confidence that the observed effects 
+are due to the factor you're studying) and `r glossary("External Validity")`
+(the extent to which the results can be generalized to other situations).
+Even with a flawless experimental design, questions of external validity might
+remain. For example, a chatbot study conducted with tech-savvy users might
+not apply to an older demographic.
+
+#### Real-World Constraints and the Path Forward  {.unnumbered}
+
+Real-world constraints often prevent us from conducting the "perfect" study with
+both impeccable internal and external validity. Therefore, it's essential to
+view evidence quality as a spectrum, not a binary. Learning is an ongoing
+process. Embrace uncertainty, acknowledging that no single study provides all
+the answers. Instead of thinking in terms of "success" or "failure," consider
+the weight of evidence, the specific context, and the potential risks and
+rewards when making decisions.
+
+By adopting the "Decisions First" framework and embracing a Bayesian approach,
+you can transform data analysis from a ritualistic exercise into a powerful tool
+for making informed, impactful decisions.
+
+
+

@@ -1,0 +1,80 @@
+# Introduction
+
+```{r}
+#| warning: false
+#| echo: false
+
+library(glossary)
+glossary_path("glossary.yml")
+```
+
+In the modern business landscape, data isn't just an asset – it's the raw
+material from which informed decisions are forged. Data, however, does not speak
+for itself. The extraction of actionable insights requires not only technical
+prowess, but a sophisticated understanding of causal inference. This is where
+the business data scientist steps in, acting as the voice of data, translating
+its complex signals into meaningful narratives that drive strategic
+decision-making. The field is particularly well-suited for those with a
+background in economics, as economists generally possess the analytical skills,
+statistical training, and problem-solving mindset essential to excel in this
+role.
+
+However, it's important to note that this does not mean all economists will automatically make good business data scientists, nor that only economists are suited for this career. Other academic backgrounds that can prepare you well for this field include statistics, biostatistics, computer science, and even certain areas of psychology or sociology that emphasize quantitative methods. The key is to remember that technical knowledge alone is not sufficient. A successful business data scientist must be able to engage effectively with stakeholders, understand the decisions they're grappling with, help frame business questions that can be answered with data, and communicate findings in a clear, actionable manner.
+
+This book is your compass in the dynamic world of business data science,
+designed for those aspiring to not just analyze data, but to truly understand
+and influence the underlying causes and effects within a business context. The
+business data scientist is a unique breed, blending the rigor of a statistician
+with the acumen of a strategist. They are experts in applying an analytical lens
+to business problems, leveraging techniques from causal inference, advanced
+statistical modeling, and forecasting. They possess the ability to discern the
+optimal approach for a given problem, communicating complex findings clearly to
+both technical and non-technical stakeholders.
+
+While proficient in data extraction from large datasets (e.g., using SQL), what
+truly sets these professionals apart is a deep-seated understanding of the
+assumptions underpinning their chosen methods, allowing them to critically
+evaluate results and avoid blind reliance on off-the-shelf tools. Furthermore,
+they are adaptable problem-solvers, capable of implementing advanced
+methodologies from scratch or even designing entirely novel approaches when
+faced with unconventional challenges.
+
+Throughout this book, we'll navigate the core principles of causal inference,
+learning how to confidently identify cause-and-effect relationships within data.
+We'll delve into the critical role of experimental design, covering randomized
+controlled trials, from simple A/B tests to Bayesian adaptive designs. We'll
+also explore observational methods for when experiments are not possible,
+elucidating how to analyze their outcomes to reach valid conclusions. Our focus
+will be on techniques to mitigate inherent biases and draw meaningful insights
+from non-experimental data.
+
+Our exploration will emphasize a "decisions first" philosophy. This approach
+prioritizes a clear articulation of the business problem at hand, ensuring data
+analysis is always laser-focused on informing and optimizing decision-making. To
+ground these concepts in reality, we'll provide practical examples and case
+studies spanning diverse industries, showcasing how data science can be wielded
+to address tangible business challenges.
+
+To facilitate your learning journey, we'll incorporate code examples. These
+examples will illuminate the technical aspects of data analysis, empowering you
+to apply them to your own projects. Additionally, each chapter includes links to
+relevant academic papers and further resources, allowing you to dive deeper into
+any topic that piques your interest or demands more thorough exploration for
+your specific needs.
+
+By the book's conclusion, you'll possess a basic foundation in business data
+science and the confidence to leverage data as a driving force for
+decision-making within your organization. Let's embark on this illuminating
+journey together, unlocking the power of data to propel your business success.
+
+## Disclaimer
+
+In its current state, I would not call this a book. At best, it represents the
+draft of an idea for the first draft of a book. As such, there are many elements
+missing, and likely several errors.
+
+## License
+
+This book is licensed under the [Creative Commons
+Attribution-NonCommercial 4.0](https://creativecommons.org/licenses/by-nc/4.0/)
+License.

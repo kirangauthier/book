@@ -1,0 +1,137 @@
+```{r}
+#| warning: false
+#| echo: false
+#| results: asis
+
+library(glossary)
+glossary_path("glossary.yml")
+glossary_popup("hover")
+glossary_style("purple", "underline")
+glossary_popup("hover")
+glossary_add(term = "Causal inference",
+             def = "The process of drawing conclusions about cause-and-effect relationships from data. It goes beyond simple correlations to help us understand why patterns occur.",
+             replace = TRUE)
+
+glossary_add(term = "Correlation",
+             def = "A statistical relationship between two variables, meaning they tend to change together. Correlation does not necessarily imply causation.",
+             replace = TRUE)
+
+glossary_add(term = "Counterfactual",
+             def = 'The "what-if" scenario. It represents what would have happened if a particular action or change had not been implemented.',
+             replace = TRUE)
+
+glossary_add(term = "Data-Driven",
+             def = 'Describes decision-making that is informed by the analysis and interpretation of data.',
+             replace = TRUE)
+
+glossary_add(term = "Impact Evaluation",
+             def = 'The process of quantifying the causal effect of a particular program, policy, or business decision.',
+             replace = TRUE)
+
+glossary_add(term = "Potential Outcome",
+             def = 'The result that would have happened to a unit (a person, company, etc.) under a particular treatment or condition. In `r glossary("causal inference")`, we are often interested in the difference between the potential outcome under treatment and the potential outcome under control.',
+             replace = TRUE)
+
+glossary_add(term = "Self-Selection Bias",
+             def = 'A type of bias that occurs when individuals or groups "select" themselves into a treatment or control group, rather than being randomly assigned. This can make it difficult to isolate the true causal effect of the intervention.',
+             replace = TRUE)
+
+glossary_add(term = "Program Improvement",
+             def = "The process of using data to continuously assess, refine, and optimize a program's operations and effectiveness.",
+             replace = TRUE) 
+
+```
+
+## What Does it Mean to Be Data-Driven?
+
+In today's tech-driven world, data is king. Every click, swipe, and search
+generates a breadcrumb of information. Alas, although most decision-makers want
+to be `r glossary("data-driven")`, data does not speak for itself.
+
+So, what does it mean to be `r glossary("data-driven")`? At its core, it's about
+using data to inform decisions, not just describe them. It's about moving beyond
+`r glossary("Correlation", "correlation")` – the "what goes with what" – and
+understanding causation, the "why" behind the patterns we see. To be truly
+`r glossary("data-driven")`, there must be some level of evidence that the data
+can provide that would make you choose a different path than the one you would
+have otherwise taken.
+
+This is where `r glossary("causal inference")` steps in.
+`r glossary("Causal inference")` is the science of drawing cause-and-effect
+conclusions from data. It allows us to answer questions like:
+
+  - Did a new marketing campaign actually drive sales, or was it launched during
+    a time when sales naturally increase?
+  - Will a new app feature increase user engagement, or will it just annoy
+    users?
+  - Is a chatbot the best way to reduce wait time and increase customer
+    satisfaction?
+
+`r glossary("Causal inference")` is the missing piece of the
+`r glossary("data-driven")` puzzle. It lets us move beyond
+`r glossary("Correlation", "correlation")` and identify the true drivers of
+business outcomes. `r glossary("Impact evaluation")` builds on this, putting
+numbers to the effects of a program, policy, or intervention. Think of it as
+measuring the impact of a specific business decision.
+
+Data can also be used to improve the ongoing operations and effectiveness of a
+program, a process known as
+`r glossary("Program Improvement", "program improvement")`. This involves
+continuously collecting data on how the program is running, identifying any
+bottlenecks or areas for enhancement, and making adjustments as needed. Think of
+program improvement as an ongoing feedback loop, constantly refining and
+optimizing the program based on real-world data.
+
+Now, let's delve a bit deeper. Imagine you're a decision-maker at a social media
+company pondering a new feature. You have data showing that users who engage
+with the feature spend more time on the platform. This is a
+`r glossary("Correlation", "correlation")`, but it doesn't tell the whole story.
+What if those users were already naturally the most engaged?
+
+This is where the concept of the counterfactual becomes crucial. The
+counterfactual is what would have happened if we hadn't implemented the new
+feature – it's the `r glossary("potential outcome")` had we not made the change.
+While Jerzy Neyman hinted at this idea in 1923 [see @neyman1923applications],
+Donald Rubin fully developed the concept in the 1970s [see
+@rubin1974estimating; also @rubin1978bayesian] . Given that we can only observe
+one potential outcome for each unit, the counterfactual is inherently missing
+data. Hence, causal inference can be viewed as a missing data problem. For a
+review of variety of causal inference methods from this perspective see
+@ding2018causal.
+
+Choosing the right counterfactual is critical for drawing valid causal
+conclusions. The wrong counterfactual can lead to misleading results and
+potentially disastrous business decisions. We'll explore these challenges and
+different approaches to constructing counterfactuals in the coming chapters.
+
+By understanding `r glossary("causal inference")` and the importance of
+counterfactuals, you'll be well on your way to leveraging the true power of data
+to make informed decisions for your business. However, choosing the wrong
+counterfactual can have serious consequences. Here are some classic examples:
+
+  - *Before-and-After Studies:* Imagine evaluating a job training program by
+    comparing participants' income before and after participation. What if the
+    economy was improving during that time, and their income would have
+    increased anyway? A simple before-and-after comparison can't account for
+    these external factors.
+
+  - *Self-Selection Bias:* Suppose you want to assess the effect of a new
+    exercise app. You compare those who chose to use the app to those who
+    didn't. What if people who downloaded the app were already more motivated to
+    exercise? This self-selection bias can skew the results, making the app look
+    more effective than it truly is.
+
+Remember, in order to design a good study to inform decisions, we need to know
+which decisions we are trying to inform. This clarity about the decision at hand
+allows us to choose the right counterfactual scenario for comparison. By
+carefully considering `r glossary("potential outcome", "potential outcomes")`
+and constructing strong counterfactuals, we can leverage the power of data to
+make informed choices and drive better business results.
+
+::: {.callout-tip}
+## Learn more
+@li2023bayesian Bayesian causal inference: a critical review.
+:::
+
+
+

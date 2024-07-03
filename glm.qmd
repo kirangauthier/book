@@ -1,0 +1,27 @@
+---
+title: "Generalized linear models"
+---
+
+Generalized Linear Models (GLMs) offer a versatile extension to ordinary linear
+regression, broadening its applicability to a wider range of data types and
+relationships. These models consist of three key components:
+
+  - **Random Component:** This specifies the probability distribution of the
+    outcome variable, allowing for flexibility beyond the normal distribution
+    assumed in ordinary linear regression.
+
+  - **Linear Predictor:** A familiar linear combination of covariates
+    (independent variables) that contributes to explaining the outcome.
+
+  - **Link Function:** This crucial element connects the random component and
+    linear predictor, transforming the linear combination to align with the
+    scale and range of the outcome variable.
+    
+The following chapters will cover very simple, yet very useful, models. After you master the basics, you will probably want to write your own models from scratch. 
+
+::: {.callout-tip}
+## Learn more
+  - @rstanarm rstanarm: {Bayesian} applied regression modeling via {Stan}.
+  - @brms {brms}: An {R} Package for {Bayesian} Multilevel Models Using {Stan}.
+  - @JSSv076i01 Stan: A Probabilistic Programming Language.
+::: 

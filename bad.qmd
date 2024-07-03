@@ -1,0 +1,60 @@
+---
+title: "Bayesian Adaptive Design"
+---
+
+## The Idea
+
+In the realm of randomized trials, the concept of "adaptive design" introduces a
+dynamic element. Unlike traditional designs where the course of the experiment
+is fixed from the outset, adaptive designs allow for modifications during the
+trial based on the accumulating data. This flexibility can be harnessed to
+enhance the efficiency and effectiveness of the experiment.
+
+One particularly powerful approach to adaptive design is the Bayesian adaptive
+design. This method leverages Bayesian statistics, which allows for
+incorporating prior knowledge and the continuous updating of beliefs as new data
+become available. In the context of randomized trials, this means that the
+allocation of participants to different treatment arms can be adjusted in real
+time based on the observed outcomes.
+
+For instance, if early data suggest that a particular treatment arm is showing
+promising results, the Bayesian adaptive design might allocate more participants
+to that arm, increasing our ability to distinguish signal from noise.
+Conversely, if a treatment arm appears to be ineffective or even harmful, the
+design might reduce or even stop the allocation of participants to that arm,
+thus protecting them from unnecessary exposure.
+
+### Advantages:  {.unnumbered}
+
+  - **Increased Efficiency:** By focusing resources on the most promising
+    treatment arms, Bayesian adaptive designs can potentially reduce the sample
+    size needed to detect a significant effect, saving time and costs.
+
+  - **Ethical Considerations:** The ability to adapt the trial based on emerging
+    data can help protect participants from ineffective or harmful treatments.
+
+  - **Improved Decision-Making:** The continuous updating of beliefs based on
+    real-time data can lead to more informed decisions about the allocation of
+    resources and the selection of the most effective interventions.
+
+### Challenges:  {.unnumbered}
+
+  - **Complexity:** Designing and implementing Bayesian adaptive designs can be
+    more complex than traditional fixed designs, requiring expertise in Bayesian
+    statistics and careful planning.
+
+  - **Statistical Considerations:** The adaptive nature of these designs can
+    introduce statistical challenges, such as the need to adjust for multiple
+    comparisons and the potential for bias if the adaptation process is not
+    carefully controlled.
+
+::: {.callout-tip}
+## Learn more
+@finucane2018works What works for whom? A Bayesian approach to channeling big
+data streams for public program evaluation.
+::: 
+
+### Example with code
+
+TODO
+

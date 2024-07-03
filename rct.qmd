@@ -1,0 +1,23 @@
+---
+title: "The Gold Standard"
+---
+
+Randomized controlled trials (RCTs) have a rich history, dating back to
+the 1920s when researchers used them to compare crop yields under different
+conditions. In medicine, RCTs gained prominence in the mid-20th century, thanks
+to pioneers like Austin Bradford Hill, who demonstrated their power in
+evaluating the effectiveness of treatments like streptomycin for tuberculosis.
+Today, RCTs are considered the gold standard for establishing causality in many
+fields, from healthcare to social policy.
+
+In the tech sector, a simplified version of the RCT – the A/B test – has become
+ubiquitous. Companies like Google, Amazon, and Facebook routinely run A/B tests
+to evaluate new features, website designs, and marketing campaigns. The allure
+of A/B testing lies in its simplicity: randomly assign users to different
+groups, expose them to different versions of a product or experience, and
+measure the outcomes. This allows for a clean comparison, isolating the effect
+of the change from other factors that might influence user behavior.
+
+
+
+

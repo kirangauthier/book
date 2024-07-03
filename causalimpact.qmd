@@ -1,0 +1,75 @@
+---
+title: "Bayesian Structural Time Series"
+author:
+  - name: Eray Turkel
+  - name: Ignacio Martinez
+---
+
+Interrupted time series is a quasi-experimental design used to evaluate the
+impact of an intervention or event on an outcome of interest. It involves
+collecting data on the outcome over time, both before and after the intervention
+occurs. The "interruption" is the point at which the intervention is introduced.
+The [{causalImpact}](https://github.com/google/CausalImpact) R package is a very
+popular implementation of this methodology that uses Bayesian structural time
+series to estimate the effect of an intervention.
+
+The package's
+[vignette](https://google.github.io/CausalImpact/CausalImpact.html) provides a
+detailed guide on its usage. To illustrate, let's run the most simple example
+from that vignette:
+
+```{r casualimapct, message=FALSE}
+library(CausalImpact)  # Load the CausalImpact package
+
+# Generate synthetic data
+set.seed(1)  # Set the random seed for reproducibility
+x1 <- 100 + arima.sim(model = list(ar = 0.999), n = 100)  # Simulated covariate
+y <- 1.2 * x1 + rnorm(100)  # Simulated outcome with a linear relationship to x1
+y[71:100] <- y[71:100] + 10  # Introduce an intervention effect in the latter part of the series
+data <- cbind(y, x1)  # Combine outcome and covariate into a data matrix
+
+# Define pre- and post-intervention periods
+pre.period <- c(1, 70)
+post.period <- c(71, 100)
+
+# Estimate causal impact
+impact <- CausalImpact(data, pre.period, post.period)  # Main function to estimate the impact
+
+# Visualize results
+plot(impact)  # Default plot with three panels
+```
+
+The default plot produced by this code consists of three panels. The first panel
+displays the data alongside a counterfactual prediction for the post-treatment
+period. The second panel shows the discrepancy between the observed data and the
+counterfactual predictions, representing the estimated pointwise causal effect.
+In the third panel, these pointwise contributions are summed, resulting in a
+plot of the intervention's cumulative effect.
+
+A crucial caveat is that these inferences hinge on the assumption that the
+covariates themselves remain unaffected by the intervention. Moreover, the model
+presupposes the stability of the relationship between covariates and the treated
+time series, as established in the pre-intervention period, throughout the
+post-intervention period. In essence, applying this or any other causal
+inference algorithm alone does not guarantee a causal answer. Causality is not
+inherent in the data or the model; it stems from our beliefs and assumptions
+about the world. No algorithm or method can definitively establish causality.
+
+This is why the very name of the {causalImpact} package might be somewhat
+confusing. Users often mistakenly infer a 99% probability of a causal effect
+simply by misinterpreting the package's output.
+
+
+## Cautionary tales
+
+Misinterpreting the findings of a {causalImpact} study can occur in several
+ways. First, overlooking selection bias can lead to erroneous conclusions. For
+instance, ...
+
+Second, insufficient data to discern seasonality can also distort results. To
+illustrate, 
+
+::: {.callout-tip}
+## Learn more
+@brodersen2015inferring Inferring causal impact using Bayesian structural time-series models.
+:::

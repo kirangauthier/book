@@ -1,0 +1,40 @@
+---
+title: "Bayesian Factorial Design"
+---
+
+In many scenarios, your goal is to use data to design the optimal treatment.
+This is where factorial designs come into play. A factorial design is an
+experimental setup where multiple factors are manipulated or varied
+simultaneously. Each factor can have multiple levels, and the experiment
+involves testing all possible combinations of these factor levels. This allows
+us to not only assess the main effects of each factor but also to investigate
+the interactions between factors.
+
+Bayesian analysis offers a powerful approach to factorial designs, especially
+when dealing with complex experiments with many factors and levels. By
+incorporating prior knowledge and using hierarchical models, Bayesian methods
+can improve the precision of estimates and control the risk of false positives
+from multiple comparisons.
+
+In a Bayesian factorial design, we start with prior distributions for the
+effects of each factor level and the interactions between them. These priors can
+be based on previous research, expert opinion, or simply reflect our uncertainty
+about the effects. As we collect data from the experiment, we update these
+priors using Bayes' theorem, resulting in posterior distributions that reflect
+our updated beliefs about the effects.
+
+One of the key advantages of Bayesian factorial designs is the ability to
+"borrow strength" across different factor levels and interactions. This means
+that if the data for one factor level are limited, the model can use information
+from other factor levels to improve the estimate for that level. This is
+particularly useful in complex experiments where some factor combinations might
+have smaller sample sizes.
+
+::: {.callout-tip}
+## Learn more
+@kassler2018beyond Beyond “Treatment versus Control”: How Bayesian Analysis Makes Factorial Experiments Feasible in Education Research.
+::: 
+
+### Example with code
+
+TODO

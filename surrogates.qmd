@@ -1,0 +1,102 @@
+---
+title: "Surrogates"
+---
+
+## What are Surrogates?
+
+A surrogate, in essence, is a stand-in for a long-term outcome that is difficult
+or time-consuming to measure directly. For example, instead of waiting to see
+how a new feature impacts annual revenue, we might look at its effect on daily
+active users or click-through rates. By understanding the relationship between
+these short-term surrogates and the long-term outcome, we can gain insights into
+how our actions are likely to impact the metrics we truly care about.
+
+### Importance of Surrogates
+
+In many cases, a single surrogate may not fully capture the complexity of the
+long-term outcome. This is where the concept of a surrogate index comes in. By
+combining multiple surrogates into a single metric, we can create a more
+comprehensive and nuanced picture of the impact of our decisions. For example,
+we might combine metrics like user engagement, satisfaction ratings, and
+retention rates into a single index that reflects the overall health of our
+product.
+
+### Validity of Surrogate Studies
+
+To ensure the validity of a surrogate study, two key ingredients are essential:
+
+  - Validity of Surrogates: The surrogates must be valid, meaning that the
+    policy or decision we are interested in truly affects the ultimate outcome
+    through the chosen surrogates.
+  - Robust Identification: We need to robustly identify the policy's effects on
+    the surrogates. This is often achieved through randomized experiments, but
+    other methods can also be used.
+
+The tech sector is awash in data, offering a wide range of potential surrogates.
+These might include metrics like website traffic, click-through rates, user
+engagement, social media mentions, and app downloads. The specific surrogates to
+choose will depend on the nature of the decision being studied and the available
+data.
+
+### Choosing the Right Surrogates
+
+Selecting appropriate surrogates requires a deep understanding of the domain and
+the long-term outcomes of interest. It's crucial to choose surrogates that are
+closely linked to these outcomes. For example:
+
+  - **E-commerce:** For an online store, short-term surrogates might include cart
+    abandonment rates, average order value, and customer reviews.
+  - **Healthcare:** In a clinical trial, blood pressure and cholesterol levels can
+    be surrogates for long-term cardiovascular health.
+
+## Estimating Effects in Practice
+There are several ways to estimate long-term effects using a surrogate index.
+The simplest approach is to use an experimental setup, where we know the
+probability of a unit being assigned to a particular group. In this case, we can
+estimate the surrogate index and then use it to impute the long-term outcome.
+
+### Methods for Estimating Surrogacy
+
+The method used to estimate the surrogacy index is flexible, as long as it
+captures the average effect of the index on the long-term outcome. In scenarios
+with many potential surrogates, techniques like LASSO (Least Absolute Shrinkage
+and Selection Operator) can be used to identify the most relevant ones. Other
+machine learning techniques such as Random Forests or Gradient Boosting can also
+be employed to handle complex, high-dimensional data.
+
+
+### Practical Example
+
+To illustrate the application of surrogate indices, consider a tech company
+running an A/B test to evaluate a new feature. The company might track several
+metrics during the experiment, such as user engagement, time spent on the
+platform, and frequency of feature usage. By combining these metrics into a
+surrogate index, the company can predict the feature's impact on long-term user
+retention and revenue growth.
+
+#### Example with Code
+
+```{r example, message=FALSE}
+# TODO WRITE EXAMPLE!
+
+```
+
+### Conclusion
+
+Surrogates are powerful tools that can help bridge the gap between short-term
+metrics and long-term outcomes. By carefully selecting and validating
+surrogates, and employing robust estimation methods, we can make more informed
+decisions and predict the long-term impact of our actions with greater
+precision.
+
+::: {.callout-tip}
+## Learn more
+  - @athey2019surrogate The surrogate index: Combining short-term proxies to
+    estimate long-term treatment effects more rapidly and precisely.
+  - @imbens2022long Long-term causal inference under persistent confounding via
+    data combination.
+  - @chen2023semiparametric Semiparametric estimation of long-term treatment
+    effects.
+  - @zhang2023evaluating Evaluating the Surrogate Index as a Decision-Making
+    Tool Using 200 A/B Tests at Netflix.
+:::

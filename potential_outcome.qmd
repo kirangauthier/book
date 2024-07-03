@@ -1,0 +1,154 @@
+---
+title: "The Potential Outcomes Framework"
+---
+## The Basic Idea
+
+The potential outcomes framework, also known as the Rubin Causal Model, provides
+a formal mathematical approach to defining and estimating causal effects. This
+framework, developed by Donald Rubin building on work by Jerzy Neyman, is
+central to modern causal inference and has become increasingly important in
+business data science. At its core, the potential outcomes framework posits that
+each unit (e.g., person, company, product) has a set of potential outcomes
+corresponding to each possible treatment condition. For instance:
+
+1. A tech company testing a new app interface might consider:
+    - $Y(1)$: user engagement if exposed to the new interface 
+    - $Y(0)$: user engagement if exposed to the old interface
+2. An e-commerce platform implementing a recommendation system might examine:
+    - $Y(1)$: customer purchase amount with personalized recommendations
+    - $Y(0)$: customer purchase amount without personalized recommendations
+3. A SaaS company offering a free trial could look at:
+    - $Y(1)$: conversion rate if offered a 30-day free trial 
+    - $Y(0)$: conversion rate if not offered a free trial
+
+The causal effect for an individual is then defined as the difference between
+these potential outcomes: $Y(1) - Y(0)$. However, we face what
+@holland1986statistics termed the "fundamental problem of causal inference" - we
+can only observe one of these potential outcomes for each unit. If a customer is
+exposed to the new interface, we observe $Y(1)$ but $Y(0)$ remains unobserved
+(and vice versa). This makes causal inference inherently a missing data problem,
+a concept we'll explore further later in this chapter.
+
+## Key Concepts and Estimands
+
+Several important concepts and estimands are central to the potential outcomes
+framework. The Average Treatment Effect (ATE) is the average causal effect
+across the entire population, defined as $E[Y(1) - Y(0)]$. This gives us an
+overall measure of the treatment's impact.
+
+When we're interested in how the treatment effect varies across different
+subgroups, we look at the Conditional Average Treatment Effect (CATE). This is
+defined as $E[Y(1) - Y(0) | X]$, where X represents a specific set of
+covariates. CATE allows us to understand how the treatment effect might differ
+for various segments of our population.
+
+Sometimes, we're particularly interested in the effect on those who actually
+received the treatment. This is captured by the Average Treatment Effect on the
+Treated (ATT), defined as $E[Y(1) - Y(0) | W = 1]$, where W is the treatment
+indicator. In certain scenarios, such as when using instrumental variables, we
+might focus on the Local Average Treatment Effect (LATE), which represents the
+average treatment effect for a specific subpopulation of compliers.
+
+A crucial assumption in many causal analyses is **ignorability**. This assumes
+that treatment assignment is independent of the potential outcomes given
+observed covariates. Mathematically, this can be expressed as:
+$(Y(1), Y(0)) ⊥ W | X$ where $W$ is the treatment assignment and $X$ are the
+observed covariates. For instance, in our e-commerce recommendation system
+example, ignorability would mean that whether a customer sees personalized
+recommendations (W) is independent of how much they would potentially purchase
+with or without recommendations ($Y(1), Y(0)$), once we account for observed
+factors like browsing history, past purchases, etc. ($X$).
+
+## Experimental vs Observational Studies
+
+The potential outcomes framework can be applied to both experimental and
+observational studies, each with its own strengths and challenges:
+
+**Experimental Studies:** In randomized controlled trials, treatment assignment
+is controlled by the researcher. This control ensures that the ignorability
+assumption holds by design. For example, when A/B testing a new website design,
+the randomization of which users see which version ensures that potential
+outcomes are independent of the assignment. This makes causal inference more
+straightforward but may not always be feasible in business settings due to
+ethical, practical, or cost constraints.
+
+**Observational Studies:** These are more common in business contexts but
+present more challenges. For instance, if we want to study the effect of a
+loyalty program on customer retention, customers typically choose whether to
+join the program rather than being randomly assigned. In these cases, we need to
+carefully consider and account for potential confounders to approximate the
+conditions of an experiment. This often involves sophisticated statistical
+techniques to adjust for differences between the treatment and control groups,
+such as propensity score matching or inverse probability weighting.
+
+## Heterogeneous Treatment Effects
+
+In business applications, it's crucial to consider that the effect of an
+intervention might vary across different subgroups of customers or products.
+This heterogeneity can be masked when looking only at average effects. For
+example:
+
+  - A new marketing strategy might have a positive effect on one customer
+    segment but a negative effect on another.
+  - A product feature might significantly boost engagement for power users but
+    have minimal impact on casual users.
+
+Understanding these heterogeneous effects can lead to more targeted and
+effective business strategies, such as personalized marketing campaigns or
+tailored product features.
+
+## Selection Bias
+
+Selection bias occurs when the individuals who select into the treatment group
+differ systematically from those who do not. In business contexts, this is a
+common issue. For example:
+
+  - Customers who choose to use a new feature might be systematically different
+    from those who don't, making it challenging to isolate the true effect of
+    the feature on outcomes like engagement or sales.
+  - Early adopters of a product might have different characteristics and
+    behaviors compared to later adopters, potentially skewing our understanding
+    of the product's impact.
+
+Recognizing and addressing selection bias is crucial for making valid causal
+inferences in business settings.
+
+## Connections to Missing Data
+
+The link between causal inference and missing data is profound. In the potential
+outcomes framework, we're always missing at least one potential outcome for each
+unit. This is similar to the problem of missing data in surveys or experiments
+where some values are unobserved.
+
+Methods developed for handling missing data have direct analogues in causal
+inference. For example, multiple imputation techniques can be adapted to impute
+missing potential outcomes. Inverse probability weighting, commonly used in
+missing data problems, is analogous to propensity score weighting in causal
+inference.
+
+The assumptions underlying missing data methods also have parallels in causal
+inference. The assumption of "Missing At Random" (MAR) in missing data
+literature is similar to the ignorability assumption in causal inference. Both
+assume that the missingness (or treatment assignment) is independent of the
+unobserved data, given the observed data.
+
+Understanding these connections can provide valuable insights and tools for
+addressing the inherent missing data problem in causal inference. By leveraging
+techniques from both fields, researchers can develop more robust methods for
+estimating causal effects in a variety of real-world scenarios.
+
+## Conclusion
+
+The potential outcomes framework provides a powerful tool for business data
+scientists to approach causal questions rigorously. By understanding the
+fundamental concepts, key estimands, and challenges associated with this
+framework, data scientists can make more informed decisions about experimental
+design, analysis methods, and interpretation of results. As we delve deeper into
+specific techniques and applications in the following chapters, keep these
+foundational ideas in mind – they will serve as the bedrock for more advanced
+causal inference methods in business contexts.
+
+::: {.callout-tip}
+## Learn more
+@cunningham2021potential Causal Inference: The Mixtape. Potential Outcomes Causal Model
+:::

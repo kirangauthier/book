@@ -1,0 +1,218 @@
+---
+title: "Meta-Analysis"
+---
+
+Bayesian meta-analysis is a statistical method that combines information from
+multiple studies to estimate the overall effect size of an intervention or
+variable of interest. Bayesian methods incorporate prior information into the
+analysis, updating these beliefs with new data to produce posterior
+distributions. This approach provides a flexible and dynamic means of
+integrating evidence, allowing for more informed and adaptive decision-making.
+
+Imagine having access to a wealth of findings from various studies that have
+explored the impact of a specific intervention on your company's sales. Each
+study offers an estimate of the effect size, but these estimates might differ
+due to variations in sample size, study design, and other contributing factors.
+Bayesian meta-analysis steps in to harmonize these disparate estimates into a
+unified overall effect size. It adeptly takes into account the relative
+precision and reliability of each study, ensuring a balanced and informed
+assessment. Furthermore, with sufficient data, this methodology allows you to
+delve deeper and estimate the probability that specific study characteristics
+are driving heterogeneity in the observed impact of the intervention.
+
+## A Simple Example Using Synthetic Data
+
+Let's ground this concept with a practical scenario. Suppose your objective is
+to estimate the incremental lift of an intervention, and you have access to
+multiple studies that have investigated its effects. Faced with a variety of
+estimates, how would you determine which one to rely on for your
+decision-making? While you might be tempted to simply choose the number you
+prefer, mentally combine the estimates, or calculate a simple average, a more
+rigorous approach is to conduct a Bayesian meta-analysis.
+
+```{r basic_plot}
+library(dplyr)
+library(ggplot2)
+
+studies <- tibble(
+  study = LETTERS[1:5],
+  lift_hat = c(0.09, 0.06, 0.06, 0.07, 0.04),
+  std_err = c(0.01, 0.01, 0.007, 0.007, 0.01)
+) %>%
+  mutate(
+    LB = lift_hat - 1.96 * std_err,
+    UB = lift_hat + 1.96 * std_err
+  )
+
+```
+
+::: {.content-visible when-format="pdf"}
+```{r static}
+ggplot(data = studies, aes(x = study, y = lift_hat)) +
+  geom_pointrange(aes(
+    ymin = LB,
+    ymax = UB
+  )) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  ylab("Lift") +
+  xlab("Study") +
+  theme_bw(base_size = 20)
+```
+::: 
+
+::: {.content-visible when-format="html"}
+
+```{r interactive, fig.height=7, fig.width=14, message=FALSE, warning=FALSE}
+#| eval: !expr knitr::is_html_output()
+library(ggiraph)
+
+tooltip_css <-
+  "background-color:gray;color:white;font-style:italic;padding:10px;border-radius:5px;font-size:16px;"
+
+
+studies <- studies %>%
+  mutate(
+    tooltip = glue::glue(
+      "lift is {scales::percent(lift_hat)} with a 95% confidence interval between {scales::percent(LB, accuracy=1)} and {scales::percent(UB, accuracy=1)}"
+    )
+  )
+
+my_plot <- ggplot(data = studies, aes(x = study, y = lift_hat)) +
+  geom_pointrange_interactive(aes(
+    ymin = LB,
+    ymax = UB,
+    tooltip = tooltip
+  )) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  ylab("Lift") +
+  xlab("Study") +
+  theme_bw(base_size = 20)
+
+girafe(
+  code = print(my_plot),
+  pointsize = 20,
+  width_svg = 7,
+  height_svg = 3.5,
+  options = list(opts_tooltip(css = tooltip_css))
+)
+
+```
+:::
+
+Given these studies, what insights can you glean? Let's say you need to make a
+decision based on whether the lift is at least 5%. Would you be able to
+confidently determine the answer?
+
+To address this, you can fit a straightforward model to the data:
+
+
+$$
+\begin{aligned}
+y_i &\sim N(\theta_i,s_i)  \\
+\theta_i &\sim N(\mu, \tau) \\
+\mu &\sim N(0, 0.05) \\
+\tau &\sim N^+(0, 0.05) 
+\end{aligned}
+$$
+where:
+
+- $y_i$ is the estimated lift in study $i$
+
+- $s_i$ is the standard error of the lift in study $i$
+
+- $\theta_i$ is the true lift in study $i$
+
+- $\mu$ is the true lift in the population
+
+- $\tau$ is the standard deviation in lift
+
+To fit this model you can use `im::metaAnalysis()`:
+
+```{r meta-analysis, warning=FALSE, results = "hide"}
+library(im)
+
+test_meta <- metaAnalysis$new(data = studies, point_estimates = lift_hat,
+                              standard_errors = std_err, id = study)
+
+
+
+```
+
+Calculating the probability that the lift is at least 5% becomes remarkably
+simple:
+
+```{r probability}
+test_meta$probability(a = 0.05)
+```
+
+::: {.content-visible when-format="pdf"}
+To visualize the insights gained from the meta-analysis, you can plot the
+posterior by calling `test_meta$PlotLift`.
+::: 
+
+::: {.content-visible when-format="html"}
+
+To visualize the insights gained from the meta-analysis, you can plot the
+posterior probability:
+
+```{r}
+#| eval: !expr knitr::is_html_output()
+# Plot the lift's prior and posterior distributions
+test_meta$PlotLift(
+  breaks = c(0, 0.01, 0.05, 0.1),
+  break_names = c(" < 0", "(0,1%)", "(1%,5%)", "(5%,10%)", "> 10%"),
+  display_mode_name = TRUE
+)
+
+```
+::: 
+
+## A more complex meta-anlysis
+
+Let's delve deeper into the realm of Bayesian meta-analysis by incorporating
+study-specific characteristics that can offer richer insights into the factors
+influencing the impact of interventions. Imagine that each study in your
+collection comes with valuable metadata, such as the geographical location where
+the intervention was implemented, the specific modality of the intervention, or
+any other relevant attribute. By weaving these details into our model, we can
+uncover whether the impact varies significantly across different locations or
+modalities.
+
+To achieve this, we can refine our model as follows:
+
+$$
+\begin{aligned}
+y_i & \sim N(\theta_i,s_i)  \\
+\theta_i & \sim N(\mu_i, \tau) \\
+\mu_i & = \mu_0 + X\beta
+\end{aligned}
+$$
+
+In this augmented model $X$ is a matrix of study-specific characteristics. By
+fitting this model, we can not only estimate the overall effect size but also
+discern whether the impact is significantly higher or lower for specific
+locations, modalities, or any other characteristic captured in the metadata.
+This granular understanding allows for more targeted decision-making, enabling
+you to tailor interventions to specific contexts and maximize their
+effectiveness.
+
+However, it is crucial to remember that the quality of your meta-analysis hinges
+on the quality of the data you feed into it. As with any statistical model, the
+adage "garbage in, garbage out" holds true. If the underlying studies are flawed
+or biased, the meta-analysis will not magically erase those imperfections. For
+instance, to conduct even a simple meta-analysis, you ideally need at least five
+high-quality randomized controlled trials (RCTs) to ensure robust results.
+
+In essence, Bayesian meta-analysis acts as a versatile instrument, empowering
+you to harmonize diverse sources of evidence, account for heterogeneity, and
+extract actionable insights from study-level characteristics. As you continue
+your exploration of causal inference in the tech industry, remember that
+Bayesian methods offer a robust framework for navigating uncertainty, optimizing
+interventions, and driving impactful decisions that propel your company forward.
+However, the success of this endeavor rests on the foundation of sound data and
+rigorous study design.
+
+::: {.callout-tip}
+## Learn more
+@gelman2013bayesian Parallel Experiments in Eight Schools.
+::: 

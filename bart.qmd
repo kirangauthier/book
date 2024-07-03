@@ -1,0 +1,45 @@
+---
+title: "Bayesian Additive Regression Trees (BART)"
+---
+
+## BART: Bayesian Additive Regression Trees
+
+BART is a Bayesian nonparametric, machine learning, ensemble predictive modeling
+method introduced by @chipman2010bart. It can be expressed as:
+
+$$
+Y = \sum_{j=1}^m g(X; T_j, M_j) + \epsilon, \quad \epsilon \sim N(0, \sigma^2)
+$$
+
+where $g(X; T_j, M_j)$ represents the $j$-th regression tree with structure
+$T_j$ and leaf node parameters $M_j$. The model uses $m$ trees, typically set to
+a large number (e.g., 200), with each tree acting as a weak learner. BART
+employs a carefully designed prior that encourages each tree to play a small
+role in the overall fit, resulting in a flexible yet robust model.
+
+@hill2011bayesian proposed using BART for causal inference . Hill recognized
+that BART's flexibility in modeling complex response surfaces made it
+well-suited for estimating causal effects, particularly in observational studies
+with many covariates. The key idea was to use BART to model the response
+surface:
+
+$$
+E[Y | X, Z] = f(X, Z)
+$$
+
+where $Y$ is the outcome, $X$ are the covariates, and $Z$ is the treatment
+indicator. The causal effect can then be estimated as:
+
+$$
+\begin{aligned}
+\tau(x) & = E[Y | X=x, Z=1] - E[Y | X=x, Z=0] \\
+ & = f(x, 1) - f(x, 0)
+\end{aligned}
+$$
+
+This formulation leverages BART's inherent ability to automatically capture
+intricate interactions and non-linear relationships, making it a potent tool for
+causal inference, particularly in scenarios where the dimensionality of the data
+is high.
+
+

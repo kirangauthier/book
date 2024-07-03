@@ -1,0 +1,50 @@
+Causal inference: |
+  The process of drawing conclusions about cause-and-effect relationships from data. It goes beyond simple correlations to help us understand why patterns occur.
+  
+Correlation: |
+  A statistical relationship between two variables, meaning they tend to change together. Correlation does not necessarily imply causation.
+  
+Counterfactual: |
+  The "what-if" scenario. It represents what would have happened if a particular action or change had not been implemented.
+  
+Data-Driven: |
+  Describes decision-making that is informed by the analysis and interpretation of data.
+  
+Impact Evaluation: |
+  The process of quantifying the causal effect of a particular program, policy, or business decision.
+  
+Potential Outcome: |
+  The result that would have happened to a unit (a person, company, etc.) under a particular treatment or condition. In `r glossary("causal inference")`, we are often interested in the difference between the potential outcome under treatment and the potential outcome under control.
+  
+Self-Selection Bias: |
+  A type of bias that occurs when individuals or groups "select" themselves into a treatment or control group, rather than being randomly assigned. This can make it difficult to isolate the true causal effect of the intervention.
+  
+Program Improvement: |
+  The process of using data to continuously assess, refine, and optimize a program's operations and effectiveness.
+  
+Bayesian Statistics: |
+  A statistical approach that allows for updating beliefs or probabilities based on new evidence, rather than relying on fixed hypotheses.
+  
+Decisions First Framework: |
+  A decision-making approach that prioritizes clearly defining the decision to be made before gathering and analyzing data.
+  
+External Validity: |
+  The extent to which the results of a study can be generalized to other populations, settings, or situations.
+  
+Internal Validity: |
+  The confidence that the observed effects in a study are truly caused by the factor being studied, rather than other confounding variables.
+  
+Lure of Incredible Certitude: |
+  The tendency to present research findings with unwarranted certainty, often driven by pressure to provide clear-cut answers.
+  
+Null Hypothesis Significance Testing (NHST): |
+  A statistical method used to determine if a result is likely due to chance, often involving p-values.
+  
+Null Ritual: |
+  The practice of rigidly adhering to NHST without fully understanding its assumptions or limitations.
+  
+P-value: |
+  the probability, assuming a certain statistical model, that a statistical summary of the data (such as the sample mean difference between two groups) would be equal to or more extreme than its observed value. While a P-value indicates how "incompatible" the data are with a specified statistical model, it does not measure the probability that the hypothesis under study is true nor does it measure the probability that the data were produced by random chance alone.
+  
+Meaningful threshold: |
+  A predetermined level of effect or change that is considered meaningful for decision-making purposes.
