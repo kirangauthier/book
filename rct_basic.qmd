@@ -18,11 +18,15 @@ However, it's crucial to remember that the success of both RCTs and A/B tests
 hinges on a fundamental assumption: the Stable Unit Treatment Value Assumption
 (SUTVA). SUTVA has two main components:
 
-  - **No Interference:** The treatment applied to one unit (individual, user,
-    etc.) should not affect the outcome of another unit.
+  - **No Interference (or No Spillover):** The treatment applied to one unit
+    should not affect the outcome of another unit. This means that the outcome
+    for any unit is unaffected by the treatments received by other units.
 
-  - **Consistency:** The potential outcome of a unit under a treatment should be
-    the same regardless of how other units are assigned.
+  - **Treatment Variation Irrelevance (or Consistency):** The potential outcome
+    of a unit under a specific treatment should be the same regardless of how
+    that treatment is assigned. This implies that if a unit receives a
+    particular treatment, the outcome should only depend on that treatment, not
+    on how or why it was assigned.
 
 In simpler terms, SUTVA ensures that the effect of the treatment is solely due
 to the treatment itself and not influenced by other factors or interactions
@@ -91,7 +95,7 @@ potential statistical adjustments are paramount.
 
 #### Establishing Baseline Equivalence
 
-In RCTs, random assignment of participants to treatment and control groups is
+In RCTs, random assignment of participants to treatment and control groups
 should warranty baseline equivalence as long as the group is large enough.
 However, even in large RCTs, factors like attrition (loss of participants) or
 reassignment (participants switching groups) can compromise baseline
