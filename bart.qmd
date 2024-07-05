@@ -170,7 +170,9 @@ X_test <- prediction_data %>%
 bart_model <-
   stochtree::bart(X_train = X_train,
                   X_test = X_test,
-                  y_train = simulated_data$Y)
+                  y_train = simulated_data$Y,
+                  num_burnin = 1000,
+                  num_mcmc = 2000)
 
 prediction_data <- prediction_data %>%
   mutate(bart_pred = rowMeans(bart_model$y_hat_test)) 
@@ -255,7 +257,7 @@ probability that we just calculated.
 
 However, as we discussed before, point estimates are often not very useful for
 decision-making. For instance, we might make different decisions if the impact
-of the intervention is more than 5, between 0 and 5, or less than 0. We can
+of the intervention is more than 9, between 0 and 9, or less than 0. We can
 easily calculate these probabilities using the posterior draws and visualize
 them:
 
@@ -264,7 +266,7 @@ them:
 # Plot the lift's prior and posterior distributions
 vizdraws::vizdraws(
   posterior = sate_draws,
-  breaks = c(0, 8),
+  breaks = c(0, 9),
   break_names = c("Discontinue", "Continue", " Expand")
 )
 ```
