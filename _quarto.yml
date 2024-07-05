@@ -43,7 +43,7 @@ book:
         - blm.qmd     
         - meta-analysis.qmd
         - beyond_normality.qmd        
-    - part: ml.qmd    
+    - part: stochastictrees.qmd 
       chapters: 
         - bart.qmd       
     - references.qmd

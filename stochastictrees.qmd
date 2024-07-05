@@ -1,0 +1,9 @@
+---
+title: "Stochastic Trees"
+---
+
+This section will delve into a specific family of non-parametric models that has
+gained considerable traction in the causal inference world: Bayesian Additive
+Regression Trees (BART) and some of its notable derivatives. These models offer
+a unique blend of flexibility and interpretability, making them particularly
+well-suited for causal inference tasks.
