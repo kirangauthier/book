@@ -17,11 +17,10 @@ a large number (e.g., 200), with each tree acting as a weak learner. BART
 employs a carefully designed prior that encourages each tree to play a small
 role in the overall fit, resulting in a flexible yet robust model.
 
-@hill2011bayesian proposed using BART for causal inference . Hill recognized
-that BART's flexibility in modeling complex response surfaces made it
-well-suited for estimating causal effects, particularly in observational studies
-with many covariates. The key idea was to use BART to model the response
-surface:
+@hill2011bayesian proposed using BART for causal inference, recognizing that its
+flexibility in modeling complex response surfaces made it well-suited for
+estimating causal effects, particularly in observational studies with many
+covariates. The key idea was to use BART to model the response surface:
 
 $$
 E[Y | X, Z] = f(X, Z)
@@ -39,7 +38,239 @@ $$
 
 This formulation leverages BART's inherent ability to automatically capture
 intricate interactions and non-linear relationships, making it a potent tool for
-causal inference, particularly in scenarios where the dimensionality of the data
-is high.
+causal inference, especially in high-dimensional scenarios.
+
+The effectiveness of BART in causal inference has been further validated in
+recent competitions. @thal2023causal report on the 2022 American Causal
+Inference Conference (ACIC) data challenge, where BART-based methods were among
+the top performers, particularly for estimating heterogeneous treatment effects.
+They found that BART's regularizing priors were especially effective in
+controlling error for subgroup estimates, even in small subgroups, and its
+flexibility in modeling confounding relationships was crucial for improved
+causal inference in complex scenarios.
+
+## Example with a Single Covariate
+
+To illustrate how BART can be used for estimating the impact of an intervention,
+@hill2011bayesian presents a simple example:
 
 
+$$
+\begin{aligned}
+Z &\sim \mbox{Bernoulli}(0.5) \\
+X | Z = 1 &\sim N(40,10^2) \\
+X | Z = 0 &\sim N(20,10^2) \\
+Y(0) | X &\sim N(72 + 3\sqrt{X},1) \\
+Y(1) | X &\sim N(90 + exp(0.06X),1) 
+\end{aligned}
+$$
+
+```{r truth, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(broom) 
+
+# 1. Define True Outcome Functions
+f_treated <- function(x) 90 + exp(0.06 * x)
+f_control <- function(x) 72 + 3 * sqrt(x)
+
+# 2. Visualize True Outcome Functions
+ggplot(data.frame(x = 6:62), aes(x = x)) +  # Expanded x range for clarity
+  stat_function(fun = f_control, aes(color = "Truth - Control"), linewidth = 1) +  
+  stat_function(fun = f_treated, aes(color = "Truth - Treatment"), linewidth = 1) +
+  scale_color_manual(values = c("red", "blue")) +
+  labs(title = "True Outcome Functions", x = "X", y = "Y", color = "") +
+  theme_bw() +   
+  theme(legend.position = "bottom")  
+```
+We can generate a sample from that data generating process as follows:
+
+```{r sample, warning=FALSE, message=FALSE}
+set.seed(123)
+n_samples <- 120
+
+simulated_data <- tibble(
+  treatment_group = sample(c("Treatment", "Control"), size = n_samples, replace = TRUE),
+  is_treated = treatment_group == "Treatment",
+  X = if_else(is_treated, rnorm(n_samples, 40, 10), rnorm(n_samples, 20, 10)),
+  Y1 = rnorm(n_samples, mean = f_treated(X), sd = 1),  # Using f_treated function directly
+  Y0 = rnorm(n_samples, mean = f_control(X), sd = 1),  # Using f_control function directly
+  Y = if_else(is_treated, Y1, Y0),
+  true_effect = Y1 - Y0
+)
+
+
+# 4. Visualize Simulated Data with True Functions
+ggplot(simulated_data, aes(x = X, y = Y, color = treatment_group)) +
+  geom_point(size = 2) + 
+  stat_function(fun = f_control, aes(color = "Truth - Control")) +
+  stat_function(fun = f_treated, aes(color = "Truth - Treatment")) +
+  scale_color_manual(values = c("Truth - Control" = "red", "Truth - Treatment" = "blue")) +  # Mapping colors correctly
+  labs(title = "Simulated Data with True Outcome Functions", 
+       x = "X", y = "Y", color = "") +
+  theme_bw() +
+  theme(legend.position = "bottom") 
+
+cat(glue::glue("The true Sample Average Treatment Effect is {round(mean(simulated_data$true_effect),2)}"))
+```
+
+Notice that in our sample, the is not very good overlap for low and high values of X. That means that we will have to do a lot of extrapolation when doing inference for those cases. Now, suppose we just fit OLS to the model to try to estimate the average treatment effect:
+
+```{r ols}
+linear_model <- lm(Y ~ X + is_treated, data = simulated_data)
+lm_fit <- broom::tidy(linear_model)
+lm_fit
+cat(glue::glue("A linear model finds an Average Treatment Effect equal to {round(lm_fit$estimate[lm_fit$term=='is_treatedTRUE'],2)}"))
+```
+
+Lets add the findings from OLS to our plot:
+
+```{r ols_plot, warning=FALSE}
+prediction_data <- expand.grid(
+  X = seq(min(simulated_data$X), max(simulated_data$X), length.out = 1000),
+  is_treated = c(TRUE, FALSE)
+) %>%
+  mutate(
+    treatment_group = if_else(is_treated, "Treatment", "Control"),
+    linear_prediction = predict(linear_model, newdata = .)
+  )
+
+# 6. Visualize Simulated Data, True Functions, and Linear Predictions
+ggplot() +
+  geom_point(data = simulated_data, aes(x = X, y = Y, color = treatment_group), size = 2) +
+  stat_function(fun = f_control, aes(color = "Truth - Control")) +
+  stat_function(fun = f_treated, aes(color = "Truth - Treatment")) +
+  geom_line(data = prediction_data, aes(x = X, y = linear_prediction, 
+                                        color = treatment_group), linetype = "dashed") +
+  scale_color_manual(values = c("Truth - Control" = "red",  
+                                "Truth - Treatment" = "blue",
+                                "Control" = "red",           
+                                "Treatment" = "blue")) +    
+  labs(title = "Simulated Data, True Functions, and Linear Model Predictions",
+       x = "X", y = "Y", color = "") +
+  theme_bw() +
+  theme(legend.position = "bottom") 
+```
+To fit BART we can use the [{stochtree}](https://stochastictree.github.io/stochtree-r/) package.
+
+```{r fit_bart, warning=FALSE, message=FALSE}
+xstart <- 20-15
+length <- 4
+text_left <- 26-15
+yVals <- seq(110,130,by=4)
+
+X_train <- simulated_data %>% 
+                    select(X, is_treated) %>% 
+                    as.matrix()
+
+X_test <- prediction_data %>% 
+                    select(X, is_treated) %>% 
+                    as.matrix()
+
+bart_model <-
+  stochtree::bart(X_train = X_train,
+                  X_test = X_test,
+                  y_train = simulated_data$Y)
+
+prediction_data <- prediction_data %>%
+  mutate(bart_pred = rowMeans(bart_model$y_hat_test)) 
+
+
+ggplot() +
+  geom_point(data = simulated_data,
+             aes(x = X, y = Y, color = treatment_group),
+             size = 2) +
+  stat_function(fun = f_control, aes(color = "Truth - Control")) +
+  stat_function(fun = f_treated, aes(color = "Truth - Treatment")) +
+  scale_color_manual(
+    values = c(
+      "Truth - Control" = "red",
+      "Truth - Treatment" = "blue",
+      "Control" = "red",
+      "Treatment" = "blue"
+    )
+  ) +
+  labs(
+    title = "Simulated Data, True Functions, and BART Predictions",
+    x = "X",
+    y = "Y",
+    color = ""
+  ) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  geom_line(data = prediction_data,
+            aes(x = X, y = bart_pred, color = treatment_group),
+            linetype = "dashed") +
+   scale_color_manual("", values = c("red", "blue","red", "blue", "red", "blue", "red", "blue")) +
+   annotate(geom = "segment", x = xstart, y = yVals[1], xend = xstart+length, yend = yVals[1], color = "red") +
+   annotate(geom = "text", x = text_left, y = yVals[1], label = c("truth - control"), hjust = 0) +
+   annotate(geom = "segment", x = xstart, y = yVals[2], xend = xstart+length, yend = yVals[2], color = "blue") +
+   annotate(geom = "text", x = text_left, y = yVals[2], label = c("truth - treatment"), hjust = 0) +
+   geom_point(aes(x=xstart+length/2, y=yVals[3]), color = c("red")) +
+   annotate(geom = "text", x = text_left, y = yVals[3], label = c("simulated data - control"), hjust = 0) +
+   geom_point(aes(x=xstart+length/2, y=yVals[4]), color = c("blue")) +
+   annotate(geom = "text", x = text_left, y = yVals[4], label = c("simulated data - treatment"), hjust = 0) +
+   annotate(geom = "segment", x = xstart, y = yVals[5], xend = xstart+length, yend = yVals[5], color = "red", linetype = "dashed") +
+   annotate(geom = "text", x = text_left, y = yVals[5], label = c("BART - control"), hjust = 0) +
+   annotate(geom = "segment", x = xstart, y = yVals[6], xend = xstart+length, yend = yVals[6], color = "blue", linetype = "dashed") +
+   annotate(geom = "text", x = text_left, y = yVals[6], label = c("BART - treatment"), hjust = 0) 
+
+
+```
+Once we have fitted the BART model, we can calculate the sample average
+treatment effect by predicting the outcome for every individual in our sample
+under both treatment and control conditions. The difference between these
+predictions gives us the posterior distribution of the treatment effect for each
+individual. The sample average treatment effect is then the mean of this
+posterior distribution.
+
+```{r bart_sate}
+x0 <- simulated_data %>% mutate(is_treated=FALSE) %>% select(X,is_treated)
+x1 <- simulated_data %>% mutate(is_treated=TRUE) %>% select(X,is_treated)
+
+pred0 <- predict(bart_model, as.matrix(x0))
+
+pred1 <- predict(bart_model, as.matrix(x1))
+
+tau_draws <- pred1$y_hat - pred0$y_hat  
+sate_draws <- colMeans(tau_draws)
+cat(glue::glue("BART finds an Average Treatment Effect equal to {round(mean(sate_draws),2)}"))
+```
+
+However, as we discussed before, point estimates are often not very useful for
+decision-making. For instance, we might make different decisions if the impact
+of the intervention is more than 5, between 0 and 5, or less than 0. 
+
+::: {.content-visible when-format="pdf"}
+
+However, as we discussed before, point estimates are often not very useful for
+decision-making. For instance, we might make different decisions if the impact
+of the intervention is more than 5, between 0 and 5, or less than 0. We can
+easily calculate these probabilities using the draws from the posteiror
+probability that we just calculated.
+
+::: 
+
+::: {.content-visible when-format="html"}
+
+However, as we discussed before, point estimates are often not very useful for
+decision-making. For instance, we might make different decisions if the impact
+of the intervention is more than 5, between 0 and 5, or less than 0. We can
+easily calculate these probabilities using the posterior draws and visualize
+them:
+
+```{r bart_viz}
+#| eval: !expr knitr::is_html_output()
+# Plot the lift's prior and posterior distributions
+vizdraws::vizdraws(
+  posterior = sate_draws,
+  breaks = c(0, 8),
+  break_names = c("Discontinue", "Continue", " Expand")
+)
+```
+
+:::
+
+## Accelerated BART (XBART)
+
+TODO
