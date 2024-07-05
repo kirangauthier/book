@@ -93,8 +93,8 @@ simulated_data <- tibble(
   treatment_group = sample(c("Treatment", "Control"), size = n_samples, replace = TRUE),
   is_treated = treatment_group == "Treatment",
   X = if_else(is_treated, rnorm(n_samples, 40, 10), rnorm(n_samples, 20, 10)),
-  Y1 = rnorm(n_samples, mean = f_treated(X), sd = 1),  # Using f_treated function directly
-  Y0 = rnorm(n_samples, mean = f_control(X), sd = 1),  # Using f_control function directly
+  Y1 = rnorm(n_samples, mean = f_treated(X), sd = 1),  
+  Y0 = rnorm(n_samples, mean = f_control(X), sd = 1),  
   Y = if_else(is_treated, Y1, Y0),
   true_effect = Y1 - Y0
 )
@@ -114,7 +114,11 @@ ggplot(simulated_data, aes(x = X, y = Y, color = treatment_group)) +
 cat(glue::glue("The true Sample Average Treatment Effect is {round(mean(simulated_data$true_effect),2)}"))
 ```
 
-Notice that in our sample, the is not very good overlap for low and high values of X. That means that we will have to do a lot of extrapolation when doing inference for those cases. Now, suppose we just fit OLS to the model to try to estimate the average treatment effect:
+Notice that in our sample, there is not very good overlap for low and high
+values of X. This means that we will have to do a lot of extrapolation when
+doing inference for those cases, which is a common challenge in causal
+inference. Now, suppose we just fit OLS to the model to try to estimate the
+average treatment effect:
 
 ```{r ols}
 linear_model <- lm(Y ~ X + is_treated, data = simulated_data)
@@ -123,7 +127,9 @@ lm_fit
 cat(glue::glue("A linear model finds an Average Treatment Effect equal to {round(lm_fit$estimate[lm_fit$term=='is_treatedTRUE'],2)}"))
 ```
 
-Lets add the findings from OLS to our plot:
+It's important to note that the linear model is misspecified given the true
+nonlinear relationships, which contributes to its poor performance. Let's add
+the findings from OLS to our plot:
 
 ```{r ols_plot, warning=FALSE}
 prediction_data <- expand.grid(
@@ -174,6 +180,30 @@ bart_model <-
                   num_burnin = 1000,
                   num_mcmc = 2000)
 
+```
+
+After fitting, it is important to examine the traceplot of $\sigma^2$ to assess
+if the model has converged. We can do this by running the following code:
+
+```{r traceplot}
+trace_plot_data <-
+  tibble(
+    iteration = 1:length(bart_model$sigma2_samples),
+    sigma2_samples = bart_model$sigma2_samples
+  )
+ggplot(aes(x = iteration, y = sigma2_samples), data = trace_plot_data) +
+  geom_line(color = "blue", alpha = 0.5) +
+  labs(title = "Trace Plot for sigma^2",
+       x = "Iteration",
+       y = "sigma^2") +
+  theme_bw()
+
+```
+
+Now we can plot the predictions from BART and compare them to the truth with the
+following code:
+
+```{r bart_plot}
 prediction_data <- prediction_data %>%
   mutate(bart_pred = rowMeans(bart_model$y_hat_test)) 
 
@@ -216,9 +246,14 @@ ggplot() +
    annotate(geom = "text", x = text_left, y = yVals[5], label = c("BART - control"), hjust = 0) +
    annotate(geom = "segment", x = xstart, y = yVals[6], xend = xstart+length, yend = yVals[6], color = "blue", linetype = "dashed") +
    annotate(geom = "text", x = text_left, y = yVals[6], label = c("BART - treatment"), hjust = 0) 
-
-
 ```
+
+Notice that BART does a very good job when we have overlap between the treatment
+and control groups, but when extrapolating for high values of X, BART cannot get
+the true control curve right because it has no data in that region. This
+highlights the importance of understanding how any method works.
+
+
 Once we have fitted the BART model, we can calculate the sample average
 treatment effect by predicting the outcome for every individual in our sample
 under both treatment and control conditions. The difference between these
@@ -241,36 +276,26 @@ cat(glue::glue("BART finds an Average Treatment Effect equal to {round(mean(sate
 
 However, as we discussed before, point estimates are often not very useful for
 decision-making. For instance, we might make different decisions if the impact
-of the intervention is more than 5, between 0 and 5, or less than 0. 
-
+of the intervention is more than 9, between 0 and 9, or less than 0. Calculating
+probabilities for different effect sizes is more useful for decision-making than
+point estimates alone because it provides a more nuanced understanding of the
+potential outcomes and the uncertainty associated with our estimates.
 ::: {.content-visible when-format="pdf"}
-
-However, as we discussed before, point estimates are often not very useful for
-decision-making. For instance, we might make different decisions if the impact
-of the intervention is more than 5, between 0 and 5, or less than 0. We can
-easily calculate these probabilities using the draws from the posteiror
+We can easily calculate these probabilities using the draws from the posterior
 probability that we just calculated.
-
 ::: 
-
 ::: {.content-visible when-format="html"}
-
-However, as we discussed before, point estimates are often not very useful for
-decision-making. For instance, we might make different decisions if the impact
-of the intervention is more than 9, between 0 and 9, or less than 0. We can
-easily calculate these probabilities using the posterior draws and visualize
+We can easily calculate these probabilities using the posterior draws and visualize
 them:
 
 ```{r bart_viz}
 #| eval: !expr knitr::is_html_output()
-# Plot the lift's prior and posterior distributions
 vizdraws::vizdraws(
   posterior = sate_draws,
   breaks = c(0, 9),
   break_names = c("Discontinue", "Continue", " Expand")
 )
 ```
-
 :::
 
 ## Accelerated BART (XBART)
