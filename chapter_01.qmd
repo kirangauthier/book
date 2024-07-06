@@ -1,3 +1,13 @@
+---
+title: "What Does it Mean to Be Data-Driven?"
+share:
+  permalink: "https://book.martinez.fyi/chapter_01.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
+---
+
 ```{r}
 #| warning: false
 #| echo: false
@@ -41,8 +51,6 @@ glossary_add(term = "Program Improvement",
              replace = TRUE) 
 
 ```
-
-## What Does it Mean to Be Data-Driven?
 
 In today's tech-driven world, data is king. Every click, swipe, and search
 generates a breadcrumb of information. Alas, although most decision-makers want
