@@ -1,5 +1,5 @@
 ---
-title: "Generalized linear models"
+title: "Generalized Linear Models"
 ---
 
 Generalized Linear Models (GLMs) offer a versatile extension to ordinary linear
