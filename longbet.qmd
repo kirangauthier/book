@@ -1,0 +1,83 @@
+---
+title: "LongBet: Heterogeneous Treatment Effects in Panel Data"
+---
+
+## Introduction to LongBet
+
+As businesses and policymakers increasingly rely on longitudinal data to make
+causal inferences, there's a growing need for methods that can handle the
+complexities of panel data while estimating heterogeneous treatment effects.
+LongBet, introduced by @wang2024longbet, fills this gap by extending the
+Bayesian Causal Forest (BCF) model to panel data settings.
+
+LongBet is particularly suited for short panel data with large cross-sectional
+samples and observed confounders. Unlike traditional difference-in-differences
+methods that often rely on the parallel trends assumption, LongBet leverages
+observed confounders to impute potential outcomes and identify treatment
+effects. LongBet models the data generating process as follows:
+
+$$
+Y_{it} = \alpha\mu(X_i, T=t) + \beta_S\nu(X_i, S_{it}, T=t) + \epsilon_{it}
+$$
+
+where:
+
+  - $Y_{it}$ is the outcome for individual $i$ at time $t$
+  - $X_i$ are time-invariant covariates
+  - $S_{it}$ is the time elapsed since treatment adoption
+  - $T$ is the time period
+  - $\mu(\cdot)$ is the prognostic function
+  - $\nu(\cdot)$ is the treatment effect function
+  - $\beta_S$ is a Gaussian process factor capturing the general trend of
+    treatment effects
+  - $\epsilon_{it}$ is an independent Gaussian error term
+
+Both $\mu(\cdot)$ and $\nu(\cdot)$ are modeled using XBART and considering
+splits on the time dimension.
+
+## Key Features of LongBet
+
+1.  Flexibility in Trend Modeling: LongBet doesn't require the parallel trends
+    assumption, making it suitable for scenarios where this assumption may not
+    hold.
+2.  Handling of Staggered Adoption: The model can accommodate treatments adopted
+    at different times across units.
+3.  Separation of Prognostic and Treatment Effects: Like BCF, LongBet separates
+    the modeling of prognostic and treatment effects, allowing for different
+    regularization strategies.
+4.  Time-Varying Treatment Effects: The model captures how treatment effects may
+    change over time since adoption.
+5.  Bayesian Uncertainty Quantification: As a Bayesian method, LongBet provides
+    credible intervals for conditional treatment effects.
+
+## Comparison with Traditional Panel Methods
+
+LongBet offers several advantages over traditional panel data methods:
+
+1.  Relaxed Assumptions: Unlike difference-in-differences, LongBet doesn't rely
+    on the parallel trends assumption.
+2.  Heterogeneous Effects: LongBet can capture complex, nonlinear heterogeneity
+    in treatment effects.
+3.  Flexible Functional Form: The use of tree-based models allows for flexible
+    modeling of the relationship between outcomes, covariates, and time.
+4.  Uncertainty Quantification: The Bayesian framework provides natural
+    uncertainty estimates for all quantities of interest.
+    
+## Example Application
+
+TODO    
+    
+## Conclusion
+
+LongBet represents a significant advancement in causal inference for panel data.
+By combining the flexibility of tree-based methods with the ability to handle
+longitudinal data, it offers a powerful tool for estimating heterogeneous
+treatment effects in complex, real-world scenarios.
+
+However, like all methods, LongBet has its limitations. It assumes that all
+relevant confounders are observed and time-invariant. It may also struggle in
+scenarios with limited overlap between treated and control units across time. As
+always in causal inference, careful consideration of the problem at hand and the
+assumptions of the method is crucial.
+
+   

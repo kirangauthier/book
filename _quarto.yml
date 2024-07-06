@@ -45,7 +45,9 @@ book:
         - beyond_normality.qmd        
     - part: stochastictrees.qmd 
       chapters: 
-        - bart.qmd       
+        - bart.qmd
+        - bcf.qmd
+        - longbet.qmd
     - references.qmd
   sidebar: 
     logo: hex.png

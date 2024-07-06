@@ -587,13 +587,134 @@
     ]
   },
   {
+    "objectID": "bcf.html",
+    "href": "bcf.html",
+    "title": "17  Bayesian Causal Forest (BCF)",
+    "section": "",
+    "text": "17.1 Introduction to Bayesian Causal Forest\nWhile BART has proven to be a powerful tool for causal inference, it has some limitations when applied to heterogeneous treatment effect estimation. To address these shortcomings, Hahn, Murray, and Carvalho (2020) introduced the Bayesian Causal Forest (BCF) model. BCF builds upon BART’s foundation but incorporates key modifications that make it particularly well-suited for estimating heterogeneous treatment effects.",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Bayesian Causal Forest (BCF)</span>"
+    ]
+  },
+  {
+    "objectID": "bcf.html#the-bcf-model",
+    "href": "bcf.html#the-bcf-model",
+    "title": "17  Bayesian Causal Forest (BCF)",
+    "section": "17.2 The BCF Model",
+    "text": "17.2 The BCF Model\nThe BCF model can be expressed as: \\[\nY_i = \\mu(x_i, \\hat{\\pi}(x_i)) + \\tau(x_i)z_i + \\epsilon_i, \\quad \\epsilon_i \\sim N(0, \\sigma^2)\n\\]\nwhere:\n\n\\(Y_i\\) is the outcome for individual \\(i\\)\n\\(x_i\\) are the covariates\n\\(z_i\\) is the treatment indicator\n\\(\\hat{\\pi}(x_i)\\) is an estimate of the propensity score\n\\(\\mu(\\cdot)\\) is the prognostic function\n\\(\\tau(\\cdot)\\) is the treatment effect function\n\nThe key innovation of BCF lies in its separation of the prognostic function \\(\\mu(\\cdot)\\) and the treatment effect function \\(\\tau(\\cdot)\\). Both functions are modeled using BART, but with different priors that reflect their distinct roles.",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Bayesian Causal Forest (BCF)</span>"
+    ]
+  },
+  {
+    "objectID": "bcf.html#key-features-of-bcf",
+    "href": "bcf.html#key-features-of-bcf",
+    "title": "17  Bayesian Causal Forest (BCF)",
+    "section": "17.3 Key Features of BCF",
+    "text": "17.3 Key Features of BCF\n\nSeparation of Prognostic and Treatment Effects: By modeling \\(\\mu(\\cdot)\\) and \\(\\tau(\\cdot)\\) separately, BCF allows for different levels of regularization for each component. This is particularly useful when the treatment effect is expected to be simpler or more homogeneous than the overall prognostic effect.\nInclusion of Propensity Score: The inclusion of \\(\\hat{\\pi}(x_i)\\) in the prognostic function helps to mitigate issues related to regularization-induced confounding, which can occur when strong confounding is present.\nTargeted Regularization: BCF employs a prior on the treatment effect function that encourages shrinkage towards homogeneous effects. This can lead to more stable and accurate estimates, especially when the true treatment effect heterogeneity is modest.\nHandling of Targeted Selection: BCF is designed to perform well in scenarios where treatment assignment is based on expected outcomes under control, a phenomenon referred to as “targeted selection”.\nImproved Treatment Effect Estimation: BCF often yields more accurate and stable estimates of conditional average treatment effects (CATEs), especially in scenarios with strong confounding.",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Bayesian Causal Forest (BCF)</span>"
+    ]
+  },
+  {
+    "objectID": "bcf.html#example",
+    "href": "bcf.html#example",
+    "title": "17  Bayesian Causal Forest (BCF)",
+    "section": "17.4 Example",
+    "text": "17.4 Example\nTODO",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Bayesian Causal Forest (BCF)</span>"
+    ]
+  },
+  {
+    "objectID": "bcf.html#conclusion",
+    "href": "bcf.html#conclusion",
+    "title": "17  Bayesian Causal Forest (BCF)",
+    "section": "17.5 Conclusion",
+    "text": "17.5 Conclusion\nBayesian Causal Forest represents a significant advancement in the application of tree-based methods to causal inference. By building upon the strengths of BART and addressing some of its limitations, BCF offers a powerful tool for estimating heterogeneous treatment effects. Its ability to handle strong confounding and targeted selection, coupled with its interpretability, makes it a valuable addition to the causal inference toolkit.\nHowever, like all methods, BCF has its limitations. It assumes that all relevant confounders are observed, and its performance can degrade in scenarios with limited overlap between treated and control units. As always in causal inference, careful consideration of the problem at hand and the assumptions of the method is crucial.\n\n\n\n\n\n\nHahn, P Richard, Jared S Murray, and Carlos M Carvalho. 2020. “Bayesian Regression Tree Models for Causal Inference: Regularization, Confounding, and Heterogeneous Effects (with Discussion).” Bayesian Analysis 15 (3): 965–1056. https://doi.org/10.1214/19-BA1195.",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Bayesian Causal Forest (BCF)</span>"
+    ]
+  },
+  {
+    "objectID": "longbet.html",
+    "href": "longbet.html",
+    "title": "18  LongBet: Heterogeneous Treatment Effects in Panel Data",
+    "section": "",
+    "text": "18.1 Introduction to LongBet\nAs businesses and policymakers increasingly rely on longitudinal data to make causal inferences, there’s a growing need for methods that can handle the complexities of panel data while estimating heterogeneous treatment effects. LongBet, introduced by Wang, Martinez, and Hahn (2024), fills this gap by extending the Bayesian Causal Forest (BCF) model to panel data settings.\nLongBet is particularly suited for short panel data with large cross-sectional samples and observed confounders. Unlike traditional difference-in-differences methods that often rely on the parallel trends assumption, LongBet leverages observed confounders to impute potential outcomes and identify treatment effects. LongBet models the data generating process as follows:\n\\[\nY_{it} = \\alpha\\mu(X_i, T=t) + \\beta_S\\nu(X_i, S_{it}, T=t) + \\epsilon_{it}\n\\]\nwhere:\nBoth \\(\\mu(\\cdot)\\) and \\(\\nu(\\cdot)\\) are modeled using XBART and considering splits on the time dimension.",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LongBet: Heterogeneous Treatment Effects in Panel Data</span>"
+    ]
+  },
+  {
+    "objectID": "longbet.html#introduction-to-longbet",
+    "href": "longbet.html#introduction-to-longbet",
+    "title": "18  LongBet: Heterogeneous Treatment Effects in Panel Data",
+    "section": "",
+    "text": "\\(Y_{it}\\) is the outcome for individual \\(i\\) at time \\(t\\)\n\\(X_i\\) are time-invariant covariates\n\\(S_{it}\\) is the time elapsed since treatment adoption\n\\(T\\) is the time period\n\\(\\mu(\\cdot)\\) is the prognostic function\n\\(\\nu(\\cdot)\\) is the treatment effect function\n\\(\\beta_S\\) is a Gaussian process factor capturing the general trend of treatment effects\n\\(\\epsilon_{it}\\) is an independent Gaussian error term",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LongBet: Heterogeneous Treatment Effects in Panel Data</span>"
+    ]
+  },
+  {
+    "objectID": "longbet.html#key-features-of-longbet",
+    "href": "longbet.html#key-features-of-longbet",
+    "title": "18  LongBet: Heterogeneous Treatment Effects in Panel Data",
+    "section": "18.2 Key Features of LongBet",
+    "text": "18.2 Key Features of LongBet\n\nFlexibility in Trend Modeling: LongBet doesn’t require the parallel trends assumption, making it suitable for scenarios where this assumption may not hold.\nHandling of Staggered Adoption: The model can accommodate treatments adopted at different times across units.\nSeparation of Prognostic and Treatment Effects: Like BCF, LongBet separates the modeling of prognostic and treatment effects, allowing for different regularization strategies.\nTime-Varying Treatment Effects: The model captures how treatment effects may change over time since adoption.\nBayesian Uncertainty Quantification: As a Bayesian method, LongBet provides credible intervals for conditional treatment effects.",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LongBet: Heterogeneous Treatment Effects in Panel Data</span>"
+    ]
+  },
+  {
+    "objectID": "longbet.html#comparison-with-traditional-panel-methods",
+    "href": "longbet.html#comparison-with-traditional-panel-methods",
+    "title": "18  LongBet: Heterogeneous Treatment Effects in Panel Data",
+    "section": "18.3 Comparison with Traditional Panel Methods",
+    "text": "18.3 Comparison with Traditional Panel Methods\nLongBet offers several advantages over traditional panel data methods:\n\nRelaxed Assumptions: Unlike difference-in-differences, LongBet doesn’t rely on the parallel trends assumption.\nHeterogeneous Effects: LongBet can capture complex, nonlinear heterogeneity in treatment effects.\nFlexible Functional Form: The use of tree-based models allows for flexible modeling of the relationship between outcomes, covariates, and time.\nUncertainty Quantification: The Bayesian framework provides natural uncertainty estimates for all quantities of interest.",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LongBet: Heterogeneous Treatment Effects in Panel Data</span>"
+    ]
+  },
+  {
+    "objectID": "longbet.html#example-application",
+    "href": "longbet.html#example-application",
+    "title": "18  LongBet: Heterogeneous Treatment Effects in Panel Data",
+    "section": "18.4 Example Application",
+    "text": "18.4 Example Application\nTODO",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LongBet: Heterogeneous Treatment Effects in Panel Data</span>"
+    ]
+  },
+  {
+    "objectID": "longbet.html#conclusion",
+    "href": "longbet.html#conclusion",
+    "title": "18  LongBet: Heterogeneous Treatment Effects in Panel Data",
+    "section": "18.5 Conclusion",
+    "text": "18.5 Conclusion\nLongBet represents a significant advancement in causal inference for panel data. By combining the flexibility of tree-based methods with the ability to handle longitudinal data, it offers a powerful tool for estimating heterogeneous treatment effects in complex, real-world scenarios.\nHowever, like all methods, LongBet has its limitations. It assumes that all relevant confounders are observed and time-invariant. It may also struggle in scenarios with limited overlap between treated and control units across time. As always in causal inference, careful consideration of the problem at hand and the assumptions of the method is crucial.\n\n\n\n\n\n\nWang, Meijia, Ignacio Martinez, and P Richard Hahn. 2024. “LongBet: Heterogeneous Treatment Effect Estimation in Panel Data.” arXiv Preprint arXiv:2406.02530. https://doi.org/arXiv:2406.02530.",
+    "crumbs": [
+      "Stochastic Trees",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>LongBet: Heterogeneous Treatment Effects in Panel Data</span>"
+    ]
+  },
+  {
     "objectID": "references.html",
     "href": "references.html",
-    "title": "17  References",
+    "title": "19  References",
     "section": "",
-    "text": "Abadie, Alberto. 2021. “Using Synthetic Controls: Feasibility,\nData Requirements, and Methodological Aspects.” Journal of\nEconomic Literature 59 (2): 391–425.\n\n\nAbadie, Alberto, Alexis Diamond, and Jens Hainmueller. 2015.\n“Comparative Politics and the Synthetic Control Method.”\nAmerican Journal of Political Science 59 (2): 495–510.\n\n\nAbadie, Alberto, and Jaume Vives-i-Bastida. 2022. “Synthetic\nControls in Action.” https://arxiv.org/abs/2203.06279.\n\n\nAthey, Susan, Raj Chetty, Guido W Imbens, and Hyunseung Kang. 2019.\n“The Surrogate Index: Combining Short-Term Proxies to Estimate\nLong-Term Treatment Effects More Rapidly and Precisely.” National\nBureau of Economic Research.\n\n\nAthey, Susan, and Guido W Imbens. 2017. “The State of Applied\nEconometrics: Causality and Policy Evaluation.” Journal of\nEconomic Perspectives 31 (2): 3–32.\n\n\nBagby, Emilie, and Anu Rangarajan. 2023. Using\nRapid-Cycle Evaluation to Improve Program Design and\nDelivery. Oxford University Press. https://doi.org/10.1093/oxfordhb/9780190059668.013.7.\n\n\nBrodersen, Kay H, Fabian Gallusser, Jim Koehler, Nicolas Remy, and\nSteven L Scott. 2015. “Inferring Causal Impact Using Bayesian\nStructural Time-Series Models.” Annals of Applied\nStatistics 9: 247–74. https://doi.org/10.1214/14-AOAS788.\n\n\nBürkner, Paul-Christian. 2017. “brms:\nAn R Package for Bayesian Multilevel Models\nUsing Stan.” Journal of Statistical\nSoftware 80 (1): 1–28. https://doi.org/10.18637/jss.v080.i01.\n\n\nCarpenter, Bob, Andrew Gelman, Matthew D. Hoffman, Daniel Lee, Ben\nGoodrich, Michael Betancourt, Marcus Brubaker, Jiqiang Guo, Peter Li,\nand Allen Riddell. 2017. “Stan: A Probabilistic Programming\nLanguage.” Journal of Statistical Software 76 (1): 1–32.\nhttps://doi.org/10.18637/jss.v076.i01.\n\n\nChandler, Jesse J, Ignacio Martinez, Mariel M Finucane, Jeffrey G\nTerziev, and Alexandra M Resch. 2020. “Speaking on Data’s Behalf:\nWhat Researchers Say and How Audiences Choose.” Evaluation\nReview 44 (4): 325–53.\n\n\nChen, Jiafeng, and David M Ritzwoller. 2023. “Semiparametric\nEstimation of Long-Term Treatment Effects.” Journal of\nEconometrics 237 (2): 105545.\n\n\nChernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler,\nand Vasilis Syrgkanis. 2024. “Applied Causal Inference Powered by\nML and AI” 12 (1): 338. https://causalml-book.org/assets/chapters/CausalML_chap_2.pdf.\n\n\nChipman, Hugh A., Edward I. George, and Robert E. McCulloch. 2010.\n“BART: Bayesian additive regression\ntrees.” The Annals of Applied Statistics 4 (1):\n266–98. https://doi.org/10.1214/09-AOAS285.\n\n\nCunningham, Scott. 2021. “Potential Outcomes Causal Model.”\nIn Causal Inference: The Mixtape. Yale University Press. https://mixtape.scunning.com/04-potential_outcomes.\n\n\nDing, Peng, and Fan Li. 2018. “Causal Inference.”\nStatistical Science 33 (2): 214–37. https://projecteuclid.org/journals/statistical-science/volume-33/issue-2/Causal-Inference-A-Missing-Data-Perspective/10.1214/18-STS645.pdf.\n\n\nFinucane, Mariel McKenzie, Ignacio Martinez, and Scott Cody. 2018.\n“What Works for Whom? A Bayesian Approach to Channeling Big Data\nStreams for Public Program Evaluation.” American Journal of\nEvaluation 39 (1): 109–22. https://journals.sagepub.com/doi/abs/10.1177/1098214017737173.\n\n\nGelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D.\nB. Rubin. 2013. “Parallel Experiments in Eight Schools.” In\nBayesian Data Analysis, Third Edition, 119. Chapman &\nHall/CRC Texts in Statistical Science. New York: Taylor & Francis.\nhttps://books.google.com/books?id=ZXL6AQAAQBAJ.\n\n\nGigerenzer, Gerd, Stefan Krauss, and Oliver Vitouch. 2004. “The\nNull Ritual.” The Sage Handbook of Quantitative Methodology\nfor the Social Sciences, 391–408.\n\n\nGoodrich, Ben, Jonah Gabry, Imad Ali, and Sam Brilleman. 2020.\n“Rstanarm: Bayesian Applied Regression Modeling via\nStan.” https://mc-stan.org/rstanarm.\n\n\nHill, Jennifer L. 2011. “Bayesian Nonparametric Modeling for\nCausal Inference.” Journal of Computational and Graphical\nStatistics 20 (1): 217–40. https://doi.org/10.1198/jcgs.2010.08162.\n\n\nHoekstra, Rink, Richard D Morey, Jeffrey N Rouder, and Eric-Jan\nWagenmakers. 2014. “Robust Misinterpretation of Confidence\nIntervals.” Psychonomic Bulletin & Review 21:\n1157–64. https://doi.org/10.3758/s13423-013-0572-3.\n\n\nHolland, Paul W. 1986. “Statistics and Causal Inference.”\nJournal of the American Statistical Association 81 (396):\n945–60. https://doi.org/10.2307/2289064.\n\n\nImbens, Guido, Nathan Kallus, Xiaojie Mao, and Yuhao Wang. 2022.\n“Long-Term Causal Inference Under Persistent Confounding via Data\nCombination.” arXiv Preprint arXiv:2202.07234.\n\n\nKassler, Daniel, Ira Nichols-Barrer, and Mariel Finucane. 2018.\n“Beyond ‘Treatment Versus Control’: How Bayesian\nAnalysis Makes Factorial Experiments Feasible in Education\nResearch.” https://doi.org/10.1177/0193841X18818903.\n\n\nLi, Fan, Peng Ding, and Fabrizia Mealli. 2023. “Bayesian Causal\nInference: A Critical Review.” Philosophical Transactions of\nthe Royal Society A 381 (2247): 20220153. https://doi.org/10.1098/rsta.2022.0153.\n\n\nManski, Charles F. 2020. “The Lure of Incredible\nCertitude.” Economics & Philosophy 36 (2): 216–45.\nhttps://www.nber.org/system/files/working_papers/w24905/w24905.pdf.\n\n\nMartinez, Ignacio, and Jaume Vives-i-Bastida. 2023. “Bayesian and\nFrequentist Inference for Synthetic Controls.” https://arxiv.org/abs/2206.01779.\n\n\nNeyman, Jersey. 1923. “Sur Les Applications de La\nThéorie Des Probabilités Aux Experiences\nAgricoles: Essai Des Principes.” Roczniki Nauk\nRolniczych 10 (1): 1–51.\n\n\nRubin, Donald B. 1974. “Estimating Causal Effects of Treatments in\nRandomized and Nonrandomized Studies.” Journal of Educational\nPsychology 66 (5): 688. http://www.fsb.muohio.edu/lij14/420_paper_Rubin74.pdf.\n\n\n———. 1978. “Bayesian Inference for Causal Effects: The Role of\nRandomization.” The Annals of Statistics, 34–58. https://www.jstor.org/stable/2958688.\n\n\nThal, Dan RC, and Mariel M Finucane. 2023. “Causal Methods\nMadness: Lessons Learned from the 2022 ACIC Competition to Estimate\nHealth Policy Impacts.” Observational Studies 9 (3):\n3–27. https://doi.org/110.1353/obs.2023.0023.\n\n\nThaler, Richard H, and Cass R Sunstein. 2009. Nudge: Improving\nDecisions about Health, Wealth, and Happiness. Penguin.\n\n\n———. 2021. Nudge: The Final Edition. Yale University Press.\n\n\nWainer, Howard. 2007. “The Most Dangerous Equation.”\nAmerican Scientist 95 (3): 249.\n\n\nWasserstein, Ronald L, and Nicole A Lazar. 2016. “The ASA\nStatement on p-Values: Context, Process, and Purpose.” The\nAmerican Statistician. Taylor & Francis. https://www.tandfonline.com/doi/pdf/10.1080/00031305.2016.1154108.\n\n\nWWC. 2020. “What Works Clearinghouse Baseline Equivalence\nStandard.” U.S. Department of Education, Institute of Education\nSciences, National Center for Education Evaluation; Regional Assistance.\nhttps://ies.ed.gov/ncee/wwc/Docs/ReferenceResources/WWC-Baseline-Brief-v6_508.pdf.\n\n\nZhang, Vickie, Michael Zhao, Anh Le, and Nathan Kallus. 2023.\n“Evaluating the Surrogate Index as a Decision-Making Tool Using\n200 a/b Tests at Netflix.” arXiv Preprint\narXiv:2311.11922.",
+    "text": "Abadie, Alberto. 2021. “Using Synthetic Controls: Feasibility,\nData Requirements, and Methodological Aspects.” Journal of\nEconomic Literature 59 (2): 391–425.\n\n\nAbadie, Alberto, Alexis Diamond, and Jens Hainmueller. 2015.\n“Comparative Politics and the Synthetic Control Method.”\nAmerican Journal of Political Science 59 (2): 495–510.\n\n\nAbadie, Alberto, and Jaume Vives-i-Bastida. 2022. “Synthetic\nControls in Action.” https://arxiv.org/abs/2203.06279.\n\n\nAthey, Susan, Raj Chetty, Guido W Imbens, and Hyunseung Kang. 2019.\n“The Surrogate Index: Combining Short-Term Proxies to Estimate\nLong-Term Treatment Effects More Rapidly and Precisely.” National\nBureau of Economic Research.\n\n\nAthey, Susan, and Guido W Imbens. 2017. “The State of Applied\nEconometrics: Causality and Policy Evaluation.” Journal of\nEconomic Perspectives 31 (2): 3–32.\n\n\nBagby, Emilie, and Anu Rangarajan. 2023. Using\nRapid-Cycle Evaluation to Improve Program Design and\nDelivery. Oxford University Press. https://doi.org/10.1093/oxfordhb/9780190059668.013.7.\n\n\nBrodersen, Kay H, Fabian Gallusser, Jim Koehler, Nicolas Remy, and\nSteven L Scott. 2015. “Inferring Causal Impact Using Bayesian\nStructural Time-Series Models.” Annals of Applied\nStatistics 9: 247–74. https://doi.org/10.1214/14-AOAS788.\n\n\nBürkner, Paul-Christian. 2017. “brms:\nAn R Package for Bayesian Multilevel Models\nUsing Stan.” Journal of Statistical\nSoftware 80 (1): 1–28. https://doi.org/10.18637/jss.v080.i01.\n\n\nCarpenter, Bob, Andrew Gelman, Matthew D. Hoffman, Daniel Lee, Ben\nGoodrich, Michael Betancourt, Marcus Brubaker, Jiqiang Guo, Peter Li,\nand Allen Riddell. 2017. “Stan: A Probabilistic Programming\nLanguage.” Journal of Statistical Software 76 (1): 1–32.\nhttps://doi.org/10.18637/jss.v076.i01.\n\n\nChandler, Jesse J, Ignacio Martinez, Mariel M Finucane, Jeffrey G\nTerziev, and Alexandra M Resch. 2020. “Speaking on Data’s Behalf:\nWhat Researchers Say and How Audiences Choose.” Evaluation\nReview 44 (4): 325–53.\n\n\nChen, Jiafeng, and David M Ritzwoller. 2023. “Semiparametric\nEstimation of Long-Term Treatment Effects.” Journal of\nEconometrics 237 (2): 105545.\n\n\nChernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler,\nand Vasilis Syrgkanis. 2024. “Applied Causal Inference Powered by\nML and AI” 12 (1): 338. https://causalml-book.org/assets/chapters/CausalML_chap_2.pdf.\n\n\nChipman, Hugh A., Edward I. George, and Robert E. McCulloch. 2010.\n“BART: Bayesian additive regression\ntrees.” The Annals of Applied Statistics 4 (1):\n266–98. https://doi.org/10.1214/09-AOAS285.\n\n\nCunningham, Scott. 2021. “Potential Outcomes Causal Model.”\nIn Causal Inference: The Mixtape. Yale University Press. https://mixtape.scunning.com/04-potential_outcomes.\n\n\nDing, Peng, and Fan Li. 2018. “Causal Inference.”\nStatistical Science 33 (2): 214–37. https://projecteuclid.org/journals/statistical-science/volume-33/issue-2/Causal-Inference-A-Missing-Data-Perspective/10.1214/18-STS645.pdf.\n\n\nFinucane, Mariel McKenzie, Ignacio Martinez, and Scott Cody. 2018.\n“What Works for Whom? A Bayesian Approach to Channeling Big Data\nStreams for Public Program Evaluation.” American Journal of\nEvaluation 39 (1): 109–22. https://journals.sagepub.com/doi/abs/10.1177/1098214017737173.\n\n\nGelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D.\nB. Rubin. 2013. “Parallel Experiments in Eight Schools.” In\nBayesian Data Analysis, Third Edition, 119. Chapman &\nHall/CRC Texts in Statistical Science. New York: Taylor & Francis.\nhttps://books.google.com/books?id=ZXL6AQAAQBAJ.\n\n\nGigerenzer, Gerd, Stefan Krauss, and Oliver Vitouch. 2004. “The\nNull Ritual.” The Sage Handbook of Quantitative Methodology\nfor the Social Sciences, 391–408.\n\n\nGoodrich, Ben, Jonah Gabry, Imad Ali, and Sam Brilleman. 2020.\n“Rstanarm: Bayesian Applied Regression Modeling via\nStan.” https://mc-stan.org/rstanarm.\n\n\nHahn, P Richard, Jared S Murray, and Carlos M Carvalho. 2020.\n“Bayesian Regression Tree Models for Causal Inference:\nRegularization, Confounding, and Heterogeneous Effects (with\nDiscussion).” Bayesian Analysis 15 (3): 965–1056. https://doi.org/10.1214/19-BA1195.\n\n\nHill, Jennifer L. 2011. “Bayesian Nonparametric Modeling for\nCausal Inference.” Journal of Computational and Graphical\nStatistics 20 (1): 217–40. https://doi.org/10.1198/jcgs.2010.08162.\n\n\nHoekstra, Rink, Richard D Morey, Jeffrey N Rouder, and Eric-Jan\nWagenmakers. 2014. “Robust Misinterpretation of Confidence\nIntervals.” Psychonomic Bulletin & Review 21:\n1157–64. https://doi.org/10.3758/s13423-013-0572-3.\n\n\nHolland, Paul W. 1986. “Statistics and Causal Inference.”\nJournal of the American Statistical Association 81 (396):\n945–60. https://doi.org/10.2307/2289064.\n\n\nImbens, Guido, Nathan Kallus, Xiaojie Mao, and Yuhao Wang. 2022.\n“Long-Term Causal Inference Under Persistent Confounding via Data\nCombination.” arXiv Preprint arXiv:2202.07234.\n\n\nKassler, Daniel, Ira Nichols-Barrer, and Mariel Finucane. 2018.\n“Beyond ‘Treatment Versus Control’: How Bayesian\nAnalysis Makes Factorial Experiments Feasible in Education\nResearch.” https://doi.org/10.1177/0193841X18818903.\n\n\nLi, Fan, Peng Ding, and Fabrizia Mealli. 2023. “Bayesian Causal\nInference: A Critical Review.” Philosophical Transactions of\nthe Royal Society A 381 (2247): 20220153. https://doi.org/10.1098/rsta.2022.0153.\n\n\nManski, Charles F. 2020. “The Lure of Incredible\nCertitude.” Economics & Philosophy 36 (2): 216–45.\nhttps://www.nber.org/system/files/working_papers/w24905/w24905.pdf.\n\n\nMartinez, Ignacio, and Jaume Vives-i-Bastida. 2023. “Bayesian and\nFrequentist Inference for Synthetic Controls.” https://arxiv.org/abs/2206.01779.\n\n\nNeyman, Jersey. 1923. “Sur Les Applications de La\nThéorie Des Probabilités Aux Experiences\nAgricoles: Essai Des Principes.” Roczniki Nauk\nRolniczych 10 (1): 1–51.\n\n\nRubin, Donald B. 1974. “Estimating Causal Effects of Treatments in\nRandomized and Nonrandomized Studies.” Journal of Educational\nPsychology 66 (5): 688. http://www.fsb.muohio.edu/lij14/420_paper_Rubin74.pdf.\n\n\n———. 1978. “Bayesian Inference for Causal Effects: The Role of\nRandomization.” The Annals of Statistics, 34–58. https://www.jstor.org/stable/2958688.\n\n\nThal, Dan RC, and Mariel M Finucane. 2023. “Causal Methods\nMadness: Lessons Learned from the 2022 ACIC Competition to Estimate\nHealth Policy Impacts.” Observational Studies 9 (3):\n3–27. https://doi.org/110.1353/obs.2023.0023.\n\n\nThaler, Richard H, and Cass R Sunstein. 2009. Nudge: Improving\nDecisions about Health, Wealth, and Happiness. Penguin.\n\n\n———. 2021. Nudge: The Final Edition. Yale University Press.\n\n\nWainer, Howard. 2007. “The Most Dangerous Equation.”\nAmerican Scientist 95 (3): 249.\n\n\nWang, Meijia, Ignacio Martinez, and P Richard Hahn. 2024.\n“LongBet: Heterogeneous Treatment Effect Estimation in Panel\nData.” arXiv Preprint arXiv:2406.02530. https://doi.org/arXiv:2406.02530.\n\n\nWasserstein, Ronald L, and Nicole A Lazar. 2016. “The ASA\nStatement on p-Values: Context, Process, and Purpose.” The\nAmerican Statistician. Taylor & Francis. https://www.tandfonline.com/doi/pdf/10.1080/00031305.2016.1154108.\n\n\nWWC. 2020. “What Works Clearinghouse Baseline Equivalence\nStandard.” U.S. Department of Education, Institute of Education\nSciences, National Center for Education Evaluation; Regional Assistance.\nhttps://ies.ed.gov/ncee/wwc/Docs/ReferenceResources/WWC-Baseline-Brief-v6_508.pdf.\n\n\nZhang, Vickie, Michael Zhao, Anh Le, and Nathan Kallus. 2023.\n“Evaluating the Surrogate Index as a Decision-Making Tool Using\n200 a/b Tests at Netflix.” arXiv Preprint\narXiv:2311.11922.",
     "crumbs": [
-      "<span class='chapter-number'>17</span>  <span class='chapter-title'>References</span>"
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>References</span>"
     ]
   }
 ]

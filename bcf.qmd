@@ -1,0 +1,73 @@
+---
+title: "Bayesian Causal Forest (BCF)"
+---
+
+## Introduction to Bayesian Causal Forest
+
+While BART has proven to be a powerful tool for causal inference, it has some
+limitations when applied to heterogeneous treatment effect estimation. To
+address these shortcomings, @hahn2020bayesian introduced the
+Bayesian Causal Forest (BCF) model. BCF builds upon BART's foundation but
+incorporates key modifications that make it particularly well-suited for
+estimating heterogeneous treatment effects.
+
+## The BCF Model
+
+The BCF model can be expressed as:
+$$
+Y_i = \mu(x_i, \hat{\pi}(x_i)) + \tau(x_i)z_i + \epsilon_i, \quad \epsilon_i \sim N(0, \sigma^2)
+$$
+
+where:
+
+  - $Y_i$ is the outcome for individual $i$
+  - $x_i$ are the covariates
+  - $z_i$ is the treatment indicator
+  - $\hat{\pi}(x_i)$ is an estimate of the propensity score
+  - $\mu(\cdot)$ is the prognostic function
+  - $\tau(\cdot)$ is the treatment effect function
+
+The key innovation of BCF lies in its separation of the prognostic function
+$\mu(\cdot)$ and the treatment effect function $\tau(\cdot)$. Both functions are
+modeled using BART, but with different priors that reflect their distinct roles.
+
+## Key Features of BCF
+
+1.  **Separation of Prognostic and Treatment Effects**: By modeling $\mu(\cdot)$
+    and $\tau(\cdot)$ separately, BCF allows for different levels of
+    regularization for each component. This is particularly useful when the
+    treatment effect is expected to be simpler or more homogeneous than the
+    overall prognostic effect.
+2.  **Inclusion of Propensity Score**: The inclusion of $\hat{\pi}(x_i)$ in the
+    prognostic function helps to mitigate issues related to
+    regularization-induced confounding, which can occur when strong confounding
+    is present.
+3.  **Targeted Regularization**: BCF employs a prior on the treatment effect
+    function that encourages shrinkage towards homogeneous effects. This can
+    lead to more stable and accurate estimates, especially when the true
+    treatment effect heterogeneity is modest.
+4.  **Handling of Targeted Selection**: BCF is designed to perform well in
+    scenarios where treatment assignment is based on expected outcomes under
+    control, a phenomenon referred to as "targeted selection".
+5.  **Improved Treatment Effect Estimation**: BCF often yields more accurate and
+    stable estimates of conditional average treatment effects (CATEs),
+    especially in scenarios with strong confounding.    
+
+## Example
+
+TODO
+
+## Conclusion
+
+Bayesian Causal Forest represents a significant advancement in the application
+of tree-based methods to causal inference. By building upon the strengths of
+BART and addressing some of its limitations, BCF offers a powerful tool for
+estimating heterogeneous treatment effects. Its ability to handle strong
+confounding and targeted selection, coupled with its interpretability, makes it
+a valuable addition to the causal inference toolkit.
+
+However, like all methods, BCF has its limitations. It assumes that all relevant
+confounders are observed, and its performance can degrade in scenarios with
+limited overlap between treated and control units. As always in causal
+inference, careful consideration of the problem at hand and the assumptions of
+the method is crucial.
