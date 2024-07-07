@@ -298,6 +298,11 @@ vizdraws::vizdraws(
 ```
 :::
 
+::: {.callout-tip}
+## Learn more
+@hill2011bayesian Bayesian nonparametric modeling for causal inference.
+::: 
+
 ## Accelerated BART (XBART)
 
 TODO

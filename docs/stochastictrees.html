@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -349,10 +369,48 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This section will delve into a specific family of non-parametric models that has gained considerable traction in the causal inference world: Bayesian Additive Regression Trees (BART) and some of its notable derivatives. These models offer a unique blend of flexibility and interpretability, making them particularly well-suited for causal inference tasks.</p>
+<p>Before we dive into the specifics of these models, it’s crucial to understand the fundamental assumptions that underpin their use in causal inference. Like many causal inference methods, BART and its derivatives rely on two key assumptions: the Stable Unit Treatment Value Assumption (SUTVA) and strong ignorability.</p>
+<ol type="1">
+<li>Stable Unit Treatment Value Assumption (SUTVA): SUTVA consists of two parts:
+<ol type="a">
+<li>No interference: The treatment applied to one unit does not affect the outcomes of other units. In business terms, this might mean that a marketing campaign applied to one customer doesn’t influence the purchasing behavior of other customers. b) No hidden variations of treatments: There is only one version of each treatment level. For instance, if we’re studying the effect of a new training program, all employees who receive the training get the same version of it. Strong Ignorability:</li>
+</ol></li>
+<li>This assumption has two components: a) Unconfoundedness: Given the observed covariates, treatment assignment is independent of the potential outcomes. In other words, if we control for all relevant variables, whether a unit receives treatment or not is unrelated to what their outcomes would be under treatment or control. b) Positivity (or overlap): Every unit has a non-zero probability of receiving each treatment level. In a business context, this might mean that every customer has some chance of being exposed to a new marketing campaign, regardless of their characteristics.</li>
+</ol>
+<p>These assumptions are crucial because they allow us to interpret the relationships uncovered by BART and its derivatives as causal, rather than merely associational. When these assumptions hold, we can confidently say that the differences in outcomes we observe between treated and untreated units are due to the treatment itself, rather than some other confounding factor.</p>
+<p>We’ll explore three key models in this family: BART, Bayesian Causal Forests (BCF), and LongBet. Each of these models builds upon its predecessors, offering improvements in terms of causal effect estimation, handling of confounding, and applicability to different data structures.</p>
+<p>In our exploration, we’ll be leveraging the stochtree R package <span class="citation" data-cites="stochastictree">(<a href="references.html#ref-stochastictree" role="doc-biblioref">Herren et al. 2024</a>)</span>, which implements these models using a technique called “warm-start” as introduced by <span class="citation" data-cites="krantsevich23a">Krantsevich, He, and Hahn (<a href="references.html#ref-krantsevich23a" role="doc-biblioref">2023</a>)</span>. The warm-start approach is a computational innovation that significantly improves the efficiency and effectiveness of these models, particularly for large datasets.</p>
+<p>The warm-start technique works by using a fast approximation method (XBART) to generate initial tree structures, which are then used as starting points for the full Bayesian MCMC algorithm. This approach combines the speed of approximate methods with the statistical rigor of full Bayesian inference, resulting in models that are both computationally efficient and statistically robust.</p>
+<p>By using warm-start, we can fit these sophisticated models to larger datasets and explore more complex causal relationships than was previously feasible. This makes these models particularly valuable for business data science applications, where we often deal with large, complex datasets and need to uncover nuanced causal relationships.</p>
+<p>Let’s begin our journey into the world of stochastic trees and their applications in causal inference, keeping in mind the critical assumptions that allow us to draw causal conclusions from these powerful tools.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learn more
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><span class="citation" data-cites="krantsevich23a">Krantsevich, He, and Hahn (<a href="references.html#ref-krantsevich23a" role="doc-biblioref">2023</a>)</span> Stochastic Tree Ensembles for Estimating Heterogeneous Effects.</li>
+<li><span class="citation" data-cites="stochastictree">Herren et al. (<a href="references.html#ref-stochastictree" role="doc-biblioref">2024</a>)</span> Stochastic tree ensembles (XBART and BART) for supervised learning and causal inference.</li>
+</ul>
+</div>
+</div>
 
 
 <!-- -->
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-stochastictree" class="csl-entry" role="listitem">
+Herren, Drew, Richard Hahn, Jared Murray, Carlos Carvalho, and Jingyu He. 2024. <em>Stochtree: Stochastic Tree Ensembles (XBART and BART) for Supervised Learning and Causal Inference</em>. <a href="https://stochastictree.github.io/stochtree-r/">https://stochastictree.github.io/stochtree-r/</a>.
+</div>
+<div id="ref-krantsevich23a" class="csl-entry" role="listitem">
+Krantsevich, Nikolay, Jingyu He, and P. Richard Hahn. 2023. <span>“Stochastic Tree Ensembles for Estimating Heterogeneous Effects.”</span> In <em>Proceedings of the 26th International Conference on Artificial Intelligence and Statistics</em>, edited by Francisco Ruiz, Jennifer Dy, and Jan-Willem van de Meent, 206:6120–31. Proceedings of Machine Learning Research. PMLR. <a href="https://proceedings.mlr.press/v206/krantsevich23a.html">https://proceedings.mlr.press/v206/krantsevich23a.html</a>.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -837,7 +895,71 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>gained considerable traction in the causal inference world: Bayesian Additive</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Regression Trees (BART) and some of its notable derivatives. These models offer</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>a unique blend of flexibility and interpretability, making them particularly</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>well-suited for causal inference tasks.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>well-suited for causal inference tasks.</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>Before we dive into the specifics of these models, it's crucial to understand</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>the fundamental assumptions that underpin their use in causal inference. Like</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>many causal inference methods, BART and its derivatives rely on two key</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>assumptions: the Stable Unit Treatment Value Assumption (SUTVA) and strong</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>ignorability.</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Stable Unit Treatment Value Assumption (SUTVA): SUTVA consists of two parts:</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    a) No interference: The treatment applied to one unit does not affect the</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    outcomes of other units. In business terms, this might mean that a marketing</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    campaign applied to one customer doesn't influence the purchasing behavior</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    of other customers. b) No hidden variations of treatments: There is only one</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    version of each treatment level. For instance, if we're studying the effect</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    of a new training program, all employees who receive the training get the</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    same version of it. Strong Ignorability:</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>This assumption has two components: a) Unconfoundedness: Given the observed</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    covariates, treatment assignment is independent of the potential outcomes.</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    In other words, if we control for all relevant variables, whether a unit</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    receives treatment or not is unrelated to what their outcomes would be under</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    treatment or control. b) Positivity (or overlap): Every unit has a non-zero</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    probability of receiving each treatment level. In a business context, this</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    might mean that every customer has some chance of being exposed to a new</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    marketing campaign, regardless of their characteristics.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>These assumptions are crucial because they allow us to interpret the</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>relationships uncovered by BART and its derivatives as causal, rather than</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>merely associational. When these assumptions hold, we can confidently say that</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>the differences in outcomes we observe between treated and untreated units are</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>due to the treatment itself, rather than some other confounding factor.    </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>We'll explore three key models in this family: BART, Bayesian Causal Forests</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>(BCF), and LongBet. Each of these models builds upon its predecessors, offering</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>improvements in terms of causal effect estimation, handling of confounding, and</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>applicability to different data structures.</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>In our exploration, we'll be leveraging the stochtree R package</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">@stochastictree</span><span class="co">]</span>, which implements these models using a technique called</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>"warm-start" as introduced by @krantsevich23a. The warm-start approach is a</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>computational innovation that significantly improves the efficiency and</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>effectiveness of these models, particularly for large datasets.</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>The warm-start technique works by using a fast approximation method (XBART) to</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>generate initial tree structures, which are then used as starting points for the</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>full Bayesian MCMC algorithm. This approach combines the speed of approximate</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>methods with the statistical rigor of full Bayesian inference, resulting in</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>models that are both computationally efficient and statistically robust.</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>By using warm-start, we can fit these sophisticated models to larger datasets</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>and explore more complex causal relationships than was previously feasible. This</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>makes these models particularly valuable for business data science applications,</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>where we often deal with large, complex datasets and need to uncover nuanced</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>causal relationships.</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>Let's begin our journey into the world of stochastic trees and their</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>applications in causal inference, keeping in mind the critical assumptions that</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>allow us to draw causal conclusions from these powerful tools.</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learn more</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>@krantsevich23a Stochastic Tree Ensembles for Estimating Heterogeneous</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    Effects.</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>@stochastictree Stochastic tree ensembles (XBART and BART) for supervised</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    learning and causal inference.</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>::: </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ignacio82/book/edit/master/stochastictrees.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><div class="page-columns page-rows-contents page-layout-article"><div class="social-share"><a href="https://www.linkedin.com/shareArticle?url=https://book.martinez.fyi/&amp;title=Business Data Science" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in fa-fw fa-lg"></i></a>  <a href="mailto:?subject=Business Data Science&amp;body=Check out this link:https://book.martinez.fyi/" target="_blank" class="email"><i class="fa-solid fa-envelope fa-fw fa-lg"></i></a><a href="javascript:void(0);" onclick="var mastodon_instance=prompt('Mastodon Instance / Server Name?'); if(typeof mastodon_instance==='string' &amp;&amp; mastodon_instance.length){this.href='https://'+mastodon_instance+'/share?text=Business Data Science https://book.martinez.fyi/'}else{return false;}" target="_blank" class="mastodon"><i class="fa-brands fa-mastodon fa-fw fa-lg"></i></a></div></div>
