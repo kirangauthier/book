@@ -81,6 +81,7 @@ Let's generate data from this DGP and fit a BCF model using the {stochtree} pack
 #| warning: false
 #| message: false
 
+set.seed(1982)
 # Define the functions based on the provided model
 g <- function(x5) {
   return(ifelse(x5 == 1, 2, ifelse(x5 == 2, -1, ifelse(x5 == 3, -4, 0))))
@@ -159,8 +160,8 @@ To sample using {stochtree} we can run the following code:
 ```{r fit1}
 library(stochtree)
 num_gfr <- 10
-num_burnin <- 0
-num_mcmc <- 1000
+num_burnin <- 500
+num_mcmc <- 1500
 num_samples <- num_gfr + num_burnin + num_mcmc
 bcf_model_warmstart <- bcf(
   X_train = X_train,
