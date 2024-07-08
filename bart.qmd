@@ -298,6 +298,238 @@ vizdraws::vizdraws(
 ```
 :::
 
+## More Covariates and Propensity Score
+
+
+Let's extend our exploration of BART by incorporating multiple covariates and a
+propensity score. Consider a scenario with an outcome of interest, $y$, a binary
+treatment indicator, $z$, and three covariates, $x_1$, $x_2$, and $x_3$, related
+as follows:
+
+$$
+y \sim N(\mu(x_1,x_2) + z \tau(x_2,x_3) ,\sigma )
+$$
+
+
+```{r fake_data2}
+library(dplyr)
+library(tidyr)
+
+set.seed(1982)
+n <- 1000 
+
+my_df <- tibble(
+    x1 = rnorm(n), 
+    x2 = rnorm(n), 
+    x3 = rnorm(n)
+  ) %>%
+  mutate(
+    mu = if_else(x1 > x2, -0.9, 1.1),
+    pi = pnorm(mu),
+    z = rbinom(n, 1, pi),
+    tau = 1 / (1 + exp(-x3)) + x2 / 10, 
+    y = rnorm(n, mean = mu + z * tau, sd = 0.4)
+  )
+
+glimpse(my_df)
+
+```
+
+To gain insights into the relationship between $x_3$ and the treatment effect,
+$\tau$, let's visualize it:
+
+```{r plot2, message=FALSE, warning=FALSE}
+
+ggplot(data = my_df, aes(x = x3, y = tau)) +
+  geom_point(size = 2.5, alpha = 0.7) +
+  geom_smooth(
+    method = "loess",
+    se = FALSE,
+    color = "blue",
+    linewidth = 1
+  ) +
+  xlab(expression(x[3])) +
+  ylab(expression(tau)) +
+  ggtitle(expression(
+    paste("Relationship between ", x[3], " and Treatment Effect (", tau, ")")
+  )) +
+  theme_minimal() +
+  theme(
+    axis.title = element_text(size = 14, face = "bold"),
+    plot.title = element_text(size = 16, hjust = 0.5)
+  )
+```
+
+::: {.callout-note}
+
+## Tip
+One important recommendation when using BART for causal inference is to include
+the propensity score, which represents the probability of being in the treatment
+group given the covariates, as an additional factor. Empirical research has
+shown that doing this can improve the accuracy of treatment effect estimation.
+We can estimate the propensity score using a Bayesian generalized linear model
+(GLM):
+
+::: 
+
+
+```{r}
+
+# Fit Bayesian GLM
+ps_model <- arm::bayesglm(z ~ x1 + x2 + x3,
+                    family = binomial(),
+                    data = my_df)
+
+# Calculate Predicted Probabilities
+my_df <- my_df %>%
+  mutate(ps = predict(ps_model, type = "response"))
+
+# Plot Histogram of Predicted Probabilities
+ggplot(my_df, aes(x = ps, fill = factor(z))) +
+  geom_histogram(alpha = 0.6, position = "identity", bins = 30) +  # More transparent, overlaid histograms
+  facet_wrap(~ z, ncol = 1, labeller = labeller(z = c("0" = "Control", "1" = "Treated"))) + 
+  labs(title = "Distribution of Predicted Probabilities by Treatment Group",
+       x = "Predicted Probability", 
+       y = "Frequency",
+       fill = "Treatment Group") +
+  theme_bw() +
+  scale_fill_manual(values = c("0" = "blue", "1" = "red"))
+  
+
+```
+
+Now we can fit our BART model, including the estimated propensity score
+alongside our original covariates:
+
+
+```{r fit_bart2}
+
+X_train <- my_df %>% 
+   select(x1, x2, x3, ps, z) %>%
+  as.matrix()
+
+bart_model <-
+  stochtree::bart(X_train = X_train,
+                  y_train = my_df$y,
+                  num_burnin = 1000,
+                  num_mcmc = 2000)
+```
+
+After fitting, let's examine the trace plot of $\sigma^2$ to assess convergence:
+
+```{r}
+# Create the Data for Plotting
+df_plot <- tibble(
+  iteration = seq_along(bart_model$sigma2_samples),    # Sequence of iteration numbers
+  sigma = bart_model$sigma2_samples                    
+)
+
+# Create the Traceplot
+ggplot(data = df_plot, aes(x = iteration, y = sigma)) +
+  geom_line(color = "blue", alpha = 0.7) +    # Add transparency for better visual
+  labs(title = "Traceplot for BART Model Sigma",
+       x = "Iteration",
+       y = expression(sigma)) +               # Use expression() for sigma label
+  theme_bw() +
+  geom_hline(yintercept = mean(df_plot$sigma), linetype = "dashed", color = "red") 
+```
+
+We can also assess the effective sample size (ESS) to gauge the efficiency of
+the sampling process:
+
+```{r}
+library(coda)  # Make sure you have this package installed and loaded
+
+# Calculate Effective Sample Size (ESS)
+ess_sigma <- effectiveSize(df_plot$sigma)  # Use the sigma values from your data frame
+
+# Display the Result (with formatting)
+cat("Effective Sample Size (ESS) for sigma:", format(ess_sigma, big.mark = ","), "\n") 
+
+```
+
+Now, let's calculate the estimated average treatment effect using BART:
+
+
+```{r}
+x0 <- my_df %>% 
+   select(x1, x2, x3, ps, z) %>% 
+  mutate(z=0) %>% as.matrix()
+x1 <- my_df %>% 
+   select(x1, x2, x3, ps, z) %>% 
+  mutate(z=1) %>% as.matrix()
+
+pred0 <- predict(bart_model, as.matrix(x0))
+
+pred1 <- predict(bart_model, as.matrix(x1))
+
+tau_draws <- pred1$y_hat - pred0$y_hat  
+sate_draws <- colMeans(tau_draws)
+cat(glue::glue("BART finds an Average Treatment Effect equal to {round(mean(sate_draws),2)}"))
+cat(glue::glue("The truth Average Treatment Effect is equal to {round(mean(my_df$tau),2)}"))
+```
+
+::: {.callout-note}
+## Tip
+A helpful feature of BART is its ability to estimate treatment effects at the
+individual level. While these estimates are to be noisy, they can be utilized
+with a classification and regression tree (CART) model to explore potential
+treatment effect heterogeneity:
+::: 
+
+
+```{r}
+library(rpart)
+library(rpart.plot)
+
+my_df <- my_df %>% 
+  mutate(tau_hat = rowMeans(tau_draws)) # point estimate of the individual's treatment effect
+
+
+
+# Fit the Tree Model (Using Cross-Validation)
+tree_model <- rpart(
+  tau_hat ~ x1 + x2 + x3, 
+  data = my_df, 
+  method = "anova",      
+  control = rpart.control(cp = 0.05, xval = 10)  # Cross-validation with 10 folds
+)
+
+# Find Optimal Complexity Parameter (CP)
+optimal_cp <- tree_model$cptable[which.min(tree_model$cptable[, "xerror"]), "CP"]
+
+# Prune the Tree for Better Generalization
+pruned_tree <- prune(tree_model, cp = optimal_cp)
+
+# Plot the Pruned Tree
+rpart.plot(pruned_tree, 
+           type = 4, extra = 101, 
+           fallen.leaves = TRUE,
+           main = "Tree Model for Individual Treatment Effects", 
+           cex = 0.8, 
+           box.palette = "GnBu")  # Green-Blue palette
+
+# Print the Pruned Tree Summary
+printcp(pruned_tree)  # See the results of pruning
+
+```
+In our analysis, the CART model successfully identified $x_3$ as the primary
+driver of treatment effect heterogeneity, aligning with the way we generated our
+data. However, it's important to exercise caution when interpreting the results
+of CART. CART models do not inherently account for uncertainty, and therefore,
+their splits might not always reveal characteristics that genuinely
+differentiate subgroups with meaningfully distinct impacts. In other words,
+while CART pinpointed $x_3$ as the key modifier, it also says that $x_1$ is a
+modifier, and we know that is not correct.
+
+To delve deeper into the question of whether the impacts truly vary based on a
+particular characteristic, we can leverage the posterior draws obtained from the
+fitted BART model. These draws offer a richer representation of the uncertainty
+surrounding the estimated treatment effects, enabling us to conduct more robust
+analyses regarding heterogeneity. Remember, it's crucial to avoid
+overinterpreting the CART results and to explore the full posterior distribution
+for a more nuanced understanding of the causal relationships in our data.
+
 ::: {.callout-tip}
 ## Learn more
 @hill2011bayesian Bayesian nonparametric modeling for causal inference.
