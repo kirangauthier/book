@@ -14,28 +14,33 @@ many causal inference methods, BART and its derivatives rely on two key
 assumptions: the Stable Unit Treatment Value Assumption (SUTVA) and strong
 ignorability.
 
-1.  Stable Unit Treatment Value Assumption (SUTVA): SUTVA consists of two parts:
-    a) No interference: The treatment applied to one unit does not affect the
-    outcomes of other units. In business terms, this might mean that a marketing
-    campaign applied to one customer doesn't influence the purchasing behavior
-    of other customers. b) No hidden variations of treatments: There is only one
-    version of each treatment level. For instance, if we're studying the effect
-    of a new training program, all employees who receive the training get the
-    same version of it. Strong Ignorability:
-2.  This assumption has two components: a) Unconfoundedness: Given the observed
-    covariates, treatment assignment is independent of the potential outcomes.
-    In other words, if we control for all relevant variables, whether a unit
-    receives treatment or not is unrelated to what their outcomes would be under
-    treatment or control. b) Positivity (or overlap): Every unit has a non-zero
-    probability of receiving each treatment level. In a business context, this
-    might mean that every customer has some chance of being exposed to a new
-    marketing campaign, regardless of their characteristics.
+1.  **Stable Unit Treatment Value Assumption (SUTVA):** SUTVA comprises two
+    parts:
+
+    a. **No interference:** The treatment applied to one unit doesn't influence 
+    the outcomes of other units. In a business context, a marketing campaign 
+    targeted at one customer wouldn't sway the purchasing decisions of others.
+  
+    b. **No hidden variations of treatments:** There's only one version of
+    each treatment level. If we're studying the effect of a new
+    training program, all employees receive the same version of it.
+
+2.  **Strong Ignorability:** This assumption consists of two components:
+
+    a. **Unconfoundedness:** Given the observed covariates, treatment 
+    assignment is independent of potential outcomes. In essence, if we account
+    for all relevant variables, whether a unit receives treatment or not 
+    is unrelated to their outcomes under either condition.
+  
+    b. **Positivity (or overlap):** Every unit has a non-zero probability of
+    receiving each treatment level. In a business setting, this means 
+    every customer has some chance of being exposed to a new marketing
+    campaign, regardless of their characteristics.
     
-These assumptions are crucial because they allow us to interpret the
-relationships uncovered by BART and its derivatives as causal, rather than
-merely associational. When these assumptions hold, we can confidently say that
-the differences in outcomes we observe between treated and untreated units are
-due to the treatment itself, rather than some other confounding factor.    
+These assumptions are the bedrock upon which we build causal interpretations.
+When these conditions hold, we can attribute the observed
+differences in outcomes between treated and untreated units to the treatment
+itself, rather than to confounding factors.  
 
 We'll explore three key models in this family: BART, Bayesian Causal Forests
 (BCF), and LongBet. Each of these models builds upon its predecessors, offering
