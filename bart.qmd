@@ -17,10 +17,21 @@ a large number (e.g., 200), with each tree acting as a weak learner. BART
 employs a carefully designed prior that encourages each tree to play a small
 role in the overall fit, resulting in a flexible yet robust model.
 
-@hill2011bayesian proposed using BART for causal inference, recognizing that its
-flexibility in modeling complex response surfaces made it well-suited for
-estimating causal effects, particularly in observational studies with many
-covariates. The key idea was to use BART to model the response surface:
+@hill2011bayesian proposed using BART for causal inference, recognizing its
+unique advantages in this context. BART is particularly well-suited for causal
+inference due to its ability to:
+
+1.  Capture complex, nonlinear relationships without requiring explicit
+    specification
+2.  Automatically model interactions between variables
+3.  Handle high-dimensional data effectively
+4.  Provide uncertainty quantification through its Bayesian framework
+
+These features make BART especially valuable in observational studies with many
+covariates, where the true functional form of the relationship between variables
+is often unknown.
+
+The key idea was to use BART to model the response surface:
 
 $$
 E[Y | X, Z] = f(X, Z)
@@ -105,7 +116,7 @@ ggplot(simulated_data, aes(x = X, y = Y, color = treatment_group)) +
   geom_point(size = 2) + 
   stat_function(fun = f_control, aes(color = "Truth - Control")) +
   stat_function(fun = f_treated, aes(color = "Truth - Treatment")) +
-  scale_color_manual(values = c("Truth - Control" = "red", "Truth - Treatment" = "blue")) +  # Mapping colors correctly
+  scale_color_manual(values = c("Truth - Control" = "red", "Truth - Treatment" = "blue")) + 
   labs(title = "Simulated Data with True Outcome Functions", 
        x = "X", y = "Y", color = "") +
   theme_bw() +
@@ -199,6 +210,16 @@ ggplot(aes(x = iteration, y = sigma2_samples), data = trace_plot_data) +
   theme_bw()
 
 ```
+When assessing convergence using the trace plot, look for the following:
+
+1.  Stationarity: The values should fluctuate around a constant mean level.
+2.  No trends: There should be no obvious upward or downward trends.
+3.  Quick mixing: The chain should move rapidly through the parameter space.
+4.  No stuck periods: There should be no long periods where the chain stays at
+    the same value.
+
+In this case, the trace plot suggests good convergence, as it exhibits these
+desirable properties.
 
 Now we can plot the predictions from BART and compare them to the truth with the
 following code:
@@ -300,16 +321,23 @@ vizdraws::vizdraws(
 
 ## More Covariates and Propensity Score
 
-
 Let's extend our exploration of BART by incorporating multiple covariates and a
-propensity score. Consider a scenario with an outcome of interest, $y$, a binary
-treatment indicator, $z$, and three covariates, $x_1$, $x_2$, and $x_3$, related
-as follows:
+propensity score. This scenario more closely resembles real-world causal
+inference problems, where we often deal with multiple confounding variables and
+complex relationships between covariates, treatment, and outcomes.
+
+Consider a scenario with an outcome of interest, $y$, a binary treatment
+indicator, $z$, and three covariates, $x_1$, $x_2$, and $x_3$, related as
+follows: 
 
 $$
-y \sim N(\mu(x_1,x_2) + z \tau(x_2,x_3) ,\sigma )
+y \sim N(\mu(x_1,x_2) + z \tau(x_2,x_3), \sigma)
 $$
 
+Here, $\mu(x_1,x_2)$ represents the prognostic function (the expected outcome in
+the absence of treatment), and $\tau(x_2,x_3)$ represents the treatment effect
+function. This setup allows for heterogeneous treatment effects that depend on
+$x_2$ and $x_3$.
 
 ```{r fake_data2}
 library(dplyr)
@@ -334,6 +362,12 @@ my_df <- tibble(
 glimpse(my_df)
 
 ```
+
+In this data generating process, we've introduced confounding by making the
+treatment assignment ($z$) depend on the prognostic function ($\mu$). This
+creates a challenge for causal inference, as differences in outcomes between
+treated and control groups will be due to both the treatment effect and the
+confounding.
 
 To gain insights into the relationship between $x_3$ and the treatment effect,
 $\tau$, let's visualize it:
@@ -363,16 +397,22 @@ ggplot(data = my_df, aes(x = x3, y = tau)) +
 ::: {.callout-note}
 
 ## Tip
-One important recommendation when using BART for causal inference is to include
-the propensity score, which represents the probability of being in the treatment
-group given the covariates, as an additional factor. Empirical research has
-shown that doing this can improve the accuracy of treatment effect estimation.
-We can estimate the propensity score using a Bayesian generalized linear model
-(GLM):
+When using BART for causal inference, it's important to include the propensity
+score as an additional covariate. The propensity score represents the
+probability of being in the treatment group given the covariates. Including it
+can improve the accuracy of treatment effect estimation, especially in scenarios
+with strong confounding.
 
+Empirical research, such as that by @hahn2020bayesian, has shown that including
+the propensity score helps mitigate a phenomenon called "Regularization-Induced
+Confounding" (RIC). RIC can occur when flexible machine learning methods like
+BART are applied to causal inference problems with strong confounding. By
+including the propensity score, we give the model an additional tool to
+distinguish between the effects of confounding and the true treatment effect.
 ::: 
 
-
+We can estimate the propensity score using a Bayesian generalized linear model
+(GLM):
 ```{r}
 
 # Fit Bayesian GLM
@@ -386,7 +426,7 @@ my_df <- my_df %>%
 
 # Plot Histogram of Predicted Probabilities
 ggplot(my_df, aes(x = ps, fill = factor(z))) +
-  geom_histogram(alpha = 0.6, position = "identity", bins = 30) +  # More transparent, overlaid histograms
+  geom_histogram(alpha = 0.6, position = "identity", bins = 30) +  
   facet_wrap(~ z, ncol = 1, labeller = labeller(z = c("0" = "Control", "1" = "Treated"))) + 
   labs(title = "Distribution of Predicted Probabilities by Treatment Group",
        x = "Predicted Probability", 
@@ -397,6 +437,11 @@ ggplot(my_df, aes(x = ps, fill = factor(z))) +
   
 
 ```
+
+This plot reveals the degree of overlap in propensity scores between the treated
+and control groups. Good overlap is crucial for reliable causal inference. Areas
+where there's little overlap between the treated and control groups may lead to
+less reliable estimates of treatment effects.
 
 Now we can fit our BART model, including the estimated propensity score
 alongside our original covariates:
@@ -426,27 +471,35 @@ df_plot <- tibble(
 
 # Create the Traceplot
 ggplot(data = df_plot, aes(x = iteration, y = sigma)) +
-  geom_line(color = "blue", alpha = 0.7) +    # Add transparency for better visual
+  geom_line(color = "blue", alpha = 0.7) +  
   labs(title = "Traceplot for BART Model Sigma",
        x = "Iteration",
-       y = expression(sigma)) +               # Use expression() for sigma label
+       y = expression(sigma)) +              
   theme_bw() +
   geom_hline(yintercept = mean(df_plot$sigma), linetype = "dashed", color = "red") 
 ```
+This trace plot shows the values of $\sigma$ across MCMC iterations. We're
+looking for a relatively stationary pattern without any clear trends, which
+would indicate good convergence. The red dashed line represents the mean value
+of $\sigma$.
 
 We can also assess the effective sample size (ESS) to gauge the efficiency of
 the sampling process:
 
 ```{r}
-library(coda)  # Make sure you have this package installed and loaded
+library(coda)
 
 # Calculate Effective Sample Size (ESS)
-ess_sigma <- effectiveSize(df_plot$sigma)  # Use the sigma values from your data frame
+ess_sigma <- effectiveSize(df_plot$sigma)  
 
 # Display the Result (with formatting)
 cat("Effective Sample Size (ESS) for sigma:", format(ess_sigma, big.mark = ","), "\n") 
 
 ```
+
+The ESS tells us how many independent samples our MCMC chain is equivalent to. A
+higher ESS indicates more efficient sampling and more reliable posterior
+estimates.
 
 Now, let's calculate the estimated average treatment effect using BART:
 
@@ -471,10 +524,11 @@ cat(glue::glue("The truth Average Treatment Effect is equal to {round(mean(my_df
 
 ::: {.callout-note}
 ## Tip
-A helpful feature of BART is its ability to estimate treatment effects at the
-individual level. While these estimates are to be noisy, they can be utilized
-with a classification and regression tree (CART) model to explore potential
-treatment effect heterogeneity:
+A key advantage of BART is its ability to estimate treatment effects at the
+individual level. While these individual estimates can be noisy, they can be
+useful for exploring potential treatment effect heterogeneity. One way to do
+this is by using a classification and regression tree (CART) model on the
+estimated individual treatment effects:
 ::: 
 
 
@@ -507,7 +561,7 @@ rpart.plot(pruned_tree,
            fallen.leaves = TRUE,
            main = "Tree Model for Individual Treatment Effects", 
            cex = 0.8, 
-           box.palette = "GnBu")  # Green-Blue palette
+           box.palette = "GnBu") 
 
 # Print the Pruned Tree Summary
 printcp(pruned_tree)  # See the results of pruning
@@ -515,20 +569,61 @@ printcp(pruned_tree)  # See the results of pruning
 ```
 In our analysis, the CART model successfully identified $x_3$ as the primary
 driver of treatment effect heterogeneity, aligning with the way we generated our
-data. However, it's important to exercise caution when interpreting the results
-of CART. CART models do not inherently account for uncertainty, and therefore,
-their splits might not always reveal characteristics that genuinely
-differentiate subgroups with meaningfully distinct impacts. In other words,
-while CART pinpointed $x_3$ as the key modifier, it also says that $x_1$ is a
-modifier, and we know that is not correct.
+data. However, it's crucial to exercise caution when interpreting these results:
 
-To delve deeper into the question of whether the impacts truly vary based on a
-particular characteristic, we can leverage the posterior draws obtained from the
-fitted BART model. These draws offer a richer representation of the uncertainty
-surrounding the estimated treatment effects, enabling us to conduct more robust
-analyses regarding heterogeneity. Remember, it's crucial to avoid
-overinterpreting the CART results and to explore the full posterior distribution
-for a more nuanced understanding of the causal relationships in our data.
+1.  CART models do not inherently account for uncertainty. The splits in the
+    tree are based on point estimates and don't reflect the uncertainty in our
+    treatment effect estimates.
+2.  The tree structure can be sensitive to small changes in the data. Different
+    samples might yield different trees, even if the underlying relationships
+    are the same.
+3.  While CART pinpointed $x_3$ as the key modifier, it also suggests that $x_1$
+    is a modifier, which we know is not correct in our simulated data. This
+    illustrates how CART can sometimes identify spurious relationships.
+
+To gain a more nuanced understanding of treatment effect heterogeneity, we
+should leverage the full posterior distribution of treatment effects obtained
+from BART. This allows us to quantify our uncertainty about heterogeneous
+effects and avoid overinterpreting potentially spurious findings from methods
+like CART.
+
+For example, we could examine how the posterior distribution of treatment
+effects varies across different levels of $x_3$:
+
+```{r byx3}
+# Create bins for x3
+my_df <- my_df %>%
+  mutate(x3_bin = cut(x3, breaks = 4))
+
+# Calculate mean and credible intervals for each bin
+tau_summary <- my_df %>%
+  group_by(x3_bin) %>%
+  summarise(
+    mean_tau = mean(tau_hat),
+    lower_ci = quantile(tau_hat, 0.025),
+    upper_ci = quantile(tau_hat, 0.975)
+  )
+
+# Plot
+ggplot(tau_summary, aes(x = x3_bin, y = mean_tau)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = lower_ci, ymax = upper_ci), width = 0.2) +
+  labs(title = "Treatment Effect by x3 Bins",
+       x = "x3 Bins",
+       y = "Estimated Treatment Effect") +
+  theme_minimal()
+```
+
+This plot gives us a more robust view of how the treatment effect varies with
+$x_3$, including our uncertainty about these effects. We can see that the
+treatment effect generally increases with $x_3$, but there's considerable
+uncertainty
+
+In conclusion, while BART provides powerful tools for estimating heterogeneous
+treatment effects, it's crucial to combine these estimates with careful
+consideration of uncertainty and potential confounding. By doing so, we can gain
+valuable insights into how treatment effects vary across different subgroups,
+while avoiding overconfident or spurious conclusions.
 
 ::: {.callout-tip}
 ## Learn more
@@ -537,4 +632,28 @@ for a more nuanced understanding of the causal relationships in our data.
 
 ## Accelerated BART (XBART)
 
-TODO
+While BART has proven to be a powerful tool for causal inference, its
+computational demands can be significant, especially with large datasets. To
+address this, @he2019xbart introduced Accelerated BART (XBART), a method that
+maintains the flexibility and effectiveness of BART while substantially reducing
+computation time.
+
+XBART uses a stochastic tree-growing algorithm inspired by Bayesian updating,
+blending regularization strategies from Bayesian modeling with computationally
+efficient techniques from recursive partitioning. The key difference is that
+XBART regrows each tree from scratch at each iteration, rather than making small
+modifications to existing trees as in standard BART. The XBART algorithm
+proceeds as follows:
+
+1.  At each node, calculate the probability of splitting at each possible
+    cutpoint based on the marginal likelihood.
+2.  Sample a split (or no split) according to these probabilities.
+3.  If a split is chosen, recursively apply steps 1-2 to the resulting child
+    nodes.
+4.  If no split is chosen or stopping conditions are met, sample the leaf
+    parameter from its posterior distribution.
+
+This approach allows XBART to efficiently explore the space of possible tree
+structures, leading to faster convergence and reduced computation time compared
+to standard BART.
+
