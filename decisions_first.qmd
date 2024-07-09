@@ -196,4 +196,8 @@ research with your business objectives but also acknowledges the complexities
 and uncertainties inherent in real-world decision-making.
 
 
-
+::: {.callout-tip}
+## Learn more
+@duke2019thinking Thinking in bets: Making smarter decisions when you don't have
+all the facts.
+::: 
