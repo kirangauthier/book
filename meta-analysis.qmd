@@ -30,7 +30,7 @@ decision-making? While you might be tempted to simply choose the number you
 prefer, mentally combine the estimates, or calculate a simple average, a more
 rigorous approach is to conduct a Bayesian meta-analysis.
 
-```{r basic_plot}
+```{r basic_plot, warning=FALSE, message=FALSE}
 library(dplyr)
 library(ggplot2)
 
