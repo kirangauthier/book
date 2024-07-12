@@ -351,7 +351,7 @@ div.csl-indent {
    
   <ul>
   <li><a href="#caveats-and-assumptions" id="toc-caveats-and-assumptions" class="nav-link active" data-scroll-target="#caveats-and-assumptions"><span class="header-section-number">11.1</span> Caveats and Assumptions</a></li>
-  <li><a href="#cautionary-tales-stability" id="toc-cautionary-tales-stability" class="nav-link" data-scroll-target="#cautionary-tales-stability"><span class="header-section-number">11.2</span> Cautionary tales: Stability</a>
+  <li><a href="#cautionary-tale-stability" id="toc-cautionary-tale-stability" class="nav-link" data-scroll-target="#cautionary-tale-stability"><span class="header-section-number">11.2</span> Cautionary Tale: Stability</a>
   <ul class="collapse">
   <li><a href="#simple-setup" id="toc-simple-setup" class="nav-link" data-scroll-target="#simple-setup">Simple Setup</a></li>
   <li><a href="#example-with-seasonality" id="toc-example-with-seasonality" class="nav-link" data-scroll-target="#example-with-seasonality">Example with seasonality</a></li>
@@ -359,7 +359,7 @@ div.csl-indent {
   <li><a href="#what-if-seasonal-patterns-change" id="toc-what-if-seasonal-patterns-change" class="nav-link" data-scroll-target="#what-if-seasonal-patterns-change">What if Seasonal Patterns Change?</a></li>
   <li><a href="#heterogeneous-seasonality" id="toc-heterogeneous-seasonality" class="nav-link" data-scroll-target="#heterogeneous-seasonality">Heterogeneous Seasonality</a></li>
   </ul></li>
-  <li><a href="#cautionary-tales-spillovers" id="toc-cautionary-tales-spillovers" class="nav-link" data-scroll-target="#cautionary-tales-spillovers"><span class="header-section-number">11.3</span> Cautionary Tales: Spillovers</a>
+  <li><a href="#cautionary-tale-spillovers" id="toc-cautionary-tale-spillovers" class="nav-link" data-scroll-target="#cautionary-tale-spillovers"><span class="header-section-number">11.3</span> Cautionary Tale: Spillovers</a>
   <ul class="collapse">
   <li><a href="#example-competing-over-finite-resources" id="toc-example-competing-over-finite-resources" class="nav-link" data-scroll-target="#example-competing-over-finite-resources">Example: Competing over finite resources</a></li>
   </ul></li>
@@ -452,8 +452,8 @@ Important
 </div>
 </div>
 </section>
-<section id="cautionary-tales-stability" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="cautionary-tales-stability"><span class="header-section-number">11.2</span> Cautionary tales: Stability</h2>
+<section id="cautionary-tale-stability" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="cautionary-tale-stability"><span class="header-section-number">11.2</span> Cautionary Tale: Stability</h2>
 <p>Misinterpreting the findings of a {causalImpact} study can occur in several ways.</p>
 <p>In practice, it may be relatively straightforward to find exogenous covariates for predicting the outcome that are not directly affected by the treatment themselves.</p>
 <p>A critical threat, even in this setting, is the assumption of stability and generalizability of the relationship between covariates and the treated time series.</p>
@@ -1029,8 +1029,8 @@ For more details, type: summary(impact, "report")</code></pre>
 <p>As we can see, the model’s performance deteriorates further when faced with heterogeneous seasonal patterns. The estimated effect is now nowhere near the true effect, underscoring the challenges inherent in causal inference when seasonality varies across units. In essence, the model is attempting to fit a single seasonal pattern to all cities, while each city exhibits its own unique seasonal fluctuations. This mismatch leads to a significant bias in the estimated treatment effect.</p>
 </section>
 </section>
-<section id="cautionary-tales-spillovers" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="cautionary-tales-spillovers"><span class="header-section-number">11.3</span> Cautionary Tales: Spillovers</h2>
+<section id="cautionary-tale-spillovers" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="cautionary-tale-spillovers"><span class="header-section-number">11.3</span> Cautionary Tale: Spillovers</h2>
 <p>Another key assumption of the CausalImpact model is that the covariates used to predict the outcome of interest are not themselves affected by the intervention.</p>
 <p>In certain situations, this assumption is reasonable, while in others, it’s less so. For example, we might be testing different interventions on our customers, who then communicate with one another.</p>
 <p>Our units of analysis might interact strategically and compete over limited resources, where boosting outcomes for one unit could decrease outcomes for others.</p>
@@ -1774,7 +1774,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a>how things operate, and the assumptions we are willing to embrace.</span>
 <span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cautionary tales: Stability</span></span>
+<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cautionary Tale: Stability</span></span>
 <span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a>Misinterpreting the findings of a {causalImpact} study can occur in several</span>
 <span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a>ways.</span>
@@ -2236,7 +2236,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb26-555"><a href="#cb26-555" aria-hidden="true" tabindex="-1"></a>seasonal fluctuations. This mismatch leads to a significant bias in the</span>
 <span id="cb26-556"><a href="#cb26-556" aria-hidden="true" tabindex="-1"></a>estimated treatment effect.</span>
 <span id="cb26-557"><a href="#cb26-557" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-558"><a href="#cb26-558" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cautionary Tales: Spillovers</span></span>
+<span id="cb26-558"><a href="#cb26-558" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cautionary Tale: Spillovers</span></span>
 <span id="cb26-559"><a href="#cb26-559" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-560"><a href="#cb26-560" aria-hidden="true" tabindex="-1"></a>Another key assumption of the CausalImpact model is that the covariates used to</span>
 <span id="cb26-561"><a href="#cb26-561" aria-hidden="true" tabindex="-1"></a>predict the outcome of interest are not themselves affected by the intervention.</span>

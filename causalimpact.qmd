@@ -91,7 +91,7 @@ own. Causality emerges from our understanding of the world, our theories about
 how things operate, and the assumptions we are willing to embrace.
 :::
 
-## Cautionary tales: Stability
+## Cautionary Tale: Stability
 
 Misinterpreting the findings of a {causalImpact} study can occur in several
 ways.
@@ -553,7 +553,7 @@ single seasonal pattern to all cities, while each city exhibits its own unique
 seasonal fluctuations. This mismatch leads to a significant bias in the
 estimated treatment effect.
 
-## Cautionary Tales: Spillovers
+## Cautionary Tale: Spillovers
 
 Another key assumption of the CausalImpact model is that the covariates used to
 predict the outcome of interest are not themselves affected by the intervention.
