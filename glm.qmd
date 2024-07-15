@@ -1,5 +1,11 @@
 ---
 title: "Generalized Linear Models"
+share:
+  permalink: "https://book.martinez.fyi/glm.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 Generalized Linear Models (GLMs) offer a versatile extension to ordinary linear

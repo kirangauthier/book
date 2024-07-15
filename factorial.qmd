@@ -1,5 +1,11 @@
 ---
 title: "Bayesian Factorial Design"
+share:
+  permalink: "https://book.martinez.fyi/factorial.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 In many scenarios, your goal is to use data to design the optimal treatment.

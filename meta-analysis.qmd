@@ -1,5 +1,11 @@
 ---
 title: "Meta-Analysis"
+share:
+  permalink: "https://book.martinez.fyi/meta-analysis.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 Bayesian meta-analysis is a statistical method that combines information from

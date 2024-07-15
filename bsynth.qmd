@@ -1,5 +1,11 @@
 ---
 title: "Bayesian Synthetic Control"
+share:
+  permalink: "https://book.martinez.fyi/bsynth.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 Synthetic control methods have become a widely applied tool for empirical

@@ -1,3 +1,12 @@
+---
+title: "A Decisions First Framework"
+share:
+  permalink: "https://book.martinez.fyi/decisions_first.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
+---
 ```{r}
 #| warning: false
 #| echo: false
@@ -43,7 +52,6 @@ glossary_add(term = "Meaningful threshold",
 
 ```
 
-## A Decisions First Framework
 
 In the world of `r glossary("data-driven")` decision-making, it's all too easy to
 fall into the trap of the "null ritual." This ritual, as @gigerenzer2004null

@@ -1,5 +1,11 @@
 ---
 title: "Stochastic Trees"
+share:
+  permalink: "https://book.martinez.fyi/stochastictrees.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 This section will delve into a specific family of non-parametric models that has

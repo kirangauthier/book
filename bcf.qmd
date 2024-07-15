@@ -1,5 +1,11 @@
 ---
 title: "Bayesian Causal Forest (BCF)"
+share:
+  permalink: "https://book.martinez.fyi/bcf.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 ## Introduction to Bayesian Causal Forest

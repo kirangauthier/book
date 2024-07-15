@@ -1,5 +1,11 @@
 ---
 title: "Bayesian Adaptive Design"
+share:
+  permalink: "https://book.martinez.fyi/bad.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 ## The Idea

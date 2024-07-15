@@ -1,4 +1,13 @@
-## Bayesian Linear Regression
+---
+title: "Bayesian Linear Regression"
+share:
+  permalink: "https://book.martinez.fyi/blm.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
+---
+
 
 While Ordinary Least Squares (OLS) is a popular frequentist method for linear
 regression, the Bayesian approach is arguably better suited for informing
@@ -46,7 +55,7 @@ providing a richer and more nuanced understanding of the relationships between
 variables, ultimately leading to more informed and effective business decisions.
 
 
-### An example with synthetic data: 
+## An example with synthetic data: 
 
 Imagine that you are faced with a decision: should you discontinue a product?
 You would like to keep the product if, and only if, its impact on your outcome
@@ -69,7 +78,7 @@ fake_data <- tibble::tibble(
     would be to not discontinue the product. However, what happens if you
     analyze this data using a traditional frequentist approach?
     
-#### Frequentist approach: 
+### Frequentist approach: 
 
 ```{r OLS}
 library(ggplot2)
@@ -138,7 +147,7 @@ Bayesian methods offer a way to answer business questions directly and in plain
 language.
 
 
-#### Bayesian approach: 
+### Bayesian approach: 
 
 The Bayesian approach to linear regression fundamentally shifts how we interpret
 and utilize data in decision-making. Rather than relying on point estimates and

@@ -1,5 +1,11 @@
 ---
 title: "The Potential Outcomes Framework"
+share:
+  permalink: "https://book.martinez.fyi/potential_outcome.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 ## The Basic Idea
 

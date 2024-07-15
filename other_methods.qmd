@@ -1,5 +1,11 @@
 ---
 title: "Non Experimental Methods"
+share:
+  permalink: "https://book.martinez.fyi/other_methods.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 In an ideal world, every causal question in business and technology could be

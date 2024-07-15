@@ -1,5 +1,11 @@
 ---
 title: "Beyond Normality"
+share:
+  permalink: "https://book.martinez.fyi/beyond_normality.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 In the preceding chapters, we basked in the warm glow of normality, a

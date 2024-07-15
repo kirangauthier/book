@@ -1,5 +1,11 @@
 ---
-title: "The Power of Randomization "
+title: "The Power of Randomization"
+share:
+  permalink: "https://book.martinez.fyi/rct_basic.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
 ---
 
 It is crucial to recognize that randomization isn't magic. When a sufficiently
