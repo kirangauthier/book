@@ -56,6 +56,8 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
+    open-graph: true
+    twitter-card: true
     number-depth: 2
     include-in-header:
       text: |
