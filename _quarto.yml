@@ -19,6 +19,7 @@ book:
 
   date: "07/03/2024"
   cover-image: cover.png
+  image: hex.png
   chapters:
     - part: index.qmd
       chapters: 
