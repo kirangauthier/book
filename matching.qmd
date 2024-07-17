@@ -1,0 +1,41 @@
+---
+title: "Matching"
+share:
+  permalink: "https://book.martinez.fyi/matching.html"
+  description: "Business Data Science: What Does it Mean to Be Data-Driven?"
+  linkedin: true
+  email: true
+  mastodon: true
+author:
+  - name: ??
+  - name: Ignacio Martinez  
+---
+
+
+
+## Beware of Matching Charles to Ozzy
+
++--------------------------------------------------+--------------------------------------------+
+|                    Charles                       |                    Ozzy                    |
++:================================================:+:==========================================:+
+|                                                  |                                            |
+| ![](img/charles.webp){width=400px, height=500px} |![](img/ozzy.png){width=400px, height=500px}|
+|                                                  |                                            |
+|                     Male                         |                   Male                     |
+|                                                  |                                            |
+|                 Born in 1948                     |               Born in 1948                 |
+|                                                  |                                            |
+|               Raised in the UK                   |             Raised in the UK               |
+|                                                  |                                            |
+|              Lives in a castle                   |             Lives in a castle              |
+|                                                  |                                            |
+|              Wealthy & famous                    |             Wealthy & famous               |
++--------------------------------------------------+--------------------------------------------+
+: Matching Charles to Ozzy {#tbl-ozzy_and_charles}
+
+## MatchIt
+
+The R package [{MatchIt}](https://kosukeimai.github.io/MatchIt/) implements the
+suggestions of [@ho2007matching] for improving parametric statistical models
+by preprocessing data with nonparametric matching methods [see
+@stuart2011matchit] ...

@@ -36,7 +36,7 @@ book:
         - iv.qmd    
     - part: other_methods.qmd
       chapters: 
-        - chapter_05.qmd
+        - matching.qmd
         - causalimpact.qmd
         - bsynth.qmd
     - part: glm.qmd
@@ -74,9 +74,7 @@ format:
       linkedin: true
       email: true
       mastodon: true
-      
-  pdf:
-    documentclass: scrreprt     
+  
 
 resources:
   - CNAME    
