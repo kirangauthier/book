@@ -270,7 +270,111 @@ MatchIt supports a wide range of matching techniques, including:
 - Genetic matching
 - Coarsened exact matching
 
-TODO
+### Cautionary tale: Unmeasured Confounders. 
+
+Imagine you're a data scientist at the illustrious TechGiant Inc., a company
+that recently rolled out an intensive AI bootcamp program for its engineers.
+This ambitious initiative aims to elevate the workforce's skills and propel
+innovation to new heights. You've been entrusted with a crucial task: to
+evaluate the program's effectiveness by examining its impact on engineers'
+salaries.
+
+```{r unmeasure_confounders, message=FALSE, warning=FALSE}
+library(MatchIt)
+library(dplyr)
+library(ggplot2)
+set.seed(123)
+
+# Generate synthetic data
+n <- 1000
+experience <- runif(n, 0, 10)  # Years of experience
+procrastination <- rnorm(n)  # Unobserved procrastination level
+bootcamp <- rbinom(n, 1, plogis(-0.3 * experience + 0.5 * procrastination))  # Bootcamp participation
+salary_increase <- 2000 * bootcamp + 1000 * experience - 9000 * procrastination + rnorm(n, 0, 5000)
+
+# True average treatment effect is $2000
+
+data <- data.frame(experience = experience,
+                   bootcamp = bootcamp,
+                   salary_increase = salary_increase)
+
+# Naive estimate
+naive_model <- lm(salary_increase ~ bootcamp, data = data)
+naive_ate <- coef(naive_model)["bootcamp"]
+
+# Matching on experience (ignoring unobserved procrastination)
+m.out <- matchit(bootcamp ~ experience,
+                 data = data,
+                 method = "nearest",
+                 ratio = 1)
+matched_data <- match.data(m.out)
+
+# Estimate ATE on matched data
+matched_model <- lm(salary_increase ~ bootcamp,
+                    data = matched_data,
+                    weights = weights)
+matched_ate <- coef(matched_model)["bootcamp"]
+
+# Print results
+cat("True ATE: $2000\n")
+cat("Naive ATE estimate:", round(naive_ate, 2), "\n")
+cat("Matched ATE estimate:", round(matched_ate, 2), "\n")
+
+# Visualize results
+ggplot(data, aes(x = experience,
+                 y = salary_increase,
+                 color = factor(bootcamp))) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "AI Bootcamp Effect on Salary Increase",
+       subtitle = "True effect is positive, but observed relationship appears negative",
+       x = "Years of Experience",
+       y = "Salary Increase ($)",
+       color = "Bootcamp Participation") +
+  theme_minimal()
+```
+
+What's happening in this scenario? Let's break it down:
+
+
+1.  **The True Impact:** In reality, the bootcamp program is a success. It
+    genuinely enhances skills and, consequently, leads to higher salary
+    increases.
+2.  **Experience and Participation:** Less experienced engineers are more likely
+    to enroll in the bootcamp, perhaps viewing it as a way to bridge the gap
+    with their seasoned colleagues.
+3.  **Procrastination as a Hidden Factor:** These same less experienced
+    engineers, possibly due to feeling overwhelmed or uncertain in their roles,
+    tend to have higher levels of procrastination.
+4.  **Motivation's Influence on Salary:** This inherent motivation leads to
+    exceptional performance and subsequent salary raises, whether or not they
+    participate in the bootcamp.
+5.  **Matching Gone Awry:** By focusing on matching solely based on experience
+    and overlooking motivation, you inadvertently compare highly motivated
+    non-participants with a mix of motivated and less motivated participants.
+
+The consequence? Your analysis paints a deceptive picture, indicating a negative
+effect of the bootcamp when the true effect is, in fact, positive.
+
+This example illustrates a critical lesson in causal inference: the danger of
+unmeasured confounders. In this case, motivation acts as an unmeasured
+confounder, influencing both the likelihood of bootcamp participation and salary
+increases. As a business data scientist, this scenario highlights the importance
+of:
+
+1.  Thinking critically about all factors that might influence both your
+    treatment (bootcamp participation) and outcome (salary increases).
+2.  Recognizing the limitations of your data and analysis methods.
+3.  Communicating these nuances to stakeholders who might otherwise make
+    decisions based on misleading results.
+4.  Considering additional data collection or alternative analysis methods to
+    account for potential unmeasured confounders.
+
+In the end, your role isn't just to crunch numbers, but to uncover the true
+story behind the data and guide your company towards informed decisions. This
+might involve recommending a more comprehensive study that includes measures of
+motivation, or suggesting a randomized pilot program for future iterations of
+the bootcamp.
 
 ## Conclusion: The Power and Pitfalls of Matching
 
