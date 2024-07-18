@@ -167,11 +167,10 @@ Conundrum." Consider these two individuals:
 +--------------------------------------------------+--------------------------------------------+
 : Matching Charles to Ozzy {#tbl-ozzy_and_charles}
 
-Ozzy Osbourne and Prince Charles share many observable characteristics: they're
-both males, born in 1948, raised in the UK, live in castles, and are wealthy and
-famous. However, Ozzy would clearly not be a good match for Charles in most
-studies. This example illustrates how matching on observables can sometimes be
-misleading.
+Ozzy and Charles share many observable characteristics: they're both males, born
+in 1948, raised in the UK, live in castles, and are wealthy and famous. However,
+Ozzy would clearly not be a good match for Charles in most studies. This example
+illustrates how matching on observables can sometimes be misleading.
 
 The key takeaway? Matching is a powerful tool, but it relies on the assumption
 that after matching, the remaining differences between groups are essentially
