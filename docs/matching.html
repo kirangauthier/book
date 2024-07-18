@@ -128,6 +128,35 @@ div.csl-indent {
 }</script>
 <script defer="" src="https://umami.martinez.fyi/script.js" data-website-id="bc587120-3bd3-4c2d-b463-5eb64dd4e330"></script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta property="og:title" content="Business Data Science - 10&nbsp; Matching">
 <meta property="og:description" content="">
@@ -362,8 +391,27 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#beware-of-matching-charles-to-ozzy" id="toc-beware-of-matching-charles-to-ozzy" class="nav-link active" data-scroll-target="#beware-of-matching-charles-to-ozzy"><span class="header-section-number">10.1</span> Beware of Matching Charles to Ozzy</a></li>
-  <li><a href="#matchit" id="toc-matchit" class="nav-link" data-scroll-target="#matchit"><span class="header-section-number">10.2</span> MatchIt</a></li>
+  <li><a href="#the-bootcamp-conundrum" id="toc-the-bootcamp-conundrum" class="nav-link active" data-scroll-target="#the-bootcamp-conundrum"><span class="header-section-number">10.1</span> The Bootcamp Conundrum</a></li>
+  <li><a href="#matching-to-the-rescue" id="toc-matching-to-the-rescue" class="nav-link" data-scroll-target="#matching-to-the-rescue"><span class="header-section-number">10.2</span> Matching to the Rescue</a></li>
+  <li><a href="#the-mechanics-of-matching" id="toc-the-mechanics-of-matching" class="nav-link" data-scroll-target="#the-mechanics-of-matching"><span class="header-section-number">10.3</span> The Mechanics of Matching</a>
+  <ul class="collapse">
+  <li><a href="#mahalanobis-distance-accounting-for-covariate-relationships" id="toc-mahalanobis-distance-accounting-for-covariate-relationships" class="nav-link" data-scroll-target="#mahalanobis-distance-accounting-for-covariate-relationships">Mahalanobis Distance: Accounting for Covariate Relationships</a></li>
+  <li><a href="#propensity-scores-collapsing-dimensions" id="toc-propensity-scores-collapsing-dimensions" class="nav-link" data-scroll-target="#propensity-scores-collapsing-dimensions">Propensity Scores: Collapsing Dimensions</a></li>
+  <li><a href="#key-differences-between-mahalanobis-distance-and-propensity-score" id="toc-key-differences-between-mahalanobis-distance-and-propensity-score" class="nav-link" data-scroll-target="#key-differences-between-mahalanobis-distance-and-propensity-score">Key Differences Between Mahalanobis Distance and Propensity Score</a></li>
+  <li><a href="#when-to-use-each" id="toc-when-to-use-each" class="nav-link" data-scroll-target="#when-to-use-each">When to Use Each</a></li>
+  <li><a href="#matching-algorithms-putting-theory-into-practice" id="toc-matching-algorithms-putting-theory-into-practice" class="nav-link" data-scroll-target="#matching-algorithms-putting-theory-into-practice">Matching Algorithms: Putting Theory into Practice</a></li>
+  </ul></li>
+  <li><a href="#the-limits-of-matching-avoiding-matching-charles-to-ozzy" id="toc-the-limits-of-matching-avoiding-matching-charles-to-ozzy" class="nav-link" data-scroll-target="#the-limits-of-matching-avoiding-matching-charles-to-ozzy"><span class="header-section-number">10.4</span> The Limits of Matching: Avoiding Matching Charles to Ozzy</a></li>
+  <li><a href="#the-propensity-score-paradox-a-critique-by-king-and-nielsen" id="toc-the-propensity-score-paradox-a-critique-by-king-and-nielsen" class="nav-link" data-scroll-target="#the-propensity-score-paradox-a-critique-by-king-and-nielsen"><span class="header-section-number">10.5</span> The Propensity Score Paradox: A Critique by King and Nielsen</a>
+  <ul class="collapse">
+  <li><a href="#the-psm-paradox" id="toc-the-psm-paradox" class="nav-link" data-scroll-target="#the-psm-paradox">The PSM Paradox</a></li>
+  <li><a href="#the-mechanics-behind-the-paradox" id="toc-the-mechanics-behind-the-paradox" class="nav-link" data-scroll-target="#the-mechanics-behind-the-paradox">The Mechanics Behind the Paradox</a></li>
+  <li><a href="#empirical-evidence" id="toc-empirical-evidence" class="nav-link" data-scroll-target="#empirical-evidence">Empirical Evidence</a></li>
+  <li><a href="#recommendations" id="toc-recommendations" class="nav-link" data-scroll-target="#recommendations">Recommendations</a></li>
+  <li><a href="#implications-for-practice" id="toc-implications-for-practice" class="nav-link" data-scroll-target="#implications-for-practice">Implications for Practice</a></li>
+  </ul></li>
+  <li><a href="#practical-examples-with-matchit" id="toc-practical-examples-with-matchit" class="nav-link" data-scroll-target="#practical-examples-with-matchit"><span class="header-section-number">10.6</span> Practical Examples with MatchIt</a></li>
+  <li><a href="#conclusion-the-power-and-pitfalls-of-matching" id="toc-conclusion-the-power-and-pitfalls-of-matching" class="nav-link" data-scroll-target="#conclusion-the-power-and-pitfalls-of-matching"><span class="header-section-number">10.7</span> Conclusion: The Power and Pitfalls of Matching</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ignacio82/book/edit/master/matching.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -396,8 +444,122 @@ div.csl-indent {
 </header>
 
 
-<section id="beware-of-matching-charles-to-ozzy" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="beware-of-matching-charles-to-ozzy"><span class="header-section-number">10.1</span> Beware of Matching Charles to Ozzy</h2>
+<p>In the realm of causal inference, matching stands out as a powerful and popular statistical technique. Its primary goal? To construct a valid comparison group by pairing treated units with untreated units that are as similar as possible based on observable characteristics. This chapter will dive deep into the world of matching, exploring its mechanics, applications, and limitations.</p>
+<section id="the-bootcamp-conundrum" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="the-bootcamp-conundrum"><span class="header-section-number">10.1</span> The Bootcamp Conundrum</h2>
+<p>Imagine a tech company, eager to propel its engineers forward, rolls out a shiny new AI bootcamp. Yet, due to scheduling quirks, the bootcamp ends up heavily skewed towards senior engineers – those with five or more years under their belts. This poses a classic causal inference challenge.</p>
+<p>In the potential outcomes framework, we envision each engineer with two possible career paths: one if they attend the bootcamp (<span class="math inline">\(Y_1\)</span>), another if they don’t (<span class="math inline">\(Y_0\)</span>). The rub, of course, is that we only witness one reality per engineer.</p>
+<p>The non-random enrollment in our bootcamp muddies the waters. Simply comparing bootcamp graduates to non-participants would be like judging a footrace where one runner had a head start. The bootcamp group, on average, boasts more experience – a factor we know can independently turbocharge careers.</p>
+</section>
+<section id="matching-to-the-rescue" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="matching-to-the-rescue"><span class="header-section-number">10.2</span> Matching to the Rescue</h2>
+<p>To level the playing field, we construct a matched control group. For each bootcamp attendee, we seek out a non-attendee with a similar experience level. By comparing outcomes within these matched pairs, we can tease out the bootcamp’s true impact, disentangling it from the effects of experience.</p>
+<p>Yet, the plot thickens. What if bootcamp participation wasn’t solely about experience? In a global company, time zones could play a role. Attending a bootcamp during US business hours is far more convenient for an engineer in New York than one in Tokyo. Here, time zone becomes a confounder, potentially influencing both bootcamp attendance and career trajectory.</p>
+<p>One might try to match on both experience and location, but this quickly becomes unwieldy as more factors enter the picture. The elegant solution is to estimate a propensity score – the probability of each engineer attending the bootcamp based on their various characteristics. By matching on this propensity score, we create comparable groups, even when those groups differ on a multitude of individual attributes.</p>
+</section>
+<section id="the-mechanics-of-matching" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="the-mechanics-of-matching"><span class="header-section-number">10.3</span> The Mechanics of Matching</h2>
+<p>Matching typically involves four key steps:</p>
+<ol type="1">
+<li>Choose a distance measure to quantify the similarity between units.</li>
+<li>Match treated units to untreated units based on this distance measure.</li>
+<li>Assess the quality of the matches and iterate if necessary.</li>
+<li>Estimate treatment effects using the matched sample.</li>
+</ol>
+<p>Let’s explore two common distance measures in detail: Mahalanobis distance and propensity scores.</p>
+<section id="mahalanobis-distance-accounting-for-covariate-relationships" class="level3">
+<h3 class="anchored" data-anchor-id="mahalanobis-distance-accounting-for-covariate-relationships">Mahalanobis Distance: Accounting for Covariate Relationships</h3>
+<p>Mahalanobis distance is a multivariate measure of the distance between a point and the center of a distribution. It’s particularly useful in matching because it accounts for the correlations between variables.</p>
+<p>Key features of Mahalanobis distance include:</p>
+<ul>
+<li>Scale-invariance: It’s unaffected by the scale of measurement.</li>
+<li>Covariance consideration: It accounts for relationships between variables.</li>
+<li>Euclidean equivalence: For uncorrelated variables with unit variance, it reduces to Euclidean distance.</li>
+</ul>
+<p>Mathematically, the Mahalanobis distance between two points <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> in p-dimensional space is:</p>
+<p><span class="math display">\[D_M(x,y) = \sqrt{(x-y)^T S^{-1} (x-y)}\]</span> Where <span class="math inline">\(S\)</span> is the covariance matrix of the variables.</p>
+</section>
+<section id="propensity-scores-collapsing-dimensions" class="level3">
+<h3 class="anchored" data-anchor-id="propensity-scores-collapsing-dimensions">Propensity Scores: Collapsing Dimensions</h3>
+<p>The propensity score represents the probability of receiving treatment given observed covariates, often estimated using logistic regression. Key features of propensity scores include:</p>
+<ul>
+<li>Dimension reduction: They collapse multiple covariates into a single score.</li>
+<li>Balance assessment: They make it easier to check balance on a single dimension.</li>
+<li>Interpretability: They represent the probability of treatment.</li>
+</ul>
+<p>The propensity score is given by: <span class="math display">\[ e(X) = P(T=1|X)\]</span> Where <span class="math inline">\(T\)</span> is the treatment indicator and <span class="math inline">\(X\)</span> is the vector of covariates.</p>
+</section>
+<section id="key-differences-between-mahalanobis-distance-and-propensity-score" class="level3">
+<h3 class="anchored" data-anchor-id="key-differences-between-mahalanobis-distance-and-propensity-score">Key Differences Between Mahalanobis Distance and Propensity Score</h3>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 32%">
+<col style="width: 46%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Mahalanobis Distance</th>
+<th>Propensity Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dimensionality</td>
+<td>Operates in original covariate space</td>
+<td>Reduces matching to a single dimension</td>
+</tr>
+<tr class="even">
+<td>Interpretation</td>
+<td>Measures multivariate similarity</td>
+<td>Represents probability of treatment</td>
+</tr>
+<tr class="odd">
+<td>Covariate relationships</td>
+<td>Explicitly accounts for covariance</td>
+<td>Implicitly captures relationships through the model</td>
+</tr>
+<tr class="even">
+<td>Model specification</td>
+<td>Doesn’t require a model</td>
+<td>Can be sensitive to estimation method</td>
+</tr>
+<tr class="odd">
+<td>Categorical variables</td>
+<td>Can struggle with them</td>
+<td>Naturally incorporates them</td>
+</tr>
+<tr class="even">
+<td>Curse of dimensionality</td>
+<td>Can suffer in high dimensions</td>
+<td>Handles higher dimensions more easily</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="when-to-use-each" class="level3">
+<h3 class="anchored" data-anchor-id="when-to-use-each">When to Use Each</h3>
+<ul>
+<li><strong>Mahalanobis distance:</strong> Ideal when you have few continuous covariates, relationships between covariates are important, and you want to avoid specifying a treatment model.</li>
+<li><strong>Propensity scores:</strong> Better suited when you have many covariates (including categorical ones), the treatment mechanism is of interest, and you want to easily assess balance and overlap.</li>
+</ul>
+</section>
+<section id="matching-algorithms-putting-theory-into-practice" class="level3">
+<h3 class="anchored" data-anchor-id="matching-algorithms-putting-theory-into-practice">Matching Algorithms: Putting Theory into Practice</h3>
+<p>Once we’ve chosen a distance measure, we need an algorithm to perform the actual matching. Three common approaches are:</p>
+<ul>
+<li>Nearest neighbor matching: Matches each treated unit to the closest untreated unit.</li>
+<li>Optimal matching: Minimizes the total distance across all matched pairs.</li>
+<li>Full matching: Creates matched sets, each containing at least one treated and one untreated unit.</li>
+</ul>
+</section>
+</section>
+<section id="the-limits-of-matching-avoiding-matching-charles-to-ozzy" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="the-limits-of-matching-avoiding-matching-charles-to-ozzy"><span class="header-section-number">10.4</span> The Limits of Matching: Avoiding Matching Charles to Ozzy</h2>
+<p>As with any causal inference method, matching is not a magic bullet. It works best when you have the right data to model treatment assignment. Essentially, after matching, whether someone is in the treatment group should be effectively random.</p>
+<p>For example, in our bootcamp scenario, imagine that participation is largely explained by an engineer’s “grit” – a trait we cannot directly observe or match on. If career trajectory is also a function of grit, we might mistakenly conclude that the bootcamp has a larger impact than it truly does. Conversely, if procrastinators are more likely to participate, we might wrongly infer that the bootcamp hurts career success.</p>
+<p>A memorable way to understand this limitation is through the “Ozzy Osbourne Conundrum.” Consider these two individuals:</p>
 <div id="tbl-ozzy_and_charles" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ozzy_and_charles-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -443,10 +605,93 @@ Table&nbsp;10.1: Matching Charles to Ozzy
 </div>
 </figure>
 </div>
+<p>Ozzy Osbourne and Prince Charles share many observable characteristics: they’re both males, born in 1948, raised in the UK, live in castles, and are wealthy and famous. However, Ozzy would clearly not be a good match for Charles in most studies. This example illustrates how matching on observables can sometimes be misleading.</p>
+<p>The key takeaway? Matching is a powerful tool, but it relies on the assumption that after matching, the remaining differences between groups are essentially random. If this assumption doesn’t hold, our conclusions may be misleading.</p>
 </section>
-<section id="matchit" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="matchit"><span class="header-section-number">10.2</span> MatchIt</h2>
-<p>The R package <a href="https://kosukeimai.github.io/MatchIt/">{MatchIt}</a> implements the suggestions of <span class="citation" data-cites="ho2007matching">(<a href="references.html#ref-ho2007matching" role="doc-biblioref">Daniel E. Ho et al. 2007</a>)</span> for improving parametric statistical models by preprocessing data with nonparametric matching methods <span class="citation" data-cites="stuart2011matchit">(see <a href="references.html#ref-stuart2011matchit" role="doc-biblioref">Daniel E. Ho et al. 2011</a>)</span> …</p>
+<section id="the-propensity-score-paradox-a-critique-by-king-and-nielsen" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="the-propensity-score-paradox-a-critique-by-king-and-nielsen"><span class="header-section-number">10.5</span> The Propensity Score Paradox: A Critique by King and Nielsen</h2>
+<p>In their influential paper, <span class="citation" data-cites="King_Nielsen_2019">King and Nielsen (<a href="references.html#ref-King_Nielsen_2019" role="doc-biblioref">2019</a>)</span> present a compelling critique of propensity score matching (PSM). Their findings challenge conventional wisdom and offer important insights for practitioners of matching methods.</p>
+<section id="the-psm-paradox" class="level3">
+<h3 class="anchored" data-anchor-id="the-psm-paradox">The PSM Paradox</h3>
+<p>At the heart of King and Nielsen’s argument is what they term the “PSM paradox.” They demonstrate that under certain conditions, PSM can actually increase imbalance, model dependence, and bias. This occurs because PSM approximates a completely randomized experiment, rather than a more efficient fully blocked randomized experiment.</p>
+<p>Key findings include:</p>
+<ol type="1">
+<li>Increased Imbalance: As PSM prunes observations to improve balance, it can paradoxically increase imbalance on the original covariates after a certain point.</li>
+<li>Model Dependence: PSM can lead to greater model dependence, meaning that different model specifications can yield substantially different causal estimates.</li>
+<li>Bias: The combination of increased imbalance and model dependence can result in biased causal estimates.</li>
+</ol>
+</section>
+<section id="the-mechanics-behind-the-paradox" class="level3">
+<h3 class="anchored" data-anchor-id="the-mechanics-behind-the-paradox">The Mechanics Behind the Paradox</h3>
+<p>King and Nielsen explain that PSM’s shortcomings stem from its attempt to approximate complete randomization. In contrast, other matching methods aim to approximate full blocking, which is generally more efficient and precise.</p>
+<ol type="1">
+<li>Information Loss: PSM collapses multi-dimensional covariate information into a single dimension (the propensity score), potentially discarding valuable information.</li>
+<li>Random Pruning: Once PSM achieves its goal of approximate randomization, further pruning of observations becomes essentially random with respect to the original covariates. This random pruning can increase imbalance.</li>
+<li>Dimensionality: The problems with PSM become more pronounced as the number of covariates increases.</li>
+</ol>
+</section>
+<section id="empirical-evidence" class="level3">
+<h3 class="anchored" data-anchor-id="empirical-evidence">Empirical Evidence</h3>
+<p>The authors provide evidence from both simulations and real-world datasets to support their claims. They show that as PSM prunes more observations, other matching methods (like Mahalanobis distance matching) continue to improve balance, while PSM begins to worsen it.</p>
+</section>
+<section id="recommendations" class="level3">
+<h3 class="anchored" data-anchor-id="recommendations">Recommendations</h3>
+<p>Based on their findings, King and Nielsen offer several recommendations:</p>
+<ol type="1">
+<li>Avoid PSM for Matching: They suggest using other matching methods that better approximate full blocking, such as Mahalanobis distance matching or coarsened exact matching.</li>
+<li>Use PSM Carefully: If using PSM, researchers should be aware of its limitations and stop pruning before the paradox kicks in.</li>
+<li>Balance Checking: Regardless of the matching method used, researchers should always check covariate balance before and after matching.</li>
+<li>Consider Alternative Uses: While discouraging PSM for matching, the authors note that propensity scores can be useful in other contexts, such as weighting or subclassification.</li>
+</ol>
+</section>
+<section id="implications-for-practice" class="level3">
+<h3 class="anchored" data-anchor-id="implications-for-practice">Implications for Practice</h3>
+<p>This critique has significant implications for how we approach matching in causal inference:</p>
+<ol type="1">
+<li>Method Selection: When choosing a matching method, consider how well it approximates full blocking rather than complete randomization.</li>
+<li>Iterative Process: Matching should be an iterative process, with continuous checks on balance and careful consideration of when to stop pruning observations.</li>
+<li>Multidimensional Balance: Pay attention to balance on the original covariates, not just the propensity score.</li>
+<li>Transparency: Given the potential for increased model dependence, it’s crucial to be transparent about the matching process and to consider multiple model specifications.</li>
+</ol>
+</section>
+</section>
+<section id="practical-examples-with-matchit" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="practical-examples-with-matchit"><span class="header-section-number">10.6</span> Practical Examples with MatchIt</h2>
+<p>The R package <a href="https://kosukeimai.github.io/MatchIt/">{MatchIt}</a> provides a comprehensive set of tools for implementing various matching methods. It was developed based on the recommendations of <span class="citation" data-cites="ho2007matching">(<a href="references.html#ref-ho2007matching" role="doc-biblioref">Daniel E. Ho et al. 2007</a>)</span> for improving parametric models through nonparametric preprocessing.</p>
+<p>MatchIt supports a wide range of matching techniques, including:</p>
+<ul>
+<li>Exact matching</li>
+<li>Nearest neighbor matching</li>
+<li>Optimal matching</li>
+<li>Full matching</li>
+<li>Genetic matching</li>
+<li>Coarsened exact matching</li>
+</ul>
+<p>TODO</p>
+</section>
+<section id="conclusion-the-power-and-pitfalls-of-matching" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="conclusion-the-power-and-pitfalls-of-matching"><span class="header-section-number">10.7</span> Conclusion: The Power and Pitfalls of Matching</h2>
+<p>Matching is a powerful tool in the causal inference toolkit, offering a way to construct valid comparison groups and tease out causal effects from observational data. However, as we’ve seen, it’s not without its complexities and potential pitfalls.</p>
+<p>From the basic concept of pairing similar units to the intricacies of different distance measures and matching algorithms, we’ve explored the mechanics of how matching works. We’ve also delved into its limitations, illustrated vividly by the Ozzy Osbourne Conundrum, which reminds us that observable characteristics don’t always tell the full story.</p>
+<p>The critique by King and Nielsen serves as a important cautionary tale, particularly regarding the use of propensity score matching. Their work underscores the importance of understanding the theoretical underpinnings of our methods and approaching them critically.</p>
+<p>As data scientists, our task is to navigate these complexities, understanding when and how to apply matching methods appropriately. We must be aware of their strengths and limitations, always striving for transparency in our processes and robustness in our results.</p>
+<p>Matching, when used judiciously, can be a powerful ally in our quest to uncover causal relationships. But like any tool, its effectiveness depends on the skill and understanding of those who wield it. As we continue to push the boundaries of causal inference, let’s carry forward this nuanced understanding of matching, always remaining open to new developments and critiques that can refine our methodological toolkit.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Learn more
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><span class="citation" data-cites="stuart2011matchit">Daniel E. Ho et al. (<a href="references.html#ref-stuart2011matchit" role="doc-biblioref">2011</a>)</span> {MatchIt}: Nonparametric Preprocessing for Parametric Causal Inference.</li>
+<li><span class="citation" data-cites="King_Nielsen_2019">King and Nielsen (<a href="references.html#ref-King_Nielsen_2019" role="doc-biblioref">2019</a>)</span> Why Propensity Scores Should Not Be Used for Matching.</li>
+</ul>
+</div>
+</div>
 
 
 <!-- -->
@@ -457,6 +702,9 @@ Ho, Daniel E., Kosuke Imai, Gary King, and Elizabeth A. Stuart. 2011. <span>“<
 </div>
 <div id="ref-ho2007matching" class="csl-entry" role="listitem">
 Ho, Daniel E, Kosuke Imai, Gary King, and Elizabeth A Stuart. 2007. <span>“Matching as Nonparametric Preprocessing for Reducing Model Dependence in Parametric Causal Inference.”</span> <em>Political Analysis</em> 15 (3): 199–236.
+</div>
+<div id="ref-King_Nielsen_2019" class="csl-entry" role="listitem">
+King, Gary, and Richard Nielsen. 2019. <span>“Why Propensity Scores Should Not Be Used for Matching.”</span> <em>Political Analysis</em> 27 (4): 435–54. <a href="https://doi.org/10.1017/pan.2019.11">https://doi.org/10.1017/pan.2019.11</a>.
 </div>
 </div>
 </section>
@@ -949,34 +1197,303 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Ignacio Martinez  </span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu">## Beware of Matching Charles to Ozzy</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>+--------------------------------------------------+--------------------------------------------+</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>|                    Charles                       |                    Ozzy                    |</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>+:================================================:+:==========================================:+</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>| <span class="al">![](img/charles.webp)</span>{width=400px, height=500px} |<span class="al">![](img/ozzy.png)</span>{width=400px, height=500px}|</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>|                     Male                         |                   Male                     |</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>|                 Born in 1948                     |               Born in 1948                 |</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>|               Raised in the UK                   |             Raised in the UK               |</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>|              Lives in a castle                   |             Lives in a castle              |</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>|              Wealthy &amp; famous                    |             Wealthy &amp; famous               |</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>+--------------------------------------------------+--------------------------------------------+</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>: Matching Charles to Ozzy {#tbl-ozzy_and_charles}</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>In the realm of causal inference, matching stands out as a powerful and popular</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>statistical technique. Its primary goal? To construct a valid comparison group</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>by pairing treated units with untreated units that are as similar as possible</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>based on observable characteristics. This chapter will dive deep into the world</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>of matching, exploring its mechanics, applications, and limitations.</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Bootcamp Conundrum</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>Imagine a tech company, eager to propel its engineers forward, rolls out a shiny</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>new AI bootcamp. Yet, due to scheduling quirks, the bootcamp ends up heavily</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>skewed towards senior engineers – those with five or more years under their</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>belts. This poses a classic causal inference challenge.</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>In the potential outcomes framework, we envision each engineer with two possible</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>career paths: one if they attend the bootcamp ($Y_1$), another if they don't</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>($Y_0$). The rub, of course, is that we only witness one reality per engineer.</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>The non-random enrollment in our bootcamp muddies the waters. Simply comparing</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>bootcamp graduates to non-participants would be like judging a footrace where</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>one runner had a head start. The bootcamp group, on average, boasts more</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>experience – a factor we know can independently turbocharge careers.</span>
 <span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## MatchIt</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## Matching to the Rescue</span></span>
 <span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>The R package <span class="co">[</span><span class="ot">{MatchIt}</span><span class="co">](https://kosukeimai.github.io/MatchIt/)</span> implements the</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>suggestions of <span class="co">[</span><span class="ot">@ho2007matching</span><span class="co">]</span> for improving parametric statistical models</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>by preprocessing data with nonparametric matching methods [see</span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>@stuart2011matchit] ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>To level the playing field, we construct a matched control group. For each</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>bootcamp attendee, we seek out a non-attendee with a similar experience level.</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>By comparing outcomes within these matched pairs, we can tease out the</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>bootcamp's true impact, disentangling it from the effects of experience.</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>Yet, the plot thickens. What if bootcamp participation wasn't solely about</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>experience? In a global company, time zones could play a role. Attending a</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>bootcamp during US business hours is far more convenient for an engineer in New</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>York than one in Tokyo. Here, time zone becomes a confounder, potentially</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>influencing both bootcamp attendance and career trajectory.</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>One might try to match on both experience and location, but this quickly becomes</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>unwieldy as more factors enter the picture. The elegant solution is to estimate</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>a propensity score – the probability of each engineer attending the bootcamp</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>based on their various characteristics. By matching on this propensity score, we</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>create comparable groups, even when those groups differ on a multitude of</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>individual attributes.</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Mechanics of Matching</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>Matching typically involves four key steps:</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Choose a distance measure to quantify the similarity between units.</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Match treated units to untreated units based on this distance measure.</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Assess the quality of the matches and iterate if necessary.</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Estimate treatment effects using the matched sample.</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>Let's explore two common distance measures in detail: Mahalanobis distance and</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>propensity scores.</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="fu">### Mahalanobis Distance: Accounting for Covariate Relationships</span></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>Mahalanobis distance is a multivariate measure of the distance between a point</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>and the center of a distribution. It's particularly useful in matching because</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>it accounts for the correlations between variables.</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>Key features of Mahalanobis distance include:</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Scale-invariance: It's unaffected by the scale of measurement.</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Covariance consideration: It accounts for relationships between variables.</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Euclidean equivalence: For uncorrelated variables with unit variance, it</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>    reduces to Euclidean distance.</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>Mathematically, the Mahalanobis distance between two points $x$ and $y$ in</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>p-dimensional space is:</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>$$D_M(x,y) = \sqrt{(x-y)^T S^{-1} (x-y)}$$</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>Where $S$ is the covariance matrix of</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>the variables.</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="fu">### Propensity Scores: Collapsing Dimensions</span></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>The propensity score represents the probability of receiving treatment given</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>observed covariates, often estimated using logistic regression. Key features of</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>propensity scores include:</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Dimension reduction: They collapse multiple covariates into a single score.</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Balance assessment: They make it easier to check balance on a single</span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>    dimension.</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Interpretability: They represent the probability of treatment.</span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>The propensity score is given by: $$ e(X) = P(T=1|X)$$</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>Where $T$ is the treatment indicator and $X$ is the vector of covariates.</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Differences Between Mahalanobis Distance and Propensity Score</span></span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>| Feature                 | Mahalanobis Distance                 | Propensity Score                                    |</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>| ----------------------- | ------------------------------------ | --------------------------------------------------- |</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>| Dimensionality          | Operates in original covariate space | Reduces matching to a single dimension              |</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>| Interpretation          | Measures multivariate similarity     | Represents probability of treatment                 |</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>| Covariate relationships | Explicitly accounts for covariance   | Implicitly captures relationships through the model |</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>| Model specification     | Doesn't require a model              | Can be sensitive to estimation method               |</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>| Categorical variables   | Can struggle with them               | Naturally incorporates them                         |</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>| Curse of dimensionality | Can suffer in high dimensions        | Handles higher dimensions more easily               |</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a><span class="fu">### When to Use Each</span></span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Mahalanobis distance:** Ideal when you have few continuous covariates,</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>    relationships between covariates are important, and you want to avoid</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>    specifying a treatment model.</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Propensity scores:** Better suited when you have many covariates</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>    (including categorical ones), the treatment mechanism is of interest, and</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>    you want to easily assess balance and overlap.</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a><span class="fu">### Matching Algorithms: Putting Theory into Practice</span></span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>Once we've chosen a distance measure, we need an algorithm to perform the actual</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>matching. Three common approaches are:</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Nearest neighbor matching: Matches each treated unit to the closest</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>    untreated unit.</span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Optimal matching: Minimizes the total distance across all matched pairs.</span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Full matching: Creates matched sets, each containing at least one treated</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>    and one untreated unit.</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Limits of Matching: Avoiding Matching Charles to Ozzy</span></span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>As with any causal inference method, matching is not a magic bullet. It works</span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>best when you have the right data to model treatment assignment. Essentially,</span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>after matching, whether someone is in the treatment group should be effectively</span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>random.</span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>For example, in our bootcamp scenario, imagine that participation is largely</span>
+<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>explained by an engineer's "grit" – a trait we cannot directly observe or match</span>
+<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>on. If career trajectory is also a function of grit, we might mistakenly</span>
+<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a>conclude that the bootcamp has a larger impact than it truly does. Conversely,</span>
+<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>if procrastinators are more likely to participate, we might wrongly infer that</span>
+<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>the bootcamp hurts career success.</span>
+<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>A memorable way to understand this limitation is through the "Ozzy Osbourne</span>
+<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a>Conundrum." Consider these two individuals:</span>
+<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>+--------------------------------------------------+--------------------------------------------+</span>
+<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a>|                    Charles                       |                    Ozzy                    |</span>
+<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a>+:================================================:+:==========================================:+</span>
+<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>| <span class="al">![](img/charles.webp)</span>{width=400px, height=500px} |<span class="al">![](img/ozzy.png)</span>{width=400px, height=500px}|</span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>|                     Male                         |                   Male                     |</span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>|                 Born in 1948                     |               Born in 1948                 |</span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>|               Raised in the UK                   |             Raised in the UK               |</span>
+<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
+<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>|              Lives in a castle                   |             Lives in a castle              |</span>
+<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a>|                                                  |                                            |</span>
+<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a>|              Wealthy &amp; famous                    |             Wealthy &amp; famous               |</span>
+<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a>+--------------------------------------------------+--------------------------------------------+</span>
+<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>: Matching Charles to Ozzy {#tbl-ozzy_and_charles}</span>
+<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a>Ozzy Osbourne and Prince Charles share many observable characteristics: they're</span>
+<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a>both males, born in 1948, raised in the UK, live in castles, and are wealthy and</span>
+<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>famous. However, Ozzy would clearly not be a good match for Charles in most</span>
+<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a>studies. This example illustrates how matching on observables can sometimes be</span>
+<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a>misleading.</span>
+<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>The key takeaway? Matching is a powerful tool, but it relies on the assumption</span>
+<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a>that after matching, the remaining differences between groups are essentially</span>
+<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a>random. If this assumption doesn't hold, our conclusions may be misleading.</span>
+<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Propensity Score Paradox: A Critique by King and Nielsen</span></span>
+<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a>In their influential paper, @King_Nielsen_2019 present a compelling critique</span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a>of propensity score matching (PSM). Their findings challenge conventional wisdom</span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a>and offer important insights for practitioners of matching methods.</span>
+<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a><span class="fu">### The PSM Paradox</span></span>
+<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>At the heart of King and Nielsen's argument is what they term the "PSM paradox."</span>
+<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a>They demonstrate that under certain conditions, PSM can actually increase</span>
+<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a>imbalance, model dependence, and bias. This occurs because PSM approximates a</span>
+<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a>completely randomized experiment, rather than a more efficient fully blocked</span>
+<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a>randomized experiment.</span>
+<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a>Key findings include:</span>
+<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Increased Imbalance: As PSM prunes observations to improve balance, it can</span>
+<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a>    paradoxically increase imbalance on the original covariates after a certain</span>
+<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a>    point.</span>
+<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Model Dependence: PSM can lead to greater model dependence, meaning that</span>
+<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a>    different model specifications can yield substantially different causal</span>
+<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a>    estimates.</span>
+<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Bias: The combination of increased imbalance and model dependence can result</span>
+<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a>    in biased causal estimates.</span>
+<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Mechanics Behind the Paradox</span></span>
+<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a>King and Nielsen explain that PSM's shortcomings stem from its attempt to</span>
+<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a>approximate complete randomization. In contrast, other matching methods aim to</span>
+<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a>approximate full blocking, which is generally more efficient and precise.</span>
+<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Information Loss: PSM collapses multi-dimensional covariate information into</span>
+<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a>    a single dimension (the propensity score), potentially discarding valuable</span>
+<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a>    information.</span>
+<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Random Pruning: Once PSM achieves its goal of approximate randomization,</span>
+<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a>    further pruning of observations becomes essentially random with respect to</span>
+<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a>    the original covariates. This random pruning can increase imbalance.</span>
+<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Dimensionality: The problems with PSM become more pronounced as the number</span>
+<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a>    of covariates increases.</span>
+<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a><span class="fu">### Empirical Evidence</span></span>
+<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a>The authors provide evidence from both simulations and real-world datasets to</span>
+<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a>support their claims. They show that as PSM prunes more observations, other</span>
+<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a>matching methods (like Mahalanobis distance matching) continue to improve</span>
+<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a>balance, while PSM begins to worsen it.</span>
+<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a><span class="fu">### Recommendations</span></span>
+<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a>Based on their findings, King and Nielsen offer several recommendations:</span>
+<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Avoid PSM for Matching: They suggest using other matching methods that</span>
+<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a>    better approximate full blocking, such as Mahalanobis distance matching or</span>
+<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a>    coarsened exact matching.</span>
+<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Use PSM Carefully: If using PSM, researchers should be aware of its</span>
+<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a>    limitations and stop pruning before the paradox kicks in.</span>
+<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Balance Checking: Regardless of the matching method used, researchers should</span>
+<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a>    always check covariate balance before and after matching.</span>
+<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Consider Alternative Uses: While discouraging PSM for matching, the authors</span>
+<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a>    note that propensity scores can be useful in other contexts, such as</span>
+<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a>    weighting or subclassification.</span>
+<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a><span class="fu">### Implications for Practice</span></span>
+<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a>This critique has significant implications for how we approach matching in</span>
+<span id="cb5-245"><a href="#cb5-245" aria-hidden="true" tabindex="-1"></a>causal inference:</span>
+<span id="cb5-246"><a href="#cb5-246" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-247"><a href="#cb5-247" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Method Selection: When choosing a matching method, consider how well it</span>
+<span id="cb5-248"><a href="#cb5-248" aria-hidden="true" tabindex="-1"></a>    approximates full blocking rather than complete randomization.</span>
+<span id="cb5-249"><a href="#cb5-249" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Iterative Process: Matching should be an iterative process, with continuous</span>
+<span id="cb5-250"><a href="#cb5-250" aria-hidden="true" tabindex="-1"></a>    checks on balance and careful consideration of when to stop pruning</span>
+<span id="cb5-251"><a href="#cb5-251" aria-hidden="true" tabindex="-1"></a>    observations.</span>
+<span id="cb5-252"><a href="#cb5-252" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Multidimensional Balance: Pay attention to balance on the original</span>
+<span id="cb5-253"><a href="#cb5-253" aria-hidden="true" tabindex="-1"></a>    covariates, not just the propensity score.</span>
+<span id="cb5-254"><a href="#cb5-254" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Transparency: Given the potential for increased model dependence, it's</span>
+<span id="cb5-255"><a href="#cb5-255" aria-hidden="true" tabindex="-1"></a>    crucial to be transparent about the matching process and to consider</span>
+<span id="cb5-256"><a href="#cb5-256" aria-hidden="true" tabindex="-1"></a>    multiple model specifications.</span>
+<span id="cb5-257"><a href="#cb5-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-258"><a href="#cb5-258" aria-hidden="true" tabindex="-1"></a><span class="fu">## Practical Examples with MatchIt</span></span>
+<span id="cb5-259"><a href="#cb5-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-260"><a href="#cb5-260" aria-hidden="true" tabindex="-1"></a>The R package <span class="co">[</span><span class="ot">{MatchIt}</span><span class="co">](https://kosukeimai.github.io/MatchIt/)</span> provides a</span>
+<span id="cb5-261"><a href="#cb5-261" aria-hidden="true" tabindex="-1"></a>comprehensive set of tools for implementing various matching methods. It was</span>
+<span id="cb5-262"><a href="#cb5-262" aria-hidden="true" tabindex="-1"></a>developed based on the recommendations of <span class="co">[</span><span class="ot">@ho2007matching</span><span class="co">]</span> for improving</span>
+<span id="cb5-263"><a href="#cb5-263" aria-hidden="true" tabindex="-1"></a>parametric models through nonparametric preprocessing. </span>
+<span id="cb5-264"><a href="#cb5-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-265"><a href="#cb5-265" aria-hidden="true" tabindex="-1"></a>MatchIt supports a wide range of matching techniques, including:</span>
+<span id="cb5-266"><a href="#cb5-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-267"><a href="#cb5-267" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Exact matching</span>
+<span id="cb5-268"><a href="#cb5-268" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Nearest neighbor matching</span>
+<span id="cb5-269"><a href="#cb5-269" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Optimal matching</span>
+<span id="cb5-270"><a href="#cb5-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Full matching</span>
+<span id="cb5-271"><a href="#cb5-271" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Genetic matching</span>
+<span id="cb5-272"><a href="#cb5-272" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Coarsened exact matching</span>
+<span id="cb5-273"><a href="#cb5-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-274"><a href="#cb5-274" aria-hidden="true" tabindex="-1"></a>TODO</span>
+<span id="cb5-275"><a href="#cb5-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-276"><a href="#cb5-276" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conclusion: The Power and Pitfalls of Matching</span></span>
+<span id="cb5-277"><a href="#cb5-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-278"><a href="#cb5-278" aria-hidden="true" tabindex="-1"></a>Matching is a powerful tool in the causal inference toolkit, offering a way to</span>
+<span id="cb5-279"><a href="#cb5-279" aria-hidden="true" tabindex="-1"></a>construct valid comparison groups and tease out causal effects from</span>
+<span id="cb5-280"><a href="#cb5-280" aria-hidden="true" tabindex="-1"></a>observational data. However, as we've seen, it's not without its complexities</span>
+<span id="cb5-281"><a href="#cb5-281" aria-hidden="true" tabindex="-1"></a>and potential pitfalls.</span>
+<span id="cb5-282"><a href="#cb5-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-283"><a href="#cb5-283" aria-hidden="true" tabindex="-1"></a>From the basic concept of pairing similar units to the intricacies of different</span>
+<span id="cb5-284"><a href="#cb5-284" aria-hidden="true" tabindex="-1"></a>distance measures and matching algorithms, we've explored the mechanics of how</span>
+<span id="cb5-285"><a href="#cb5-285" aria-hidden="true" tabindex="-1"></a>matching works. We've also delved into its limitations, illustrated vividly by</span>
+<span id="cb5-286"><a href="#cb5-286" aria-hidden="true" tabindex="-1"></a>the Ozzy Osbourne Conundrum, which reminds us that observable characteristics</span>
+<span id="cb5-287"><a href="#cb5-287" aria-hidden="true" tabindex="-1"></a>don't always tell the full story.</span>
+<span id="cb5-288"><a href="#cb5-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-289"><a href="#cb5-289" aria-hidden="true" tabindex="-1"></a>The critique by King and Nielsen serves as a important cautionary tale,</span>
+<span id="cb5-290"><a href="#cb5-290" aria-hidden="true" tabindex="-1"></a>particularly regarding the use of propensity score matching. Their work</span>
+<span id="cb5-291"><a href="#cb5-291" aria-hidden="true" tabindex="-1"></a>underscores the importance of understanding the theoretical underpinnings of our</span>
+<span id="cb5-292"><a href="#cb5-292" aria-hidden="true" tabindex="-1"></a>methods and approaching them critically.</span>
+<span id="cb5-293"><a href="#cb5-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-294"><a href="#cb5-294" aria-hidden="true" tabindex="-1"></a>As data scientists, our task is to navigate these complexities, understanding</span>
+<span id="cb5-295"><a href="#cb5-295" aria-hidden="true" tabindex="-1"></a>when and how to apply matching methods appropriately. We must be aware of their</span>
+<span id="cb5-296"><a href="#cb5-296" aria-hidden="true" tabindex="-1"></a>strengths and limitations, always striving for transparency in our processes and</span>
+<span id="cb5-297"><a href="#cb5-297" aria-hidden="true" tabindex="-1"></a>robustness in our results.</span>
+<span id="cb5-298"><a href="#cb5-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-299"><a href="#cb5-299" aria-hidden="true" tabindex="-1"></a>Matching, when used judiciously, can be a powerful ally in our quest to uncover</span>
+<span id="cb5-300"><a href="#cb5-300" aria-hidden="true" tabindex="-1"></a>causal relationships. But like any tool, its effectiveness depends on the skill</span>
+<span id="cb5-301"><a href="#cb5-301" aria-hidden="true" tabindex="-1"></a>and understanding of those who wield it. As we continue to push the boundaries</span>
+<span id="cb5-302"><a href="#cb5-302" aria-hidden="true" tabindex="-1"></a>of causal inference, let's carry forward this nuanced understanding of matching,</span>
+<span id="cb5-303"><a href="#cb5-303" aria-hidden="true" tabindex="-1"></a>always remaining open to new developments and critiques that can refine our</span>
+<span id="cb5-304"><a href="#cb5-304" aria-hidden="true" tabindex="-1"></a>methodological toolkit.</span>
+<span id="cb5-305"><a href="#cb5-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-306"><a href="#cb5-306" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb5-307"><a href="#cb5-307" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learn more</span></span>
+<span id="cb5-308"><a href="#cb5-308" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span>@stuart2011matchit {MatchIt}: Nonparametric Preprocessing for Parametric Causal Inference.</span>
+<span id="cb5-309"><a href="#cb5-309" aria-hidden="true" tabindex="-1"></a><span class="ss"> - </span>@King_Nielsen_2019 Why Propensity Scores Should Not Be Used for Matching.</span>
+<span id="cb5-310"><a href="#cb5-310" aria-hidden="true" tabindex="-1"></a>:::</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ignacio82/book/edit/master/matching.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><div class="page-columns page-rows-contents page-layout-article"><div class="social-share"><a href="https://www.linkedin.com/shareArticle?url=https://book.martinez.fyi/matching.html&amp;title=Business Data Science: What Does it Mean to Be Data-Driven?" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in fa-fw fa-lg"></i></a>  <a href="mailto:?subject=Business Data Science: What Does it Mean to Be Data-Driven?&amp;body=Check out this link:https://book.martinez.fyi/matching.html" target="_blank" class="email"><i class="fa-solid fa-envelope fa-fw fa-lg"></i></a><a href="javascript:void(0);" onclick="var mastodon_instance=prompt('Mastodon Instance / Server Name?'); if(typeof mastodon_instance==='string' &amp;&amp; mastodon_instance.length){this.href='https://'+mastodon_instance+'/share?text=Business Data Science: What Does it Mean to Be Data-Driven? https://book.martinez.fyi/matching.html'}else{return false;}" target="_blank" class="mastodon"><i class="fa-brands fa-mastodon fa-fw fa-lg"></i></a></div></div>
