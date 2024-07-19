@@ -51,6 +51,7 @@ glossary_add(term = "Program Improvement",
              replace = TRUE) 
 
 ```
+![Business DS](img/businessDS.jpg){.lightbox}
 
 In today's tech-driven world, data is king. Every click, swipe, and search
 generates a breadcrumb of information. Alas, although most decision-makers want

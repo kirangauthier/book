@@ -8,6 +8,8 @@ share:
   mastodon: true
 ---
 
+![Randomization](img/randomization.png){.lightbox}
+
 It is crucial to recognize that randomization isn't magic. When a sufficiently
 large population is randomly divided into two groups, these groups will be
 remarkably similar in both observable and unobservable characteristics. By

@@ -9,6 +9,8 @@ share:
 ---
 ## The Basic Idea
 
+![Potential outcome](img/potential.jpg){.lightbox}
+
 The potential outcomes framework, also known as the Rubin Causal Model, provides
 a formal mathematical approach to defining and estimating causal effects. This
 framework, developed by Donald Rubin building on work by Jerzy Neyman, is
