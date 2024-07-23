@@ -58,6 +58,8 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
+    resources:
+      - shinylive-sw.js
     open-graph: true
     twitter-card: true
     number-depth: 2
