@@ -79,6 +79,7 @@ format:
 
 resources:
   - CNAME
+  - shinylive-sw.js
 execute:
   freeze: auto
 
