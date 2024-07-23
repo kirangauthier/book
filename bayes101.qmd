@@ -417,10 +417,9 @@ The interactive dashboard below utilizes {shinylive} (see @shinylive) to run
 these simulations directly in your browser, allowing you to experiment with
 various priors and observe their impact.
 
-```{r shiny_dashboard}
+```{shinylive-r}
 #| standalone: true
 #| viewerHeight: 800
-#| echo: false
 library(shiny)
 library(ggplot2)
 library(dplyr)
@@ -477,7 +476,7 @@ ui <- fluidPage(
       numericInput(
         inputId = "n_sims",
         label = "Number of Simulations",
-        value = 1000,
+        value = 50000,
         min = 100,
         step = 100
       ),
