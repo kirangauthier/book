@@ -705,7 +705,7 @@ P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}
 </section>
 <section id="a-note-on-priors" class="level3">
 <h3 class="anchored" data-anchor-id="a-note-on-priors">A Note on Priors</h3>
-<p>It’s important to remember that the less data you have, the more influential your priors become. Transparency about your priors is essential, as is investigating the sensitivity of your findings to different prior choices. However, don’t shy away from using informative priors when justified by data. The interactive dashboard below utilizes {shinylive} (see <span class="citation" data-cites="shinylive">(<a href="references.html#ref-shinylive" role="doc-biblioref"><strong>shinylive?</strong></a>)</span>) to run these simulations directly in your browser, allowing you to experiment with various priors and observe their impact.</p>
+<p>It’s important to remember that the less data you have, the more influential your priors become. Transparency about your priors is essential, as is investigating the sensitivity of your findings to different prior choices. However, don’t shy away from using informative priors when justified by data. The interactive dashboard below utilizes {shinylive} (see <span class="citation" data-cites="shinylive">Schloerke et al. (<a href="references.html#ref-shinylive" role="doc-biblioref">2024</a>)</span>) to run these simulations directly in your browser, allowing you to experiment with various priors and observe their impact.</p>
 <div class="cell" data-standalone="true" data-viewerheight="800">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -955,6 +955,9 @@ McElreath, R. 2018. <em>Statistical Rethinking: A Bayesian Course with Examples 
 </div>
 <div id="ref-rubin1984bayesianly" class="csl-entry" role="listitem">
 Rubin, Donald B. 1984. <span>“<span class="nocase">Bayesianly Justifiable and Relevant Frequency Calculations for the Applied Statistician</span>.”</span> <em>The Annals of Statistics</em> 12 (4): 1151–72. <a href="https://doi.org/10.1214/aos/1176346785">https://doi.org/10.1214/aos/1176346785</a>.
+</div>
+<div id="ref-shinylive" class="csl-entry" role="listitem">
+Schloerke, Barret, Winston Chang, George Stagg, and Garrick Aden-Buie. 2024. <em>Shinylive: Run ’Shiny’ Applications in the Browser</em>. <a href="https://posit-dev.github.io/r-shinylive/">https://posit-dev.github.io/r-shinylive/</a>.
 </div>
 </div>
 </section>
@@ -2088,7 +2091,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ignacio82/book/edit/master/bayes101.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><div class="page-columns page-rows-contents page-layout-article"><div class="social-share"><a href="https://www.linkedin.com/shareArticle?url=https://book.martinez.fyi/&amp;title=Business Data Science" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in fa-fw fa-lg"></i></a>  <a href="mailto:?subject=Business Data Science&amp;body=Check out this link:https://book.martinez.fyi/" target="_blank" class="email"><i class="fa-solid fa-envelope fa-fw fa-lg"></i></a><a href="javascript:void(0);" onclick="var mastodon_instance=prompt('Mastodon Instance / Server Name?'); if(typeof mastodon_instance==='string' &amp;&amp; mastodon_instance.length){this.href='https://'+mastodon_instance+'/share?text=Business Data Science https://book.martinez.fyi/'}else{return false;}" target="_blank" class="mastodon"><i class="fa-brands fa-mastodon fa-fw fa-lg"></i></a></div></div>
-<script>var lightboxQuarto = GLightbox({"loop":false,"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","loop":false,"descPosition":"bottom","selector":".lightbox"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
