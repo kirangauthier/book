@@ -396,7 +396,7 @@ This statement is intuitive and directly addresses the uncertainty in our
 estimate, which is crucial for informed decision-making.
 Additionally, we can quantify probabilities for specific scenarios, such as:
 "The probability that there are at least 15 pairs
-is `r scales::percent(mean(post_samples$n_pairs > 14))`.
+is `r scales::percent(mean(post_samples$n_pairs > 14))`."
 
 Moreover, Bayesian methods naturally handle the "small data" scenarios that are
 common in business. While big data gets a lot of attention, many important
