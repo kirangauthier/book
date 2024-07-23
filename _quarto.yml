@@ -25,6 +25,7 @@ book:
       chapters: 
         - chapter_01.qmd
         - potential_outcome.qmd
+        - bayes101.qmd
         - decisions_first.qmd
         - rce.qmd
         - surrogates.qmd
@@ -77,7 +78,7 @@ format:
   
 
 resources:
-  - CNAME    
+  - CNAME
 execute:
-  freeze: auto  #
+  freeze: auto
 

@@ -238,7 +238,7 @@ allowing us to draw meaningful causal inferences.
 
 TODO
 
-## Count Outcomes
+## Count Outcomes {#sec-negative-binomial}
 
 In this section, we're talking about events we can tally—website visits,
 customer complaints, product sales, you name it. These outcomes are inherently
