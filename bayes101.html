@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Business Data Science - 3&nbsp; Bayes 101</title>
+<title>Business Data Science - 4&nbsp; Bayes 101</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,7 +85,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./decisions_first.html" rel="next">
-<link href="./potential_outcome.html" rel="prev">
+<link href="./baseline.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -164,13 +164,13 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Business Data Science - 3&nbsp; Bayes 101">
+<meta property="og:title" content="Business Data Science - 4&nbsp; Bayes 101">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://book.martinez.fyi/hex.png">
 <meta property="og:site_name" content="Business Data Science">
 <meta property="og:image:height" content="588">
 <meta property="og:image:width" content="510">
-<meta name="twitter:title" content="Business Data Science - 3&nbsp; Bayes 101">
+<meta name="twitter:title" content="Business Data Science - 4&nbsp; Bayes 101">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://book.martinez.fyi/hex.png">
 <meta name="twitter:image-height" content="588">
@@ -187,7 +187,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li><li class="breadcrumb-item"><a href="./bayes101.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes 101</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li><li class="breadcrumb-item"><a href="./bayes101.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bayes 101</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -241,26 +241,32 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./baseline.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Baseline Equivalence</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./bayes101.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes 101</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bayes 101</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./decisions_first.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A Decisions First Framework</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A Decisions First Framework</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./rce.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Rapid-Cycle Evaluation for Program Improvement</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Rapid-Cycle Evaluation for Program Improvement</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./surrogates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Surrogates</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Surrogates</span></span></a>
   </div>
 </li>
       </ul>
@@ -277,25 +283,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./rct_basic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">The Power of Randomization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">The Power of Randomization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./bad.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Bayesian Adaptive Design</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Adaptive Design</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./factorial.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Bayesian Factorial Design</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Bayesian Factorial Design</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./iv.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Randomized Encouragement Design</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Randomized Encouragement Design</span></span></a>
   </div>
 </li>
       </ul>
@@ -312,19 +318,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./matching.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Matching</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Matching</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./causalimpact.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Bayesian Structural Time Series</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Bayesian Structural Time Series</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./bsynth.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Bayesian Synthetic Control</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Bayesian Synthetic Control</span></span></a>
   </div>
 </li>
       </ul>
@@ -341,19 +347,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./blm.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Bayesian Linear Regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Bayesian Linear Regression</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./meta-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Meta-Analysis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Meta-Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./beyond_normality.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Beyond Normality</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Beyond Normality</span></span></a>
   </div>
 </li>
       </ul>
@@ -370,19 +376,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./bart.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Bayesian Additive Regression Trees (BART)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Bayesian Additive Regression Trees (BART)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./bcf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Bayesian Causal Forest (BCF)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Bayesian Causal Forest (BCF)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./longbet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">LongBet: Heterogeneous Treatment Effects in Panel Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">LongBet: Heterogeneous Treatment Effects in Panel Data</span></span></a>
   </div>
 </li>
       </ul>
@@ -390,7 +396,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">References</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">References</span></span></a>
   </div>
 </li>
     </ul>
@@ -403,26 +409,26 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-essence-of-bayesian-thinking" id="toc-the-essence-of-bayesian-thinking" class="nav-link active" data-scroll-target="#the-essence-of-bayesian-thinking"><span class="header-section-number">3.1</span> The Essence of Bayesian Thinking</a></li>
-  <li><a href="#bayes-rule-the-heart-of-bayesian-statistics" id="toc-bayes-rule-the-heart-of-bayesian-statistics" class="nav-link" data-scroll-target="#bayes-rule-the-heart-of-bayesian-statistics"><span class="header-section-number">3.2</span> Bayes’ Rule: The Heart of Bayesian Statistics</a></li>
-  <li><a href="#the-case-of-the-declining-user-engagement" id="toc-the-case-of-the-declining-user-engagement" class="nav-link" data-scroll-target="#the-case-of-the-declining-user-engagement"><span class="header-section-number">3.3</span> The Case of the Declining User Engagement</a></li>
-  <li><a href="#the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" id="toc-the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" class="nav-link" data-scroll-target="#the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data"><span class="header-section-number">3.4</span> The Case of Karl Broman’s Socks: A Bayesian Adventure in Tiny Data</a>
+  <li><a href="#the-essence-of-bayesian-thinking" id="toc-the-essence-of-bayesian-thinking" class="nav-link active" data-scroll-target="#the-essence-of-bayesian-thinking"><span class="header-section-number">4.1</span> The Essence of Bayesian Thinking</a></li>
+  <li><a href="#bayes-rule-the-heart-of-bayesian-statistics" id="toc-bayes-rule-the-heart-of-bayesian-statistics" class="nav-link" data-scroll-target="#bayes-rule-the-heart-of-bayesian-statistics"><span class="header-section-number">4.2</span> Bayes’ Rule: The Heart of Bayesian Statistics</a></li>
+  <li><a href="#the-case-of-the-declining-user-engagement" id="toc-the-case-of-the-declining-user-engagement" class="nav-link" data-scroll-target="#the-case-of-the-declining-user-engagement"><span class="header-section-number">4.3</span> The Case of the Declining User Engagement</a></li>
+  <li><a href="#the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" id="toc-the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" class="nav-link" data-scroll-target="#the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data"><span class="header-section-number">4.4</span> The Case of Karl Broman’s Socks: A Bayesian Adventure in Tiny Data</a>
   <ul class="collapse">
   <li><a href="#the-bayesian-approach-to-the-sock-problem" id="toc-the-bayesian-approach-to-the-sock-problem" class="nav-link" data-scroll-target="#the-bayesian-approach-to-the-sock-problem">The Bayesian Approach to the Sock Problem</a></li>
   <li><a href="#visualizing-the-results" id="toc-visualizing-the-results" class="nav-link" data-scroll-target="#visualizing-the-results">Visualizing the Results</a></li>
   <li><a href="#results-and-interpretation" id="toc-results-and-interpretation" class="nav-link" data-scroll-target="#results-and-interpretation">Results and Interpretation</a></li>
   <li><a href="#a-note-on-priors" id="toc-a-note-on-priors" class="nav-link" data-scroll-target="#a-note-on-priors">A Note on Priors</a></li>
   </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">3.5</span> Conclusion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">4.5</span> Conclusion</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ignacio82/book/edit/master/bayes101.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li><li class="breadcrumb-item"><a href="./bayes101.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes 101</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li><li class="breadcrumb-item"><a href="./bayes101.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bayes 101</span></a></li></ol></nav>
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bayes 101</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bayes 101</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -442,15 +448,15 @@ window.Quarto = {
 <p><a href="img/bayes.webp" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Bayes’ Rule"><img src="img/bayes.webp" class="img-fluid" alt="Bayes’ Rule"></a> In the bustling marketplace of ideas that is modern data science, Bayesian statistics stands out as a powerful and intuitive approach to understanding uncertainty and making decisions. For business data scientists, it offers a flexible framework that naturally incorporates prior knowledge, updates beliefs based on new evidence, and quantifies uncertainty in a way that’s both mathematically rigorous and intuitively appealing.</p>
 <p>Now, let’s set some expectations. To truly thrive as a business data scientist, you’ll need more than a passing familiarity with statistics. Think of it this way: an analyst knows how to use a calculator, while a data scientist knows how that calculator works—and can even build one from scratch to tackle the specific problem at hand. Let me be clear: this chapter isn’t a course in calculator construction. We won’t delve into the nuts and bolts of how it’s built, or even all the inner workings. Instead, our aim is to convince you that this particular calculator is worth learning more about. We want to spark your curiosity, to show you why this tool deserves a prime spot in your data science toolbox.</p>
 <p>In this chapter, we’ll explore the basics of Bayesian statistics, delve into Bayes’ rule, and examine why this paradigm is particularly well-suited for business applications.</p>
-<section id="the-essence-of-bayesian-thinking" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="the-essence-of-bayesian-thinking"><span class="header-section-number">3.1</span> The Essence of Bayesian Thinking</h2>
+<section id="the-essence-of-bayesian-thinking" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="the-essence-of-bayesian-thinking"><span class="header-section-number">4.1</span> The Essence of Bayesian Thinking</h2>
 <p>At its core, Bayesian statistics is about updating our beliefs in light of new evidence. This process mirrors how we often think about problems in business: we start with some prior knowledge or assumptions, gather data, and then update our understanding based on what we’ve learned.</p>
 <p>As <span class="citation" data-cites="kruschke2018bayesian">Kruschke and Liddell (<a href="references.html#ref-kruschke2018bayesian" role="doc-biblioref">2018</a>)</span> eloquently put it, “The main idea of Bayesian analysis is simple and intuitive. There are some data to be explained, and we have a set of candidate explanations. Before knowing the new data, the candidate explanations have some prior credibilities of being the best explanation. Then, when given the new data, we shift credibility toward the candidate explanations that better account for the data, and we shift credibility away from the candidate explanations that do not account well for the data.”</p>
 <p>This perspective highlights a fundamental principle of Bayesian analysis: it’s a process of reallocating credibility across possibilities. In a business context, these “possibilities” might be different strategies, market scenarios, or parameter values in a model. As we gather more data, we adjust our beliefs about which possibilities are more or less likely to be true.</p>
 <p>The Bayesian approach contrasts with the more traditional frequentist statistics in a fundamental way. While frequentists treat parameters as fixed (but unknown) quantities and data as random, Bayesians view parameters as random variables and data as fixed once observed. This shift in perspective leads to more intuitive interpretations of statistical results and allows for the incorporation of prior knowledge into our analyses.</p>
 </section>
-<section id="bayes-rule-the-heart-of-bayesian-statistics" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="bayes-rule-the-heart-of-bayesian-statistics"><span class="header-section-number">3.2</span> Bayes’ Rule: The Heart of Bayesian Statistics</h2>
+<section id="bayes-rule-the-heart-of-bayesian-statistics" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="bayes-rule-the-heart-of-bayesian-statistics"><span class="header-section-number">4.2</span> Bayes’ Rule: The Heart of Bayesian Statistics</h2>
 <p>The cornerstone of Bayesian statistics is Bayes’ rule, named after the Reverend Thomas Bayes. This elegant formula shows us how to update probabilities when we receive new information. In its simplest form, Bayes’ rule is expressed as:</p>
 <p><span class="math display">\[
 P(A|B) = \frac{P(B|A)P(A)}{P(B)}
@@ -477,8 +483,8 @@ P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}
 </ul>
 <p>This formulation clearly illustrates the process of reallocating credibility. We start with our prior beliefs about the parameters <span class="math inline">\(P(\theta)\)</span>, consider how likely the data are given those parameters <span class="math inline">\(P(D|\theta)\)</span>, and end up with an updated (posterior) belief about the parameters <span class="math inline">\(P(\theta|D)\)</span>.</p>
 </section>
-<section id="the-case-of-the-declining-user-engagement" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="the-case-of-the-declining-user-engagement"><span class="header-section-number">3.3</span> The Case of the Declining User Engagement</h2>
+<section id="the-case-of-the-declining-user-engagement" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="the-case-of-the-declining-user-engagement"><span class="header-section-number">4.3</span> The Case of the Declining User Engagement</h2>
 <p>Even if you haven’t formally studied Bayesian statistics, your brain is already wired to think like a Bayesian. To illustrate how this intuitive approach can be applied to real-world business problems, let’s consider a scenario that data scientists in the tech sector frequently encounter: investigating a sudden decline in user engagement and its potential impact on revenue.</p>
 <p>Imagine you’re a business data scientist at a high-growth tech company that offers a subscription-based productivity app. You’ve noticed a concerning trend: daily active users (DAU) have dropped by 15% over the past month, and this is starting to affect revenue. Your task is to identify the most likely cause of this engagement drop and recommend actions to reverse the trend.</p>
 <p>Let’s say we have four main hypotheses for the cause of the declining engagement:</p>
@@ -512,8 +518,8 @@ P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}
 </ul>
 <p>This is your posterior distribution. You’ve reallocated credibility based on the evidence, increasing your belief that the feature update and seasonality are the primary causes of the engagement drop.</p>
 </section>
-<section id="the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data"><span class="header-section-number">3.4</span> The Case of Karl Broman’s Socks: A Bayesian Adventure in Tiny Data</h2>
+<section id="the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data"><span class="header-section-number">4.4</span> The Case of Karl Broman’s Socks: A Bayesian Adventure in Tiny Data</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/socks.png" class="img-fluid figure-img" style="width:50.0%"></p>
@@ -524,7 +530,7 @@ P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}
 <section id="the-bayesian-approach-to-the-sock-problem" class="level3">
 <h3 class="anchored" data-anchor-id="the-bayesian-approach-to-the-sock-problem">The Bayesian Approach to the Sock Problem</h3>
 <p>Bååth tackles this problem using Approximate Bayesian Computation (ABC), an intuitive albeit computationally intensive method (see <span class="citation" data-cites="rubin1984bayesianly">Rubin (<a href="references.html#ref-rubin1984bayesianly" role="doc-biblioref">1984</a>)</span>).</p>
-<p>In this Bayesian adventure, we begin with two crucial pieces of information, encoded as prior probability distributions. The number of socks is a count variable, so we’ll employ a negative binomial data generating process. (We delve into this topic in more detail in <a href="beyond_normality.html#sec-negative-binomial" class="quarto-xref"><span>Section 16.3</span></a>.) For now, let’s follow Bååth’s lead and set (<span class="math inline">\(\mu = 30\)</span>) and (size = 4).</p>
+<p>In this Bayesian adventure, we begin with two crucial pieces of information, encoded as prior probability distributions. The number of socks is a count variable, so we’ll employ a negative binomial data generating process. (We delve into this topic in more detail in <a href="beyond_normality.html#sec-negative-binomial" class="quarto-xref"><span>Section 17.3</span></a>.) For now, let’s follow Bååth’s lead and set (<span class="math inline">\(\mu = 30\)</span>) and (size = 4).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Dataframe of possible sock counts</span></span>
@@ -965,8 +971,8 @@ shinyApp(ui, server)
 </code></pre>
 </section>
 </section>
-<section id="conclusion" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">3.5</span> Conclusion</h2>
+<section id="conclusion" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">4.5</span> Conclusion</h2>
 <p>Bayesian statistics offers a powerful and intuitive framework for business data science, aligning closely with how businesses make decisions. By incorporating prior knowledge, we can update our beliefs based on evidence and quantify uncertainty in a natural way. The concept of reallocating credibility across possibilities provides an intuitive way to think about learning from data.</p>
 <p>Furthermore, Bayesian methods are particularly well-suited to the “small data” scenarios often encountered in business. While “big data” garners much attention, many crucial business decisions hinge on limited information. The Bayesian framework allows us to begin with prior knowledge, update it with available data, and then communicate our findings in plain language.</p>
 <p>In essence, Bayesian statistics provides a flexible and powerful approach for tackling the complex and often uncertain world of business decision-making.</p>
@@ -1475,13 +1481,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./potential_outcome.html" class="pagination-link" aria-label="The Potential Outcomes Framework">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">The Potential Outcomes Framework</span></span>
+      <a href="./baseline.html" class="pagination-link" aria-label="Baseline Equivalence">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Baseline Equivalence</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./decisions_first.html" class="pagination-link" aria-label="A Decisions First Framework">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A Decisions First Framework</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A Decisions First Framework</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
@@ -2187,7 +2193,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ignacio82/book/edit/master/bayes101.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><div class="page-columns page-rows-contents page-layout-article"><div class="social-share"><a href="https://www.linkedin.com/shareArticle?url=https://book.martinez.fyi/&amp;title=Business Data Science" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in fa-fw fa-lg"></i></a>  <a href="mailto:?subject=Business Data Science&amp;body=Check out this link:https://book.martinez.fyi/" target="_blank" class="email"><i class="fa-solid fa-envelope fa-fw fa-lg"></i></a><a href="javascript:void(0);" onclick="var mastodon_instance=prompt('Mastodon Instance / Server Name?'); if(typeof mastodon_instance==='string' &amp;&amp; mastodon_instance.length){this.href='https://'+mastodon_instance+'/share?text=Business Data Science https://book.martinez.fyi/'}else{return false;}" target="_blank" class="mastodon"><i class="fa-brands fa-mastodon fa-fw fa-lg"></i></a></div></div>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","descPosition":"bottom","loop":false});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","selector":".lightbox","loop":false,"openEffect":"zoom","closeEffect":"zoom"});
 window.onload = () => {
   lightboxQuarto.on('slide_before_load', (data) => {
     const { slideIndex, slideNode, slideConfig, player, trigger } = data;
