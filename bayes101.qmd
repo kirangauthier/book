@@ -188,6 +188,7 @@ sock_counts$probability <- dnbinom(sock_counts$n_socks, mu = 30, size = 4)
 # Create the histogram
 ggplot(sock_counts, aes(x = n_socks, y = probability)) +
   geom_col(fill = "skyblue", color = "black") +
+  scale_y_continuous(labels = scales::percent) +
   theme_minimal() +
   labs(x = "Total Number of Socks", y = "Probability") +
   ggtitle("Prior Distribution for Total Number of Socks")
@@ -267,7 +268,8 @@ simulate_socks <- function(n_picked) {
 
 # Run simulations
 n_sims <- 100000
-sock_sim <- future_map_dfr(1:n_sims, ~simulate_socks(n_picked))
+sock_sim <- future_map_dfr(1:n_sims, ~simulate_socks(n_picked),
+                           .options = furrr_options(seed = 123))
 
 # Filter for matching simulations (11 unique socks, 0 pairs)
 post_samples <- sock_sim %>%
@@ -424,8 +426,8 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 library(furrr)
-library(patchwork)
 library(shinybusy)
+library(shinydashboard)
 
 # Enable parallel processing with the number of cores available
 plan(multisession, workers = availableCores())
@@ -433,13 +435,12 @@ plan(multisession, workers = availableCores())
 # Define the number of socks picked
 n_picked <- 11
 
-# Improved simulation function
-simulate_socks <- function(n_picked, n_socks) {
+simulate_socks <- function(n_picked, mu, size, shape1, shape2) {
   # Generate total number of socks from prior
-  n_socks <- rnbinom(1, mu = 30, size = 4)
+  n_socks <- rnbinom(1, mu = mu, size = size)
   
   # Generate proportion of paired socks from prior
-  prop_pairs <- rbeta(1, shape1 = 15, shape2 = 2)
+  prop_pairs <- rbeta(1, shape1 = shape1, shape2 = shape2)
   
   # Calculate number of pairs and odd socks
   n_pairs <- round(floor(n_socks / 2) * prop_pairs)
@@ -461,64 +462,94 @@ simulate_socks <- function(n_picked, n_socks) {
   )
 }
 
-ui <- fluidPage(
-  titlePanel("The Socks of Karl Broman"),
-  use_busy_spinner(spin = "fading-circle"),  
-  sidebarLayout(
-    sidebarPanel(
-      numericInput(
-        inputId = "seed",
-        label = "Random Seed",
-        value = 123,
-        min = 1,
-        step = 1
-      ),
-      numericInput(
-        inputId = "n_sims",
-        label = "Number of Simulations",
-        value = 50000,
-        min = 100,
-        step = 100
-      ),
-      sliderInput(
-        inputId = "mu",
-        label = "mu",
-        min = 15,
-        max = 60,
-        value = 40,
-        step = 1
-      ),
-      sliderInput(
-        inputId = "size",
-        label = "Size",
-        min = 3,
-        max = 10,
-        value = 4,
-        step = 1
-      ),
-      sliderInput(
-        inputId = "shape1",
-        label = "Shape 1",
-        min = 2,
-        max = 20,
-        value = 15,
-        step = 1
-      ),
-      sliderInput(
-        inputId = "shape2",
-        label = "Shape 2",
-        min = 2,
-        max = 8,
-        value = 2,
-        step = 1
-      ),
-      actionButton("run_sim", "Run Simulation")
+ui <- dashboardPage(
+  skin = "black",
+  dashboardHeader(title = "Karl's Socks"),
+  dashboardSidebar(
+    numericInput(
+      inputId = "seed",
+      label = "Random Seed",
+      value = 123,
+      min = 1,
+      step = 1
     ),
-    mainPanel(
-      plotOutput("prior_socks"),
-      plotOutput("prior_prop"),
-      plotOutput("distribution_plot"),
-      plotOutput("joint_plot")
+    numericInput(
+      inputId = "n_sims",
+      label = "Number of Simulations",
+      value = 10000,
+      min = 100,
+      step = 100
+    ),
+    sliderInput(
+      inputId = "mu",
+      label = "mu",
+      min = 15,
+      max = 60,
+      value = 40,
+      step = 1
+    ),
+    sliderInput(
+      inputId = "size",
+      label = "Size",
+      min = 3,
+      max = 10,
+      value = 4,
+      step = 1
+    ),
+    sliderInput(
+      inputId = "shape1",
+      label = "Shape 1",
+      min = 2,
+      max = 20,
+      value = 15,
+      step = 1
+    ),
+    sliderInput(
+      inputId = "shape2",
+      label = "Shape 2",
+      min = 2,
+      max = 8,
+      value = 2,
+      step = 1
+    ),
+    actionButton("run_sim", "Run Simulation")
+  ),
+  dashboardBody(
+    use_busy_spinner(spin = "fading-circle"),
+    fluidRow(
+      box(
+        title = "Prior Distribution for Total Number of Socks", 
+        status = "danger", solidHeader = TRUE,
+        collapsible = TRUE,
+        plotOutput("prior_socks")
+      ),
+      
+      box(
+        title = "Prior Distribution for Proportion of Paired Socks", 
+        status = "danger", solidHeader = TRUE,
+        collapsible = TRUE,
+        plotOutput("prior_prop")
+      )
+    ),
+    
+    fluidRow(
+      box(
+        title = "Prior and Posterior Distributions of Total Socks", 
+        status = "danger", solidHeader = TRUE,
+        collapsible = TRUE,
+        plotOutput("distribution_plot")
+      ),
+      
+      box(
+        title = "Joint Posterior Distribution of Pairs and Odd Socks", 
+        status = "danger", solidHeader = TRUE,
+        collapsible = TRUE,
+        plotOutput("joint_plot")
+      )
+    ),
+    
+    fluidRow(
+      valueBoxOutput("pr_pairs")
     )
   )
 )
@@ -528,14 +559,33 @@ server <- function(input, output) {
   sock_sim <- eventReactive(input$run_sim, {
     show_modal_spinner()  
     on.exit(remove_modal_spinner())
-    set.seed(input$seed)  
-    future_map_dfr(1:input$n_sims, ~simulate_socks(n_picked))
+    set.seed(input$seed)
+    local_mu <- input$mu
+    local_size <- input$size
+    local_shape1 <- input$shape1
+    local_shape2 <- input$shape2
+    future_map_dfr(1:input$n_sims,
+                   ~simulate_socks(n_picked = 11,
+                                   mu = local_mu,
+                                   size = local_size,
+                                   shape1 = local_shape1,
+                                   shape2 = local_shape2),
+                   .options = furrr_options(seed = 123))
   })
   
   # Filter for matching simulations (11 unique socks, 0 pairs)
   post_samples <- reactive({
     sock_sim() %>% 
       filter(unique == 11, pairs == 0)
+  })
+  
+  output$pr_pairs <- renderValueBox({
+    req(post_samples())
+    valueBox(
+      scales::percent(mean(post_samples()$n_pairs > 14)),
+      "Pr[# Pairs > 14]", icon = icon("socks"),
+      color = "red"
+    )
   })
   
   # Prepare data for plotting
@@ -567,10 +617,10 @@ server <- function(input, output) {
     
     # Create the histogram
     ggplot(sock_counts, aes(x = n_socks, y = probability)) +
-      geom_col(fill = "skyblue", color = "black") +
+      geom_col(fill = "skyblue", color = "black")+ 
+      scale_y_continuous(labels = scales::percent) +
       theme_minimal() +
-      labs(x = "Total Number of Socks", y = "Probability") +
-      ggtitle("Prior Distribution for Total Number of Socks")
+      labs(x = "Total Number of Socks", y = "Probability")
   })
   
   output$prior_prop <- renderPlot({
@@ -586,8 +636,7 @@ server <- function(input, output) {
            aes(x = proportion, y = density)) +
       geom_line(color = "darkgreen") +
       theme_minimal() +
-      labs(x = "Proportion of Paired Socks", y = "Density") +
-      ggtitle("Prior Distribution for Proportion of Paired Socks")
+      labs(x = "Proportion of Paired Socks", y = "Density")
   })
   
   output$distribution_plot <- renderPlot({
@@ -597,8 +646,8 @@ server <- function(input, output) {
     ggplot(plot_data, aes(x = n_socks, y = prop, fill = type)) +
       geom_col(position = "dodge", alpha = 0.7) +
       scale_fill_manual(values = c("Prior" = "lightgreen", "Posterior" = "skyblue")) +
-      labs(title = "Prior and Posterior Distributions of Total Socks",
-           x = "Number of Socks", y = "Proportion", fill = "Distribution") +
+      scale_y_continuous(labels = scales::percent) +
+      labs(x = "Number of Socks", y = "Probability", fill = "Distribution") +
       theme_minimal() +
       theme(legend.position = "top")
   })
@@ -609,8 +658,7 @@ server <- function(input, output) {
       ggplot(post_samples(), aes(x = n_pairs, y = n_odd)) +
         geom_hex(bins = 30) +
         scale_fill_viridis_c() +
-        labs(title = "Joint Posterior Distribution of Pairs and Odd Socks",
-             x = "Number of Pairs", y = "Number of Odd Socks") +
+        labs(x = "Number of Pairs", y = "Number of Odd Socks") +
         theme_minimal()
     } else {
       ggplot() + 
@@ -620,7 +668,7 @@ server <- function(input, output) {
   })
 }
 
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
 
 ```
 

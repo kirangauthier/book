@@ -7,7 +7,7 @@ share:
   email: true
   mastodon: true
 ---
-## The Basic Idea
+## The Basic Idea {#sec-potential}
 
 ![Potential outcome](img/potential.jpg){.lightbox}
 

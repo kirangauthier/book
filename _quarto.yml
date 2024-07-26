@@ -25,6 +25,7 @@ book:
       chapters: 
         - chapter_01.qmd
         - potential_outcome.qmd
+        - baseline.qmd
         - bayes101.qmd
         - decisions_first.qmd
         - rce.qmd
