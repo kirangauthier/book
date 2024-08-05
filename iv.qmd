@@ -6,6 +6,9 @@ share:
   linkedin: true
   email: true
   mastodon: true
+author:
+  - name: Yichi Zhang
+  - name: Ignacio Martinez
 ---
 
 A common business question that arises is: "What is the value of a given set of
@@ -58,9 +61,9 @@ action itself. We want to know what happens when people actually take that step,
 change that behavior, or adopt that product. This is where the Complier Average
 Causal Effect (CACE), also known as the Local Average Treatment Effect (LATE),
 comes in. It isolates the average effect of the treatment specifically for those
-who are swayed by the encouragement—the compliers. The CACE is calculated as:
+who are swayed by the encouragement—the compliers. The CACE is defined as:
 
-$$CACE = \frac{E[Y|Z=1] - E[Y|Z=0]}{E[D|Z=1] - E[D|Z=0]}$$ 
+$$CACE = E[Y(1) - Y(0)|D(1) = 1, D(0) = 0]$$ 
 
 where $Z$ is the encouragement assignment and $D$ is the actual treatment
 received.
@@ -86,3 +89,198 @@ what matters most? REDs give us the flexibility to answer both questions,
 guiding our decisions with robust causal insights.  
 
 ## Examples with synthetic data
+
+The [{BIVA}](https://github.com/google/biva) R package is a Bayesian
+implementation of instrumental variable analysis. The package
+[vignette](https://github.com/google/biva/blob/main/vignettes/Gaussian.Rmd)
+contains a simulated example demonstrating its workflow and caveats.
+The simulated dataset is from a hypothetical RED under two-sided noncompliance.
+In other words, those encouraged to take the treatment can opt out,
+and those not encouraged can take the treatment, but there is no defier.
+Therefore, there exist compliers, never-takers, and always-takers in the study.
+
+```{r simulated_data_two_side}
+set.seed(1997)
+n <- 200
+
+# Covariates
+# X (continuous, observed)
+# U (binary, unobserved)
+X <- rnorm(n)
+U <- rbinom(n, 1, 0.5)
+
+## True memberships of principal strata (1:c,2:nt,3:at): S-model depends only on U
+true.PS <- rep(0, n)
+U1.ind <- (U == 1)
+U0.ind <- (U == 0)
+num.U1 <- sum(U1.ind)
+num.U0 <- sum(U0.ind)
+true.PS[U1.ind] <- t(rmultinom(num.U1, 1, c(0.6, 0.3, 0.1))) %*% c(1, 2, 3)
+true.PS[U0.ind] <- t(rmultinom(num.U0, 1, c(0.4, 0.5, 0.1))) %*% c(1, 2, 3)
+
+## Treatment assigned: half control & half treatment
+Z <- c(rep(0, n / 2), rep(1, n / 2))
+
+## Treatment received: determined by principal strata and treatment assigned
+D <- rep(0, n)
+c.trt.ind <- (true.PS == 1) & (Z == 1)
+c.ctrl.ind <- (true.PS == 1) & (Z == 0)
+nt.ind <- (true.PS == 2)
+at.ind <- (true.PS == 3)
+num.c.trt <- sum(c.trt.ind)
+num.c.ctrl <- sum(c.ctrl.ind)
+num.nt <- sum(nt.ind)
+num.at <- sum(at.ind)
+D[at.ind] <- rep(1, num.at)
+D[c.trt.ind] <- rep(1, num.c.trt)
+
+## Generate observed outcome: Y-model depend on X, U, D, and principal strata
+Y <- rep(0, n)
+Y[c.ctrl.ind] <- rnorm(num.c.ctrl,
+  mean = 5000 + 100 * X[c.ctrl.ind] - 300 * U[c.ctrl.ind],
+  sd = 50
+)
+Y[c.trt.ind] <- rnorm(num.c.trt,
+  mean = 5250 + 100 * X[c.trt.ind] - 300 * U[c.trt.ind],
+  sd = 50
+)
+Y[nt.ind] <- rnorm(num.nt,
+  mean = 6000 + 100 * X[nt.ind] - 300 * U[nt.ind],
+  sd = 50
+)
+Y[at.ind] <- rnorm(num.at,
+  mean = 4500 + 100 * X[at.ind] - 300 * U[at.ind],
+  sd = 50
+)
+
+df <- data.frame(Y = Y, Z = Z, D = D, X = X, U = U)
+```
+
+In this example, the CACE is set to be 5250 - 5000 = 250.
+
+### The ITT analysis
+
+The ITT effect point estimate can be straightfowardly computed:
+
+```{r ITT_two_side}
+ITT <- sum(Y*Z)/sum(Z) - sum(Y*(1-Z))/sum(1-Z)
+ITT
+```
+
+The effect of the nudge is estimated to be very small as compared to the
+true CACE. It again illustrates the difference between the effect of the
+nudge and the effect of the treatment.
+
+### The Bayesian instrumental variable analysis (BIVA)
+
+#### Prior predictive checking
+
+The strength of a Bayesian inference workflow is that it will be able to
+encode prior business knowledge and assumptions by priors. Therefore,
+it is a good practice to kick off the analysis by visualizing the assumptions
+by the prior parameters fed into the function. Users can modify them
+before processing the data to best reflect their prior knowledge.
+
+```{r priors_check_two_side, fig.align = 'center', message=FALSE, results = "hide"}
+library(BIVA)
+
+ivobj <- biva$new(
+  data = df, y = "Y", d = "D", z = "Z",
+  x_ymodel = c("X"),
+  x_smodel = c("X"),
+  ER = 1,
+  side = 2,
+  beta_mean_ymodel = cbind(rep(5000, 4), rep(0, 4)),
+  beta_sd_ymodel = cbind(rep(200, 4), rep(200, 4)),
+  beta_mean_smodel = matrix(0, 2, 2),
+  beta_sd_smodel = matrix(1, 2, 2),
+  sigma_shape_ymodel = rep(1, 4),
+  sigma_scale_ymodel = rep(1, 4),
+  fit = FALSE
+)
+
+ivobj$plotPrior()
+```
+
+In this case, the prior information assumes the impact of the treatment is
+centered around zero, and the distributions of the compliance types are
+quite balanced.
+
+#### Model fitting and diagnostics
+
+Having chosen prior parameters that best represent our prior knowledge, we
+proceed to actually fitting the model.
+
+```{r fit_two_side, fig.align = 'center', message=FALSE, results = "hide"}
+ivobj <- biva$new(
+  data = df, y = "Y", d = "D", z = "Z",
+  x_ymodel = c("X"),
+  x_smodel = c("X"),
+  ER = 1,
+  side = 2,
+  beta_mean_ymodel = cbind(rep(5000, 4), rep(0, 4)),
+  beta_sd_ymodel = cbind(rep(200, 4), rep(200, 4)),
+  beta_mean_smodel = matrix(0, 2, 2),
+  beta_sd_smodel = matrix(1, 2, 2),
+  sigma_shape_ymodel = rep(1, 4),
+  sigma_scale_ymodel = rep(1, 4),
+  fit = TRUE
+)
+
+We inspect the traceplot of outcomes among different strata of compliant
+types to confirm if the mixing and convergence look good. The methods in
+the BIVA package allows us to take responsibility of understanding how we
+get the results and discerning any issues with the model fitting process
+before making conclusions.
+
+```{r tracePlot_two_side, fig.align = 'center'}
+ivobj$tracePlot()
+```
+
+The traceplot looks good. We perform a weak instrument test to make sure
+there is no need to worry about issues from a weak IV.
+
+```{r weak_IV_test_two_side, fig.align = 'center'}
+ivobj$weakIVTest()
+```
+
+It passes the weak IV test.
+
+#### Posterior summary
+
+We summarize the findings from the analysis by calling methods tailored to
+the business questions of our interest.
+
+```{r findings_two_side, fig.align = 'center'}
+# Posterior distribution of the strata probability
+ivobj$strataProbEstimate()
+# Posterior probability that CACE is greater than 200
+ivobj$calcProb(a = 200)
+# Posterior median of the CACE
+ivobj$pointEstimate()
+# Posterior mean of the CACE
+ivobj$pointEstimate(median = FALSE)
+# 75% credible interval of the CACE
+ivobj$credibleInterval()
+# 95% credible interval of the CACE
+ivobj$credibleInterval(width = 0.95)
+```
+
+We obtain more accurate point estimates, informative statements,
+and flexible quantification of uncertainty that propel business decision-making.
+
+#### Visualizations of knowledge progression
+
+The comparison between the prior knowledge and the updated posterior by
+information from the data can be visualized by the following method.
+
+::: {.content-visible when-format="html"}
+```{r comparison_two_side, message=FALSE}
+#| eval: !expr knitr::is_html_output()
+ivobj$vizdraws(
+  display_mode_name = TRUE, breaks = 200,
+  break_names = c("< 200", "> 200")
+)
+ivobj$lollipop(threshold = 200, mediumText = 8)
+```
+:::
