@@ -42,6 +42,8 @@ them into four groups:
   - **Never-takers:** Those who wouldn't take the action regardless of
     encouragement.
   - **Defiers:** (Rarely assumed to exist) Do the opposite of what's encouraged.
+    While theoretically possible, this group is often assumed away in most
+    analyses for simplicity.
 
 The potential outcomes framework is crucial for understanding these designs. For
 each participant, we consider:
@@ -51,144 +53,275 @@ each participant, we consider:
   - $D(1)$: The treatment status if encouraged
   - $D(0)$: The treatment status if not encouraged
 
-## What We Want to Know
+## What We Want to Know: ITT and CACE
 
-In the world of REDs, our curiosity often leads us down two paths. Sometimes,
-we're primarily interested in the value of the encouragement itself—the gentle
-push, the subtle prompt, the enticing incentive. In this case, we estimate the
-Intent-to-Treat (ITT) effect: the average change in the outcome simply due to
-being encouraged, regardless of whether individuals actually comply and take the
-action. Mathematically, this is represented as:
+In the world of REDs, our curiosity often leads us down two paths:
 
-$$ITT = E[Y(1) - Y(0)]$$
+1.  **Intent-to-Treat (ITT) Effect:** Sometimes, we're primarily interested in
+    the value of the encouragement itself—the gentle push, the subtle prompt,
+    the enticing incentive. In this case, we estimate the Intent-to-Treat (ITT)
+    effect: the average change in the outcome simply due to being encouraged,
+    regardless of whether individuals actually comply and take the action.
+    Mathematically, this is represented as: $$ITT = E[Y(1) - Y(0)]$$ For
+    example, a marketing team might want to know the overall impact of sending a
+    promotional email, regardless of whether recipients actually click through
+    and make a purchase.
 
-However, in other scenarios, our focus shifts to the true causal impact of the
-action itself. We want to know what happens when people actually take that step,
-change that behavior, or adopt that product. This is where the Complier Average
-Causal Effect (CACE), also known as the Local Average Treatment Effect (LATE),
-comes in. It isolates the average effect of the treatment specifically for those
-who are swayed by the encouragement—the compliers. The CACE is defined as:
+2.  **Complier Average Causal Effect (CACE):** In other scenarios, our focus
+    shifts to the true causal impact of the action itself. We want to know what
+    happens when people actually take that step, change that behavior, or adopt
+    that product. This is where the Complier Average Causal Effect (CACE), also
+    known as the Local Average Treatment Effect (LATE), comes in. It isolates
+    the average effect of the treatment specifically for those who are swayed by
+    the encouragement—the compliers. The CACE is defined as:
+    $$CACE = E[Y(1) - Y(0)|D(1) = 1, D(0) = 0]$$
+where $Z$ is the encouragement assignment and $D$
+    is the actual treatment received. For instance, a product team might be
+    interested in the impact of actually using a new feature on user engagement,
+    rather than just being encouraged to use it.
 
-$$CACE = E[Y(1) - Y(0)|D(1) = 1, D(0) = 0]$$ 
-
-where $Z$ is the encouragement assignment and $D$ is the actual treatment
-received.
 
 ## Making it Work: Key Assumptions
 
-For REDs to yield valid causal conclusions, a few things need to hold true:
+For REDs to yield valid causal conclusions, a few key assumptions need to hold
+true:
 
-  - **Ignorability of the instrument:** The encouragement assignment is random
-    and independent of potential outcomes.
-  - **Exclusion restriction:** Encouragement affects the outcome only through
-    its effect on treatment take-up.
-  - **Monotonicity:** There are no defiers (i.e., no one does the opposite of
-    what they're encouraged to do).
-  - **Relevance:** The encouragement actually affects treatment take-up (i.e.,
-    there are compliers).
+1.  **Ignorability of the instrument:** The encouragement assignment is random
+    and independent of potential outcomes. This ensures that any differences we
+    observe are due to the encouragement, not pre-existing differences between
+    groups.
+2.  **Exclusion restriction:** Encouragement affects the outcome only through
+    its effect on treatment take-up. For example, receiving an email about a new
+    feature shouldn't directly impact user engagement; it should only impact
+    engagement through increased feature usage.
+3.  **Monotonicity:** There are no defiers (i.e., no one does the opposite of
+    what they're encouraged to do). This simplifies our analysis and is usually
+    a reasonable assumption in most business contexts.
+4.  **Relevance:** The encouragement actually affects treatment take-up (i.e.,
+    there are compliers). If our encouragement doesn't change anyone's behavior,
+    we can't learn anything about the treatment effect
     
-The choice between focusing on the ITT or the CACE depends entirely on the
-business decisions we're trying to inform. Are we evaluating the effectiveness
-of our marketing campaigns, where the encouragement itself is the key lever? Or
-are we trying to understand the inherent value of a product feature, where the
-actual usage is what matters most? REDs give us the flexibility to answer both
-questions, guiding our decisions with robust causal insights.
+Violations of these assumptions can lead to biased estimates. For example, if
+the exclusion restriction is violated (e.g., if merely receiving an email about
+a feature increases engagement regardless of usage), our CACE estimate will be
+inflated.
+
+## Practical Considerations: Designing Effective Encouragements
+
+The success of a RED hinges on the effectiveness of the encouragement. Here are
+some tips for designing impactful nudges:
+
+1.  **Relevance:** Ensure the encouragement is relevant to the user's context
+    and interests.
+2.  **Timing:** Deliver the encouragement when users are most likely to be
+    receptive.
+3.  **Clarity:** Make the encouraged action clear and easy to understand.
+4.  **Incentives:** Consider offering small incentives, but be cautious not to
+    overly influence behavior.
+5.  **A/B Testing:** Test different encouragement strategies to find the most
+    effective approach.
+
+Remember, the goal is to influence behavior enough to create a meaningful
+difference between encouraged and non-encouraged groups, without being coercive.
+
+## Common Pitfalls and Challenges
+
+While REDs are powerful, they come with their own set of challenges:
+
+1.  **Weak Instruments:** If your encouragement isn't very effective at changing
+    behavior, you'll have a "weak instrument." This can lead to imprecise and
+    potentially biased estimates.
+2.  **Spillover Effects:** In some cases, encouraged individuals might influence
+    non-encouraged individuals, violating the exclusion restriction.
+3.  **Non-Compliance:** High rates of non-compliance (always-takers and
+    never-takers) can reduce the precision of your estimates.
+4.  **External Validity:** The CACE only applies to compliers, which may not be
+    representative of your entire user base.
 
 ## Examples with synthetic data
 
+Now, let's dive into a practical example to illustrate how REDs work in a
+business context.
+
 ![BIVA](img/biva.png){.lightbox}
+Imagine you work for a social media company that has just developed a new AI
+tool allowing creators to reach audiences regardless of their native language.
+This feature is computationally intensive, so you only want to maintain it if
+the impact of using the feature is an increase in watch time of at least 200
+hours per week. How would you design an experiment to decide whether this
+feature should be kept available to users of your platform or discontinued?
 
-The [{BIVA}](https://github.com/google/biva) R package is a Bayesian
-implementation of instrumental variable analysis. The package
-[vignette](https://github.com/google/biva/blob/main/vignettes/Gaussian.Rmd)
-contains a simulated example demonstrating its workflow and caveats. The
-simulated dataset is from a hypothetical RED under two-sided noncompliance. In
-other words, those encouraged to take the treatment can opt out, and those not
-encouraged can take the treatment, but there is no defier. Therefore, there
-exist compliers, never-takers, and always-takers in the study.
+A simple experiment in which you make the feature available to some users and
+not others would not answer the relevant business question because you cannot
+force users to use the feature, and those who choose to use it are likely
+fundamentally different from those who choose not to use it. Moreover, the
+engineering team was eager to make this available to everyone, and there's no
+way you can take the feature away from people because that would be a really bad
+user experience.
 
+The solution is to randomly encourage some users to use the feature. As long as
+the encouragement is effective, we will have a valid instrument that we can use
+to answer our business question. To do this, we will be using the
+[{BIVA}](https://google.github.io/biva/) R package.
+
+Let's start by simulating some fake data. We will borrow the code from the
+package
+[vignette](https://google.github.io/biva/articles/Gaussian.html)
+which generates data that works for our little story.
 
 ```{r simulated_data_two_side}
-set.seed(1997)
-n <- 200
+set.seed(1997)  # Set random seed for reproducibility
+n <- 200         # Total number of individuals
 
-# Covariates
-# X (continuous, observed)
-# U (binary, unobserved)
-X <- rnorm(n)
-U <- rbinom(n, 1, 0.5)
+# Generate Covariates:
+# X: Continuous, observed covariate
+X <- rnorm(n)      # Draw from standard normal distribution
 
-## True memberships of principal strata (1:c,2:nt,3:at): S-model depends only on U
-true.PS <- rep(0, n)
-U1.ind <- (U == 1)
-U0.ind <- (U == 0)
-num.U1 <- sum(U1.ind)
-num.U0 <- sum(U0.ind)
+# U: Binary, unobserved confounder
+U <- rbinom(n, 1, 0.5)  # 1 = U = 1 with 50% probability
+
+# Determine True Principal Strata (PS) Membership:
+# 1: Complier, 2: Never-taker, 3: Always-taker
+true.PS <- rep(0, n)       # Initialize PS vector
+U1.ind <- (U == 1)       # Indices where U = 1
+U0.ind <- (U == 0)       # Indices where U = 0
+num.U1 <- sum(U1.ind)    # Number of individuals with U = 1
+num.U0 <- sum(U0.ind)    # Number of individuals with U = 0
+
+# Assign PS membership based on U:
+# For U = 1: 60% compliers, 30% never-takers, 10% always-takers
+# For U = 0: 40% compliers, 50% never-takers, 10% always-takers
 true.PS[U1.ind] <- t(rmultinom(num.U1, 1, c(0.6, 0.3, 0.1))) %*% c(1, 2, 3)
 true.PS[U0.ind] <- t(rmultinom(num.U0, 1, c(0.4, 0.5, 0.1))) %*% c(1, 2, 3)
 
-## Treatment assigned: half control & half treatment
+# Assign Treatment (Z):
+# Half the individuals are assigned to treatment (Z = 1), half to control (Z = 0)
 Z <- c(rep(0, n / 2), rep(1, n / 2))
 
-## Treatment received: determined by principal strata and treatment assigned
-D <- rep(0, n)
-c.trt.ind <- (true.PS == 1) & (Z == 1)
-c.ctrl.ind <- (true.PS == 1) & (Z == 0)
-nt.ind <- (true.PS == 2)
-at.ind <- (true.PS == 3)
+# Determine Treatment Received (D) Based on PS and Z:
+D <- rep(0, n)            # Initialize treatment received vector
+
+# Define indices for each group:
+c.trt.ind <- (true.PS == 1) & (Z == 1)  # Compliers, treatment
+c.ctrl.ind <- (true.PS == 1) & (Z == 0)  # Compliers, control
+nt.ind <- (true.PS == 2)               # Never-takers
+at.ind <- (true.PS == 3)               # Always-takers
+
+# Count individuals in each group:
 num.c.trt <- sum(c.trt.ind)
 num.c.ctrl <- sum(c.ctrl.ind)
 num.nt <- sum(nt.ind)
 num.at <- sum(at.ind)
-D[at.ind] <- rep(1, num.at)
-D[c.trt.ind] <- rep(1, num.c.trt)
 
-## Generate observed outcome: Y-model depend on X, U, D, and principal strata
-Y <- rep(0, n)
+# Assign treatment received:
+D[at.ind] <- rep(1, num.at)   # Always-takers receive treatment
+D[c.trt.ind] <- rep(1, num.c.trt) # Compliers in treatment group receive treatment
+
+# Generate Observed Outcome (Y):
+Y <- rep(0, n) # Initialize outcome vector
+
+# Outcome model for compliers in control group:
 Y[c.ctrl.ind] <- rnorm(num.c.ctrl,
-  mean = 5000 + 100 * X[c.ctrl.ind] - 300 * U[c.ctrl.ind],
-  sd = 50
-)
-Y[c.trt.ind] <- rnorm(num.c.trt,
-  mean = 5250 + 100 * X[c.trt.ind] - 300 * U[c.trt.ind],
-  sd = 50
-)
-Y[nt.ind] <- rnorm(num.nt,
-  mean = 6000 + 100 * X[nt.ind] - 300 * U[nt.ind],
-  sd = 50
-)
-Y[at.ind] <- rnorm(num.at,
-  mean = 4500 + 100 * X[at.ind] - 300 * U[at.ind],
-  sd = 50
+ mean = 5000 + 100 * X[c.ctrl.ind] - 300 * U[c.ctrl.ind],
+ sd = 50
 )
 
+# Outcome model for compliers in treatment group:
+Y[c.trt.ind] <- rnorm(num.c.trt,
+ mean = 5250 + 100 * X[c.trt.ind] - 300 * U[c.trt.ind],
+ sd = 50
+)
+
+# Outcome model for never-takers:
+Y[nt.ind] <- rnorm(num.nt,
+ mean = 6000 + 100 * X[nt.ind] - 300 * U[nt.ind],
+ sd = 50
+)
+
+# Outcome model for always-takers:
+Y[at.ind] <- rnorm(num.at,
+ mean = 4500 + 100 * X[at.ind] - 300 * U[at.ind],
+ sd = 50
+)
+
+# Create a data frame with all variables:
 df <- data.frame(Y = Y, Z = Z, D = D, X = X, U = U)
 ```
 
-In this example, the CACE is set to be 5250 - 5000 = 250.
+The data generating process above creates a scenario with two-sided
+noncompliance. In other words, those encouraged to use the AI feature can choose
+not to do it, and those not encouraged can choose to do it. Additionally, this
+data generation process has no defiers, meaning the nudge works as intended but
+is not perfect. We have compliers, never-takers, and always-takers.
 
-### The ITT analysis
+The code generates data for 200 individuals, including their compliance status
+and outcome. We have two baseline covariates: one observed (a continuous
+variable, X) and one unobserved (a binary variable, U).
 
-The ITT effect point estimate can be straightfowardly computed:
+The unobserved confounder U determines each individual's membership in one of
+the two principal strata. An individual has a 60% probability of being a
+complier if U = 1, and a 30% probability if U = 0.
 
-```{r ITT_two_side}
-ITT <- sum(Y*Z)/sum(Z) - sum(Y*(1-Z))/sum(1-Z)
-ITT
+The outcome models vary by strata-nudge combinations. Compliers may or may not
+adopt the treatment depending on their assigned nudge, resulting in two distinct
+outcome models for the treatment groups. Never-takers, on the other hand, will
+never adopt the treatment, so they have a single outcome model
+
+All three outcome models depend on both the observed $X$ and the unobserved $U$,
+with identical slopes. The difference between the intercepts of the outcome
+models for compliers ($5250 - 5000 = 250$) represents the Complier Average
+Causal Effect (CACE). This is the true causal effect we're trying to estimate,
+but it's hidden from us in real-world scenarios due to the presence of
+unobserved confounders and the inability to directly observe compliance types.
+
+### The Perils of Naive OLS Analysis
+
+In many business settings, analysts might be tempted to use simple regression
+techniques to estimate causal effects. However, this approach can lead to
+severely biased estimates when dealing with scenarios like the one described
+above. Let's explore why this is the case and how it could lead to incorrect
+business decisions.
+
+Suppose we were unaware of the necessity of using instrumental variables and
+naively applied a linear regression to answer our question about the impact of
+the AI translation feature on watch time.
+
+```{r ols}
+OLS <- lm(data = df, formula = Y ~ D + X)
+broom::tidy(OLS)
 ```
 
-The effect of the nudge is estimated to be very small as compared to the
-true CACE. It again illustrates the difference between the effect of the
-nudge and the effect of the treatment.
+Let's break down these results:
+
+1.  Our estimate for D (the treatment effect) is `r round(OLS$coefficients[2])`
+    hours.
+2.  This estimate is statistically significant (p \< 0.05).
+
+Based on this analysis, we might mistakenly conclude that the impact of the AI
+translation feature is negative and substantial. If we were to make a business
+decision based on this result, we would likely choose to discontinue the
+feature, believing it's harming user engagement.
+
+However, we know from our data generation process that the true causal effect
+(CACE) is positive 250 hours. 
 
 ### The Bayesian instrumental variable analysis (BIVA)
+
+In light of the limitations of naive OLS analysis, we turn to a more
+sophisticated approach: Bayesian Instrumental Variable Analysis (BIVA). This
+method allows us to account for the complexities of our randomized encouragement
+design and extract meaningful causal insights.
 
 #### Prior predictive checking
 
 The strength of a Bayesian approach lies in its ability to seamlessly integrate
 prior business knowledge and assumptions through the use of prior distributions.
-A prudent first step in any analysis is visualizing these assumptions through
-the prior parameters fed into the model. This allows users to refine them before
-delving into the data, ensuring the priors truly reflect their domain expertise.
+This is particularly valuable in business contexts where we often have domain
+expertise or historical data that can inform our analysis.
+
+A prudent first step is visualizing these assumptions through the prior
+parameters fed into the model. This allows us to refine them before delving into
+the data, ensuring the priors truly reflect our domain expertise.
 
 ```{r priors_check_two_side, fig.align = 'center', message=FALSE, results = "hide"}
 library(biva)
@@ -218,7 +351,8 @@ relatively balanced.
 #### Model fitting and diagnostics
 
 After tailoring prior parameters to reflect our existing knowledge, we proceed
-with fitting the model.
+with fitting the model. This step combines our prior beliefs with the observed
+data to update our understanding of the causal effect.
 
 ```{r fit_two_side, fig.align = 'center', message=FALSE, results = "hide"}
 ivobj <- biva$new(
@@ -238,25 +372,32 @@ ivobj <- biva$new(
 ```
 
 To ensure the model is behaving as expected, we inspect the trace plot of
-outcomes across different compliance strata, confirming satisfactory mixing and
-convergence. The BIVA package empowers us to take ownership of understanding the
-results, scrutinizing any potential issues in the fitting process before drawing
-conclusions.
+outcomes across different compliance strata. This diagnostic tool helps us
+confirm satisfactory mixing and convergence of our Markov Chain Monte Carlo
+(MCMC) sampling process.
 
 ```{r tracePlot_two_side, fig.align = 'center'}
 ivobj$tracePlot()
 ```
 
-With a healthy trace plot, we proceed with a weak instrument test, ensuring the
-validity of our results in the face of potential weak instruments.
+The trace plots show good mixing and convergence, indicating that our MCMC
+sampler is effectively exploring the posterior distribution. This gives us
+confidence in the reliability of our posterior estimates.
+
+Next, we conduct a weak instrument test. This is crucial in instrumental
+variable analysis, as weak instruments can lead to biased estimates and
+unreliable inferences.
 
 ```{r weak_IV_test_two_side, fig.align = 'center'}
 ivobj$weakIVTest()
 ```
 
-The test indicates no cause for concern regarding weak instruments.
+The test indicates no cause for concern regarding weak instruments. This means
+our encouragement (the instrument) is sufficiently correlated with the actual
+use of the AI translation feature, allowing us to make reliable causal
+inferences.
 
-#### Posterior summary
+#### Posterior Summary and Business Insights
 
 Now, we harness the power of Bayesian analysis to extract meaningful insights
 tailored to our business questions. The BIVA package provides a suite of methods
@@ -281,7 +422,7 @@ Through these methods, we obtain precise point estimates, informative
 probabilistic statements, and a flexible quantification of uncertainty that
 fuels informed decision-making.
 
-#### Visualizations of knowledge progression
+#### Visualization of Knowledge Progression
 
 The evolution of our understanding, from prior knowledge to the updated
 posterior informed by data, can be vividly visualized.
