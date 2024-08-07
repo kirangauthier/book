@@ -430,7 +430,15 @@ fuels informed decision-making.
 #### Visualization of Knowledge Progression
 
 The evolution of our understanding, from prior knowledge to the updated
-posterior informed by data, can be vividly visualized.
+posterior informed by data, can be vividly visualized. This visualization is
+particularly powerful in a business context, as it allows stakeholders to see
+how our beliefs about the effectiveness of the AI content suggestion tool have
+changed based on the data we've collected.
+
+In our example, we wanted to make a decision based on whether the impact of the
+tool on watch time is substantial enough to justify its computational costs.
+Specifically, we set a threshold of 200 hours of increased watch time per week
+as our decision boundary.
 
 ::: {.content-visible when-format="html"}
 ```{r comparison_two_side, message=FALSE}
@@ -442,8 +450,15 @@ ivobj$vizdraws(
 ```
 :::
 
-This visual comparison elucidates how the data refines our initial beliefs,
-enhancing our grasp of the underlying causal relationships.
+This approach allows us to answer our business question directly and
+probabilistically. In this case, we can conclude that there's strong evidence
+that the AI content suggestion tool increases watch time by more than 200 hours
+per week, justifying its computational costs.
+
+Importantly, this method provides a nuanced view that goes beyond simple
+"significant" or "not significant" dichotomies. It allows decision-makers to
+weigh the probabilities of different effect sizes against their specific
+business contexts and risk tolerances.
 
 ### Binary Outcomes (TODO)
 
