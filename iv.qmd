@@ -307,10 +307,149 @@ However, we know from our data generation process that the true causal effect
 
 ### The Bayesian instrumental variable analysis (BIVA)
 
-In light of the limitations of naive OLS analysis, we turn to a more
-sophisticated approach: Bayesian Instrumental Variable Analysis (BIVA). This
-method allows us to account for the complexities of our randomized encouragement
-design and extract meaningful causal insights.
+Having explored the limitations of naive OLS analysis, we now turn our attention
+to a more sophisticated approach: Bayesian Instrumental Variable Analysis
+(BIVA). This method allows us to navigate the complexities of our randomized
+encouragement design and extract meaningful causal insights.
+
+The BIVA workflow begins with the `biva$new method`, which is defined as
+follows:
+
+
+```{r init}
+#| eval: false
+ivobj <-
+  biva$new(
+    data,
+    y,
+    d,
+    z,
+    x_ymodel = NULL,
+    x_smodel = NULL,
+    y_type = "real",
+    ER = 1,
+    side = 2,
+    beta_mean_ymodel,
+    beta_sd_ymodel,
+    beta_mean_smodel,
+    beta_sd_smodel,
+    sigma_shape_ymodel,
+    sigma_scale_ymodel,
+    seed = 1997,
+    fit = TRUE,
+    ...
+  )
+
+```
+
+The arguments can be decomposed into four categories:
+
+  - **Data Input**
+      - `data`: A `data.frame` containing the data to be analyzed.
+      - `y`: A character string specifying the name of the dependent numeric
+        outcome variable in the data frame.
+      - `d`: A character string specifying the name of the treatment received
+        variable (numeric 0 or 1) in the data frame.
+      - `z`: A character string specifying the name of the treatment assigned
+        variable (numeric 0 or 1) in the data frame.
+      - `x_ymodel`: An optional character vector of the names of the numeric
+        covariates to include in the Y-model for predicting outcomes, excluding
+        the intercept. The Y-model distribution class is determined by `y_type`.
+      - `x_smodel`: An optional character vector of the names of the numeric
+        covariates to include in the S-model for predicting compliance types,
+        excluding the intercept. The S-model is a (multinomial) logistic
+        regression model, with 'compliers' set as the baseline strata.
+      - `y_type`: The type of the dependent variable. It defaults to "real" if
+        the outcome is continuous and takes values from the real axis, or
+        "binary" if the outcome is discrete and dichotomized. When
+        `y_type = "real"`, linear regression models are assumed
+        for the outcomes. When `y_type = "binary"`,
+        (multinomial) logistic regression models are assumed for the outcomes.
+
+  - **Assumptions**
+      - `ER`: The exclusion restriction assumption states that the treatment
+        assignment does not directly affect the outcome among never-takers and
+        always-takers except through the treatment adopted (by default `ER = 1`
+        if assumed, 0 otherwise). This affects the number of outcome models
+        among never-takers and always-takers.
+      - `side`: The number of noncompliance sides (by default 2 if assigned
+        treated units can opt out and assigned controls can access treatment; 1
+        if assigned controls cannot access treatment).
+
+  - **Prior parameters**
+      - `beta_mean_ymodel`: A numeric matrix specifying the prior means for
+        coefficients in the Y-models for predicting outcomes by strata. Its
+        dimension is the number of outcome models \* the number of covariates
+        (including intercepts). See the 'details' section below for how the
+        number of outcome models, the number of covariates, and their ordering
+        are determined.
+      - `beta_sd_ymodel`: A numeric matrix specifying the prior standard
+        deviations for coefficients in the Y-models. Its dimension is the number
+        of outcome models \* the number of covariates (including intercepts).
+      - `beta_mean_smodel`: A numeric matrix specifying the prior means for
+        coefficients in the S-models for predicting strata membership. Its
+        dimension is the [number of strata - 1] \* the number of covariates
+        (including intercepts).
+      - `beta_sd_smodel`: A numeric matrix specifying the prior standard
+        deviations for coefficients in the S-models. Its dimension is the
+        [number of strata - 1] \* the number of covariates (including
+        intercepts).
+      - `sigma_shape_ymodel`: Required when `y_type = "real"`. A numeric vector
+        specifying the prior shape for standard deviations of errors in the
+        Y-models, whose length is the number of outcome models.
+      - `sigma_scale_ymodel`: Required when `y_type = "real"`. A numeric vector
+        specifying the prior scale for standard deviations of errors in the
+        Y-models, whose length is the number of outcome models.
+
+  - **Fitting arguments**
+      - `seed`: Seed for Stan fitting.
+      - `fit`: Flag for fitting the data to the model or not (1 if fit, 0
+        otherwise).
+      - `...`: Additional arguments for Stan
+
+##### Understanding the Number and Ordering of Outcome Models
+
+The number of outcome models is contingent upon the `ER` (exclusion restriction)
+and `side` arguments. For compliers, we invariably specify two outcome models
+within that stratum based on the assigned treatment—one for compliers assigned
+to control and one for compliers assigned to treatment.
+
+If we assume `ER = 0` (no exclusion restriction), we also need to specify two
+outcome models by the assigned treatment for never-takers (and two outcome
+models for always-takers as well if they exist, i.e., `side = 2`). Conversely, if
+`ER = 1` (exclusion restriction holds), we only need to specify one outcome model
+for never-takers (and one for always-takers if `side = 2`).
+
+The ordering of the outcome models prioritizes compliers, followed by
+never-takers, and finally always-takers. Within each stratum, if there are two
+models, they are sorted by control first, then treatment. This ordering applies
+to the rows of `beta_mean_ymodel`, `beta_sd_ymodel`, and the elements of
+`sigma_shape_ymodel` and `sigma_scale_ymodel`.
+
+For instance, if we assume `ER = 0` and `side = 1`, there will be four outcome
+models, resulting in four rows in `beta_mean_ymodel` in the following order:
+compliers assigned to control, compliers assigned to treatment, never-takers
+assigned to control, and never-takers assigned to treatment.
+
+Alternatively, if we assume `ER = 1` and `side = 2`, there will be four outcome
+models, leading to four rows in `beta_mean_ymodel` ordered as follows: compliers
+assigned to control, compliers assigned to treatment, never-takers, and
+always-takers.
+
+##### Dimensionality of Prior Parameter Matrices
+
+The number of rows in `beta_mean_smodel` and `beta_sd_smodel` is equal to [the
+number of strata - 1], which in turn equals side. We designate "compliers" as
+the baseline compliance type, so we only need to specify priors for model
+parameters for never-takers (and always-takers if side = 2). The row ordering
+follows never-taker, then always-taker.
+
+The number of covariates in `beta_mean_ymodel` and `beta_sd_ymodel` is equal to
+[the length of `x_ymodel + 1`]. Similarly, the number of covariates in
+`beta_mean_smodel` and `beta_sd_smodel` is equal to [the length of
+`x_smodel + 1]`. The first columns of all these input matrices correspond to prior
+parameters specified for the model intercepts. From the second column onwards,
+the order mirrors that specified in `x_ymodel` or `x_smodel`.
 
 #### Prior predictive checking
 
@@ -327,22 +466,32 @@ the data, ensuring the priors truly reflect our domain expertise.
 library(biva)
 
 ivobj <- biva$new(
-  data = df, y = "Y", d = "D", z = "Z",
-  x_ymodel = c("X"),
-  x_smodel = c("X"),
-  ER = 1,
-  side = 2,
-  beta_mean_ymodel = cbind(rep(5000, 4), rep(0, 4)),
-  beta_sd_ymodel = cbind(rep(200, 4), rep(200, 4)),
-  beta_mean_smodel = matrix(0, 2, 2),
-  beta_sd_smodel = matrix(1, 2, 2),
-  sigma_shape_ymodel = rep(1, 4),
-  sigma_scale_ymodel = rep(1, 4),
-  fit = FALSE
+  data = df, y = "Y", d = "D", z = "Z",  # <1>
+  x_ymodel = c("X"),                     # <1>
+  x_smodel = c("X"),                     # <1>
+  ER = 1,                                # <2>
+  side = 2,                              # <2>
+  beta_mean_ymodel = cbind(rep(5000, 4), rep(0, 4)), # <3>
+  beta_sd_ymodel = cbind(rep(200, 4), rep(200, 4)),  # <3>
+  beta_mean_smodel = matrix(0, 2, 2),                # <3>
+  beta_sd_smodel = matrix(1, 2, 2),                  # <3>
+  sigma_shape_ymodel = rep(1, 4),                    # <3>
+  sigma_scale_ymodel = rep(1, 4),                    # <3>
+  fit = FALSE                                        # <4>  
 )
 
+
+```
+
+1. Data input
+2. Assumptions.
+3. Prior parameters.
+4. Fitting.
+
+```{r plotPrior}
 ivobj$plotPrior()
 ```
+
 
 In our example, the prior information assumes the impact of the treatment is
 centered around zero, with the distributions of compliance types being
