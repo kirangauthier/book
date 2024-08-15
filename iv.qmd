@@ -549,7 +549,9 @@ inferences.
 
 ::: {.callout-note}
 ## How does BIVA tests if you have a weak instrument?
-TODO
+BIVA measures the "strength" of an instrument to be the proportion of compliers.
+We use an empirical rule-of-thumb of <10% to determine an instrument to be weak,
+and throw out warnings. A weak instrument case will be discussed later below.
 :::
 
 #### Posterior Summary and Business Insights
@@ -733,7 +735,7 @@ the critical importance of proper causal inference techniques like instrumental
 variables analysis. Without them, we risk not just misunderstanding our data,
 but making counterproductive business decisions.
 
-### Prior predictive checking
+#### Prior predictive checking
 
 The outcome type is specified by having y_type = "binary".
 We assume exclusion restriction, so ER = 1. 
@@ -766,7 +768,7 @@ refect that a small CACE is more likely than a big one. The plots show the range
 of plausible values for each parameter before we've seen any data.
 
 
-### Fitting a BIVA model to the data
+#### Fitting a BIVA model to the data
 
 Now we fit a BIVA model to the data.
 
@@ -825,6 +827,395 @@ from doubling down on ineffective strategies and guide us toward truly impactful
 improvements. This case study serves as a potent reminder: in the quest for
 causality, your choice of analytical tool can make all the difference between
 misleading conclusions and actionable insights.
+
+### Caveat 1: Generic Mixing Issue
+
+On the technical side, Bayesian analysis relies on posterior sampling for
+estimating the distributions of parameters that we get from the above methods.
+Mixing is a term that measures whether the sampling process is stabilized yet.
+Ideally, we want good mixing behavior from the posterior distribution that
+tells us "results are ready for interpretation!" If that does not happen,
+we should reserved the right to be informed of any mixing issue so we will be
+able to decide if there is anything we could do to help, or there is not much
+we can do so we interpret the results with caution. 
+
+The trace plot analysis in the BIVA workflow enables us to take such responsibility.
+After fitting the model, the trace plot analysis should follow immediately.
+This happens prior to summarizing and interpreting the results from posterior
+so the users are not committting any crimes of "hacking" anything. Instead,
+it is a responsible practice of understanding how you end up with the results
+and whether there could any issue with their validity that invites fixes or caution.
+We used the same setting of the AI feature example above for illustration,
+but the data are generated from a difference seed.
+
+```{r simulated_data_two_side_poor_mixing}
+set.seed(2001)  # Set random seed for reproducibility
+n <- 200         # Total number of individuals
+
+# Generate Covariates:
+# X: Continuous, observed covariate
+X <- rnorm(n)      # Draw from standard normal distribution
+
+# U: Binary, unobserved confounder
+U <- rbinom(n, 1, 0.5)  # 1 = U = 1 with 50% probability
+
+# Determine True Principal Strata (PS) Membership:
+# 1: Complier, 2: Never-taker, 3: Always-taker
+true.PS <- rep(0, n)       # Initialize PS vector
+U1.ind <- (U == 1)       # Indices where U = 1
+U0.ind <- (U == 0)       # Indices where U = 0
+num.U1 <- sum(U1.ind)    # Number of individuals with U = 1
+num.U0 <- sum(U0.ind)    # Number of individuals with U = 0
+
+# Assign PS membership based on U:
+# For U = 1: 60% compliers, 30% never-takers, 10% always-takers
+# For U = 0: 40% compliers, 50% never-takers, 10% always-takers
+true.PS[U1.ind] <- t(rmultinom(num.U1, 1, c(0.6, 0.3, 0.1))) %*% c(1, 2, 3)
+true.PS[U0.ind] <- t(rmultinom(num.U0, 1, c(0.4, 0.5, 0.1))) %*% c(1, 2, 3)
+
+# Assign Treatment (Z):
+# Half the individuals are assigned to treatment (Z = 1), half to control (Z = 0)
+Z <- c(rep(0, n / 2), rep(1, n / 2))
+
+# Determine Treatment Received (D) Based on PS and Z:
+D <- rep(0, n)            # Initialize treatment received vector
+
+# Define indices for each group:
+c.trt.ind <- (true.PS == 1) & (Z == 1)  # Compliers, treatment
+c.ctrl.ind <- (true.PS == 1) & (Z == 0)  # Compliers, control
+nt.ind <- (true.PS == 2)               # Never-takers
+at.ind <- (true.PS == 3)               # Always-takers
+
+# Count individuals in each group:
+num.c.trt <- sum(c.trt.ind)
+num.c.ctrl <- sum(c.ctrl.ind)
+num.nt <- sum(nt.ind)
+num.at <- sum(at.ind)
+
+# Assign treatment received:
+D[at.ind] <- rep(1, num.at)   # Always-takers receive treatment
+D[c.trt.ind] <- rep(1, num.c.trt) # Compliers in treatment group receive treatment
+
+# Generate Observed Outcome (Y):
+Y <- rep(0, n) # Initialize outcome vector
+
+# Outcome model for compliers in control group:
+Y[c.ctrl.ind] <- rnorm(num.c.ctrl,
+ mean = 5000 + 100 * X[c.ctrl.ind] - 300 * U[c.ctrl.ind],
+ sd = 50
+)
+
+# Outcome model for compliers in treatment group:
+Y[c.trt.ind] <- rnorm(num.c.trt,
+ mean = 5250 + 100 * X[c.trt.ind] - 300 * U[c.trt.ind],
+ sd = 50
+)
+
+# Outcome model for never-takers:
+Y[nt.ind] <- rnorm(num.nt,
+ mean = 6000 + 100 * X[nt.ind] - 300 * U[nt.ind],
+ sd = 50
+)
+
+# Outcome model for always-takers:
+Y[at.ind] <- rnorm(num.at,
+ mean = 4500 + 100 * X[at.ind] - 300 * U[at.ind],
+ sd = 50
+)
+
+# Create a data frame with all variables:
+df <- data.frame(Y = Y, Z = Z, D = D, X = X, U = U)
+```
+
+#### Model fitting and diagnostics
+
+Now that we inherit the above setting and assumptions, we cut to the chase of
+fitting the model and running diagnostics.
+
+```{r fit_two_side_poor_mixing, fig.align = 'center', message=FALSE, results = "hide"}
+ivobj <- biva$new(
+  data = df, y = "Y", d = "D", z = "Z",
+  x_ymodel = c("X"),
+  x_smodel = c("X"),
+  ER = 1,
+  side = 2,
+  beta_mean_ymodel = cbind(rep(5000, 4), rep(0, 4)),
+  beta_sd_ymodel = cbind(rep(200, 4), rep(200, 4)),
+  beta_mean_smodel = matrix(0, 2, 2),
+  beta_sd_smodel = matrix(1, 2, 2),
+  sigma_shape_ymodel = rep(1, 4),
+  sigma_scale_ymodel = rep(1, 4),
+  fit = TRUE
+)
+```
+
+This diagnostic tool returns the trace plot for us to discern any issue with
+mixing and convergence.
+
+```{r tracePlot_two_side_poor_mixing, fig.align = 'center'}
+ivobj$tracePlot()
+```
+
+The mixing behavior is not ideal. The posterior samples of outcomes among
+nudged compliers and always-takers wandered through some regions that
+they did not later explore. The poor mixing issue is discovered.
+
+Like a doctor precribing more tests when they first find out some symptoms,
+we run the weak instrument test below to make sure the analysis is not
+suffering from a more severe systematic disease.
+
+```{r weak_IV_test_two_side_poor_mixing, fig.align = 'center'}
+ivobj$weakIVTest()
+```
+
+Luckily, the poor mixing issue is not caused and compounded by a weak
+instrument issue. It is a relatively generic mixing issue. Without the aid
+of more information, nudged compliers can be confused with always-takers
+since they will both be observed to adopt the AI feature if nudged.
+
+Here are some possible fixes by our recommended order.
+
+1.  **More data:** Data are information. A larger sample size can resolve a
+    lot of nonsystematic issues that are masked or unclear in a small sample.
+2.  **Knowledge through prior:** Even though we recommend users to input
+    prior parameters that best reflect their prior knowledge in the first stage,
+    the mixing issue calls for a second round of reflection to reaffirm that
+    the input represent the best efforts of reporting our knowledge.
+3.  **Generic fixes:** Common practice of increasing the number of iterations,
+    or running them more slowly could be tried out.
+
+The order of fixes suggests prioritizing understanding what went wrong in terms
+of inadequate amount or quality of information through data and models, instead
+of jumping into instant investment of time and resources on generic solutions.
+
+After the step of brainstorming and implementing solutions, if the mixing issue
+persists, the results from the analysis can still be valuable when interpreted
+with caution.
+
+#### Posterior Summary and Business Insights
+
+Assume we did not go with any fixes that change the data or model, we will still
+be able to get the results.
+
+```{r findings_two_side_poor_mixing, fig.align = 'center'}
+# Posterior distribution of the strata probability
+ivobj$strataProbEstimate()
+# Posterior probability that CACE is greater than 200
+ivobj$calcProb(a = 200)
+# Posterior median of the CACE
+ivobj$pointEstimate()
+# Posterior mean of the CACE
+ivobj$pointEstimate(median = FALSE)
+# 75% credible interval of the CACE
+ivobj$credibleInterval()
+# 95% credible interval of the CACE
+ivobj$credibleInterval(width = 0.95)
+```
+
+The point estimates become less accurate compared to the case when we do not
+have mixing issue, and the credible intervals become wider. A larger amount of
+uncertainty is the consequence of poor mixing. It reminds us to be less reliant
+on the point estimates in this case. Credible intervals and posterior probability
+are good measures for us to summarize that we still anticipate a positive effect
+of the AI feature but there is the amount of uncertainty measured by the range or
+the probability we report.
+
+#### Visualization of Knowledge Progression
+
+The visualization tool in our package is another good way of discerning the
+mixing issue and its implication on impact measurement. We will notice a bimodal
+posterior distribution, and understand that more uncertainty origins from the
+two modes.
+
+::: {.content-visible when-format="html"}
+```{r comparison_two_side_poor_mixing, message=FALSE}
+#| eval: !expr knitr::is_html_output()
+ivobj$vizdraws(
+  display_mode_name = TRUE, breaks = 200,
+  break_names = c("< 200", "> 200")
+)
+```
+:::
+
+### Caveat 2: Weak Instrument Issue
+
+We measure the "strength" of an instrumental variable to be the proportion of
+compliers in the entire population. Weak instrument issue is a more serious
+systematic issue that deprives the RED and IV analysis of their magic.
+It can incur many issues:
+
+1. Difficulty in predicting the imbalanced compliance types, and thus the CACE
+2. Little information in data to update the prior knowledge on the impact
+3. Sensitivity to priors
+4. Unreliable point estimate
+5. Wide credible intervals
+
+The interpretation of the impact measurement will also be limited to a small
+proportion of units in the entire population.
+
+We use a different data generating process for the AI feature example where
+the proportion of compliers to the nudge is only arount 5% of the population.
+
+```{r simulated_data_two_side_weak_instrument}
+set.seed(1997)    # Set random seed for reproducibility
+n <- 1000         # Total number of individuals
+
+# Generate Covariates:
+# X: Continuous, observed covariate
+X <- rnorm(n)      # Draw from standard normal distribution
+
+# U: Binary, unobserved confounder
+U <- rbinom(n, 1, 0.5)  # 1 = U = 1 with 50% probability
+
+# Determine True Principal Strata (PS) Membership:
+# 1: Complier, 2: Never-taker, 3: Always-taker
+true.PS <- rep(0, n)       # Initialize PS vector
+U1.ind <- (U == 1)       # Indices where U = 1
+U0.ind <- (U == 0)       # Indices where U = 0
+num.U1 <- sum(U1.ind)    # Number of individuals with U = 1
+num.U0 <- sum(U0.ind)    # Number of individuals with U = 0
+
+# Assign PS membership based on U:
+# For U = 1: 6% compliers, 70% never-takers, 24% always-takers
+# For U = 0: 4% compliers, 70% never-takers, 26% always-takers
+true.PS[U1.ind] <- t(rmultinom(num.U1, 1, c(0.06, 0.7, 0.24))) %*% c(1, 2, 3)
+true.PS[U0.ind] <- t(rmultinom(num.U0, 1, c(0.04, 0.7, 0.26))) %*% c(1, 2, 3)
+
+# Assign Treatment (Z):
+# Half the individuals are assigned to treatment (Z = 1), half to control (Z = 0)
+Z <- c(rep(0, n / 2), rep(1, n / 2))
+
+# Determine Treatment Received (D) Based on PS and Z:
+D <- rep(0, n)            # Initialize treatment received vector
+
+# Define indices for each group:
+c.trt.ind <- (true.PS == 1) & (Z == 1)  # Compliers, treatment
+c.ctrl.ind <- (true.PS == 1) & (Z == 0)  # Compliers, control
+nt.ind <- (true.PS == 2)               # Never-takers
+at.ind <- (true.PS == 3)               # Always-takers
+
+# Count individuals in each group:
+num.c.trt <- sum(c.trt.ind)
+num.c.ctrl <- sum(c.ctrl.ind)
+num.nt <- sum(nt.ind)
+num.at <- sum(at.ind)
+
+# Assign treatment received:
+D[at.ind] <- rep(1, num.at)   # Always-takers receive treatment
+D[c.trt.ind] <- rep(1, num.c.trt) # Compliers in treatment group receive treatment
+
+# Generate Observed Outcome (Y):
+Y <- rep(0, n) # Initialize outcome vector
+
+# Outcome model for compliers in control group:
+Y[c.ctrl.ind] <- rnorm(num.c.ctrl,
+ mean = 5000 + 100 * X[c.ctrl.ind] - 300 * U[c.ctrl.ind],
+ sd = 50
+)
+
+# Outcome model for compliers in treatment group:
+Y[c.trt.ind] <- rnorm(num.c.trt,
+ mean = 5250 + 100 * X[c.trt.ind] - 300 * U[c.trt.ind],
+ sd = 50
+)
+
+# Outcome model for never-takers:
+Y[nt.ind] <- rnorm(num.nt,
+ mean = 6000 + 100 * X[nt.ind] - 300 * U[nt.ind],
+ sd = 50
+)
+
+# Outcome model for always-takers:
+Y[at.ind] <- rnorm(num.at,
+ mean = 4500 + 100 * X[at.ind] - 300 * U[at.ind],
+ sd = 50
+)
+
+# Create a data frame with all variables:
+df <- data.frame(Y = Y, Z = Z, D = D, X = X, U = U)
+```
+
+#### Model fitting and diagnostics
+
+We jump to model fitting and diagnostics.
+
+```{r fit_two_side_weak_instrument, fig.align = 'center', message=FALSE, results = "hide"}
+ivobj <- biva$new(
+  data = df, y = "Y", d = "D", z = "Z",
+  x_ymodel = c("X"),
+  x_smodel = c("X"),
+  ER = 1,
+  side = 2,
+  beta_mean_ymodel = cbind(rep(5000, 4), rep(0, 4)),
+  beta_sd_ymodel = cbind(rep(200, 4), rep(200, 4)),
+  beta_mean_smodel = matrix(0, 2, 2),
+  beta_sd_smodel = matrix(1, 2, 2),
+  sigma_shape_ymodel = rep(1, 4),
+  sigma_scale_ymodel = rep(1, 4),
+  fit = TRUE
+)
+```
+
+We run the diagnostic tools.
+
+```{r tracePlot_two_side_weak_instrument, fig.align = 'center'}
+ivobj$tracePlot()
+```
+
+We detect a mixing issue again.
+
+```{r weak_IV_test_two_side_weak_instrument, fig.align = 'center'}
+ivobj$weakIVTest()
+```
+
+This time the mixing issue is compounded by a weak instrument issue.
+
+We could still try the fixes suggested for the generic mixing issue.
+However, a weak instrument issue is really detrimental to the analysis
+in the sense that none of the fixes could really drastically improve
+the quality of the analysis even if we have a large sample size.
+We recommend that users proceed to truthfully present the findings from
+the posterior summary but not to stick to the point estimates.
+
+#### Posterior Summary and Business Insights
+
+We display the results for us to better understand the consequences
+of a weak IV issue.
+
+```{r findings_two_side_weak_instrument, fig.align = 'center'}
+# Posterior distribution of the strata probability
+ivobj$strataProbEstimate()
+# Posterior probability that CACE is greater than 200
+ivobj$calcProb(a = 200)
+# Posterior median of the CACE
+ivobj$pointEstimate()
+# Posterior mean of the CACE
+ivobj$pointEstimate(median = FALSE)
+# 75% credible interval of the CACE
+ivobj$credibleInterval()
+# 95% credible interval of the CACE
+ivobj$credibleInterval(width = 0.95)
+```
+
+The point estimates are way off, and the credible intervals are too wide
+to be informative. To avoid this, it is important to have a devised RED
+with a nudge attractive enough to induce a high proportion of compliers.
+
+#### Visualization of Knowledge Progression
+
+The visualization tool discloses that the two modes are separated by zero,
+which explains why the credible interval ranges from large negative
+values to large positive values.
+
+::: {.content-visible when-format="html"}
+```{r comparison_two_side_weak_instrument, message=FALSE}
+#| eval: !expr knitr::is_html_output()
+ivobj$vizdraws(
+  display_mode_name = TRUE, breaks = 200,
+  break_names = c("< 200", "> 200")
+)
+```
+:::
 
 ::: {.callout-tip}
 ## Further Exploration
