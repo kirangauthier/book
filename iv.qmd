@@ -609,71 +609,222 @@ Importantly, this method provides a nuanced view that goes beyond simple
 weigh the probabilities of different effect sizes against their specific
 business contexts and risk tolerances.
 
-### Binary Outcomes (TODO)
+### Binary Outcomes
 
-Many social media platforms offer monetization options for creators who reach a
-certain subscriber threshold. Let's consider a scenario where we're interested
-in whether adopting certain feature increases the likelihood of a creator
-reaching the monetization threshold within a 3-month period.
+Let's explore a scenario that underscores the challenges of causal inference in
+a real-world product development setting.
 
-We'll simulate data from a randomized encouragement design with noncompliance.
-Creators are randomly encouraged (or not) to use the AI content suggestion tool.
-Those encouraged can choose to use the tool or not. Those not encouraged may
-still discover and use the tool.
+Imagine you're a data scientist at a fast-growing productivity app company. The
+app offers a free version with basic features and a premium subscription that
+unlocks a suite of advanced tools. Eager to boost conversions, the product team
+recently launched a new, interactive in-app tutorial showcasing these premium
+features and their benefits.
 
-```{r fake_data}
-set.seed(2024)
-n <- 500  # Number of creators in our study
+However, the product team launched the tutorial without consulting the impact
+measurement team beforehand. Now, the tutorial is available to all users.
 
-# Covariates: X (observed) is initial subscriber count, U (unobserved) is creator's inherent skill
-X <- rpois(n, lambda = 200)  # Initial subscribers, mean of 200
-U <- rbinom(n, 1, 0.3)  # Binary skill level (0: average, 1: highly skilled)
+The impact measurement team, recognizing the need to assess the tutorial's
+effectiveness, recommends an "encouragement design." This involves randomly
+encouraging a subset of users to complete the tutorial, perhaps through a pop-up
+notification or a personalized email. Given that anyone, encouraged or not, can
+use the tutorial, this will be have non compliance in both sides.
 
-## True memberships of principal strata (1:c,2:nt,3:at): S-model depends on U and X
-true.PS <- rep(0, n)
-prob_c <- plogis(-1 + 0.003*X + 1.5*U)  # Probability of being a complier
-prob_nt <- plogis(-0.5 - 0.002*X - U)   # Probability of being a never-taker
-prob_at <- 1 - prob_c - prob_nt         # Probability of being an always-taker
+The challenge lies in isolating the causal impact of the tutorial, given that
+it's already available to everyone. BIVA, by leveraging the random encouragement
+as an instrument, can estimate the causal effect of the tutorial on premium
+subscription conversion among compliers - those who will complete the tutorial
+had they been encouraged, and will not complete the tutorial had they not been
+encouraged.
 
-for(i in 1:n) {
-  true.PS[i] <- sample(1:3, 1, prob = c(prob_c[i], prob_nt[i], prob_at[i]))
+Let's create a simulated dataset that mirrors this situation:
+
+
+```{r fake_data, message=FALSE, warning=FALSE}
+library(dplyr)
+library(purrr)
+library(broom)
+
+set.seed(2025)
+n <- 500
+
+users <- tibble(
+  user_id = 1:n,
+  X = rpois(n, lambda = 30),
+  U = rbinom(n, 1, 0.3)
+)
+
+determine_strata <- function(X, U) {
+  prob_c <- plogis(-1 + 0.02*X + 2*U)    
+  prob_nt <- plogis(-0.5 - 0.01*X - 2*U) 
+  prob_at <- 1 - prob_c - prob_nt
+  
+  sample(c("complier", "never-taker", "always-taker"), 1, 
+         prob = c(prob_c, prob_nt, prob_at))
 }
 
-## Treatment assigned: half control & half treatment
-Z <- c(rep(0, n/2), rep(1, n/2))
+users <- users %>%
+  mutate(
+    strata = map2_chr(X, U, determine_strata),
+    Z = rep(c(0, 1), each = n/2),
+    D = case_when(
+      strata == "always-taker" ~ 1,
+      strata == "complier" & Z == 1 ~ 1,
+      TRUE ~ 0
+    )
+  )
 
-## Treatment received: determined by principal strata and treatment assigned
-D <- rep(0, n)
-c.trt.ind <- (true.PS == 1) & (Z == 1)
-c.ctrl.ind <- (true.PS == 1) & (Z == 0)
-nt.ind <- (true.PS == 2)
-at.ind <- (true.PS == 3)
-D[at.ind] <- 1
-D[c.trt.ind] <- 1
+generate_outcome <- function(X, U, D, strata) {
+  base_prob <- plogis(-2 + 0.03*X + 2*U)  
+  
+  prob <- case_when(
+    strata == "complier" & D == 1 ~ plogis(-2.4 + 0.03*X + 2*U),
+    strata == "never-taker" ~ plogis(-2.2 + 0.03*X + 2*U),
+    strata == "always-taker" ~ plogis(-1.5 + 0.03*X + 2*U),  
+    TRUE ~ base_prob
+  )
+  
+  rbinom(1, 1, prob)
+}
 
-## Generate observed outcome: Y-model depends on X, U, D, and principal strata
-Y <- rep(0, n)
-Y[c.ctrl.ind] <- rbinom(sum(c.ctrl.ind), 1, plogis(-2 + 0.005*X[c.ctrl.ind] + 1.5*U[c.ctrl.ind]))
-Y[c.trt.ind] <- rbinom(sum(c.trt.ind), 1, plogis(-1.5 + 0.005*X[c.trt.ind] + 1.5*U[c.trt.ind]))
-Y[nt.ind] <- rbinom(sum(nt.ind), 1, plogis(-2.2 + 0.005*X[nt.ind] + 1.5*U[nt.ind]))
-Y[at.ind] <- rbinom(sum(at.ind), 1, plogis(-1.8 + 0.005*X[at.ind] + 1.5*U[at.ind]))
+users <- users %>%
+  rowwise() %>%
+  mutate(Y = generate_outcome(X, U, D, strata)) %>%
+  ungroup()
 
-df <- data.frame(Y = Y, Z = Z, D = D, X = X, U = U)
+# Calculate the true effect for compliers
+average_effect <- users %>%
+  filter(strata == "complier") %>%
+  group_by(Z) %>%
+  summarise(mean_y = mean(Y)) %>%
+  summarise(difference = mean_y[Z == 1] - mean_y[Z == 0]) %>%
+  pull(difference)
+
+print(paste("The average effect of the tutorial on the probability of becoming a premium member for compliers is:", round(average_effect, 4)))
+
+
 ```
 
 
-In this simulation the strata model depends on both the observed initial subscriber count (X) and the unobserved creator skill (U). The outcome models vary by strata and treatment status. The Complier Average Causal Effect (CACE) is set to be positive, representing an increased probability of reaching the monetization threshold when using the tool.
+#### The Pitfall of Naive Analysis
 
-#### Naive Logistic Regression Analysis
-
-Let's first look at what a naive logistic regression would tell us:
+Before we delve into BIVA, let's see what a naive logistic regression would tell
+us:
 
 ```{r logit}
-logit_model <- glm(Y ~ D + X, data = df, family = binomial)
-broom::tidy(logit_model)
+# Naive logistic regression
+naive_model <- glm(Y ~ D + X, data = users, family = binomial)
+
+# Display results
+tidy(naive_model, conf.int = T) %>%
+  mutate(p.value = format.pval(p.value, eps = 0.001)) %>%
+  knitr::kable(digits = 3)
 ```
 
- 
+This naive analysis suggests that completing the tutorial is associated with an
+increased likelihood of premium conversion. It's a tempting conclusion, but it's
+also likely because it fails to account for selection bias. Users predisposed to
+premium conversion might also be more likely to complete the tutorial, creating
+a spurious positive association.
+
+In reality, our data generating process is such that the tutorial actually has a
+negative effect on conversion for compliers. This stark discrepancy underscores
+the critical importance of proper causal inference techniques like instrumental
+variables analysis. Without them, we risk not just misunderstanding our data,
+but making counterproductive business decisions.
+
+### Prior predictive checking
+
+The outcome type is specified by having y_type = "binary".
+We assume exclusion restriction, so ER = 1. 
+With two-side noncompliance, we set side = 2.
+The parameters in the prior distributions are specified as well.
+We first look into what the prior distributions assume about the parameters.
+
+```{r priors2, fig.align = 'center', results = "hide"}
+ivobj <- biva::biva$new(
+  data = users, 
+  y = "Y", d = "D", z = "Z",
+  x_ymodel = c("X"),
+  x_smodel = c("X"),
+  y_type = "binary",
+  ER = 1,
+  side = 2,
+  beta_mean_ymodel = matrix(0, 4, 2),
+  beta_sd_ymodel = matrix(0.05, 4, 2),
+  beta_mean_smodel = matrix(0, 2, 2),
+  beta_sd_smodel = matrix(0.1, 2, 2),
+  fit = FALSE
+)
+
+ivobj$plotPrior()
+```
+
+These prior distributions reflect our initial beliefs about the parameters.
+They're intentionally weak, but not compleatly uniformative. For example, they
+refect that a small CACE is more likely than a big one. The plots show the range
+of plausible values for each parameter before we've seen any data.
+
+
+### Fitting a BIVA model to the data
+
+Now we fit a BIVA model to the data.
+
+```{r fit2, fig.align = 'center',  results = "hide"}
+ivobj <- biva::biva$new(
+  data = users,
+  y = "Y", d = "D", z = "Z",
+  x_ymodel = c("X"),
+  x_smodel = c("X"),
+  y_type = "binary",
+  ER = 1,
+  side = 2,
+  beta_mean_ymodel = matrix(0, 4, 2),
+  beta_sd_ymodel = matrix(0.05, 4, 2),
+  beta_mean_smodel = matrix(0, 2, 2),
+  beta_sd_smodel = matrix(0.1, 2, 2),
+  fit = TRUE
+)
+```
+
+We look at the trace plot of outcomes in each strata. The four plots are the
+posterior draws of the mean outcomes among the compliers assinged to control,
+the compliers nudged to treatment, the never-takers, and the always-takers.
+
+```{r tracePlot2, fig.align = 'center'}
+ivobj$tracePlot()
+```
+
+The convergence and mixing look good.
+
+We run the weak instrument test.
+
+```{r weak_IV2, fig.align = 'center'}
+ivobj$weakIVTest()
+```
+
+No weak instrument issue is detected.
+
+Now for the million-dollar question: Does completing the tutorial increase the
+likelihood of premium subscriptions? Let's visualize how our priors get updated
+after analyzing the data with BIVA:
+
+```{r comparison2}
+ivobj$vizdraws(
+  display_mode_name = TRUE
+)
+```
+
+The results are striking. BIVA correctly reveals the tutorial's negative impact
+on conversion rates among compliers, a crucial insight that the naive approach
+missed entirely. This demonstrates the power of proper causal inference in
+uncovering counter-intuitive truths hidden in our data.
+
+In the world of product development, such insights are gold. They prevent us
+from doubling down on ineffective strategies and guide us toward truly impactful
+improvements. This case study serves as a potent reminder: in the quest for
+causality, your choice of analytical tool can make all the difference between
+misleading conclusions and actionable insights.
+
 ::: {.callout-tip}
 ## Further Exploration
 
