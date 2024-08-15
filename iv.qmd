@@ -25,11 +25,12 @@ The history of instrumental variables is itself a fascinating tale, originating
 in the 1920s with economist Philip Wright. Surprisingly, it first appeared in an
 appendix to his book on tariffs for animal and vegetable oils. While the book
 itself didn't make a big splash, the appendix held a groundbreaking solution to
-the identification problem in economics. This approach, instrumental variables,
-even played a pivotal role in the research that earned Joshua Angrist and Guido
-Imbens the 2021 Nobel Prize in Economics. Their renowned study on the causal
-effect of education on earnings, using the draft lottery as an instrument,
-revolutionized how economists and social scientists approach causal questions.
+the identification problem in economics. Interestingly, there's some debate
+among historians about whether it was Philip Wright himself or his son, the
+renowned geneticist Sewall Wright, who actually developed the concept.
+Regardless of its exact origin, this approach, instrumental variables, even
+played a pivotal role in the research that earned Joshua Angrist and Guido
+Imbens the 2021 Nobel Prize in Economics.
 
 ## Understanding REDs: Compliance and Potential Outcomes
 
@@ -118,7 +119,7 @@ some tips for designing impactful nudges:
 3.  **Clarity:** Make the encouraged action clear and easy to understand.
 4.  **Incentives:** Consider offering small incentives, but be cautious not to
     overly influence behavior.
-5.  **A/B Testing:** Test different encouragement strategies to find the most
+5.  **Testing:** Test different encouragement strategies to find the most
     effective approach.
 
 Remember, the goal is to influence behavior enough to create a meaningful
