@@ -835,7 +835,7 @@ estimating the distributions of parameters that we get from the above methods.
 Mixing is a term that measures whether the sampling process is stabilized yet.
 Ideally, we want good mixing behavior from the posterior distribution that
 tells us "results are ready for interpretation!" If that does not happen,
-we should reserved the right to be informed of any mixing issue so we will be
+we should reserve the right to be informed of any mixing issue so we will be
 able to decide if there is anything we could do to help, or there is not much
 we can do so we interpret the results with caution. 
 
@@ -949,8 +949,9 @@ ivobj <- biva$new(
 )
 ```
 
-This diagnostic tool returns the trace plot for us to discern any issue with
-mixing and convergence.
+We already see some warning messages automatically returned by methods in
+the pakcage. The following diagnostic tool will give us the trace plot for
+a visualization of any issue with mixing and convergence.
 
 ```{r tracePlot_two_side_poor_mixing, fig.align = 'center'}
 ivobj$tracePlot()
@@ -1174,8 +1175,13 @@ We could still try the fixes suggested for the generic mixing issue.
 However, a weak instrument issue is really detrimental to the analysis
 in the sense that none of the fixes could really drastically improve
 the quality of the analysis even if we have a large sample size.
-We recommend that users proceed to truthfully present the findings from
-the posterior summary but not to stick to the point estimates.
+Therefore, during the study design phase, it is important to have a devised
+RED with a nudge attractive enough to induce a high proportion of compliers.
+If that does not happen, during the analysis phase, we recommend that users
+proceed to truthfully present the findings from the posterior summary
+and quantify the uncertainty in the impact measurement through credible
+interval or posterior probability. Posterior point estimates can be
+unreliable in this weak instrument case.
 
 #### Posterior Summary and Business Insights
 
@@ -1197,13 +1203,13 @@ ivobj$credibleInterval()
 ivobj$credibleInterval(width = 0.95)
 ```
 
-The point estimates are way off, and the credible intervals are too wide
-to be informative. To avoid this, it is important to have a devised RED
-with a nudge attractive enough to induce a high proportion of compliers.
+The point estimate by the posterior mean is way off, but the posterior median
+is relatively robust. The credible intervals are too wide to be informative.
+
 
 #### Visualization of Knowledge Progression
 
-The visualization tool discloses that the two modes are separated by zero,
+The visualization tool shows that the two modes are completely separated,
 which explains why the credible interval ranges from large negative
 values to large positive values.
 
