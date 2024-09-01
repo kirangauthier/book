@@ -376,7 +376,7 @@ div.csl-indent {
    
   <ul>
   <li><a href="#the-importance-of-sutva-the-cornerstone-of-valid-inference" id="toc-the-importance-of-sutva-the-cornerstone-of-valid-inference" class="nav-link active" data-scroll-target="#the-importance-of-sutva-the-cornerstone-of-valid-inference"><span class="header-section-number">8.1</span> The Importance of SUTVA: The Cornerstone of Valid Inference</a></li>
-  <li><a href="#an-example-using-code" id="toc-an-example-using-code" class="nav-link" data-scroll-target="#an-example-using-code"><span class="header-section-number">8.2</span> An example using code</a></li>
+  <li><a href="#an-example-using-code" id="toc-an-example-using-code" class="nav-link" data-scroll-target="#an-example-using-code"><span class="header-section-number">8.2</span> An example using code <img src="https://github.com/google/imt/blob/main/man/figures/logo.png" align="right" height="138" alt=""></a></li>
   <li><a href="#stratified-randomization" id="toc-stratified-randomization" class="nav-link" data-scroll-target="#stratified-randomization"><span class="header-section-number">8.3</span> Stratified Randomization</a>
   <ul class="collapse">
   <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
@@ -452,8 +452,8 @@ Key Takeaway:
 </section>
 </section>
 <section id="an-example-using-code" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="an-example-using-code"><span class="header-section-number">8.2</span> An example using code</h2>
-<p>The {im} package provides a convenient way to randomize while ensuring baseline equivalence. The <code>im::randomize</code> function iteratively re-randomizes until achieving a specified level of baseline equivalence (see <a href="baseline.html#sec-baseline" class="quarto-xref"><span>Section 3.1</span></a>) or reaching a maximum number of attempts.</p>
+<h2 data-number="8.2" class="anchored" data-anchor-id="an-example-using-code"><span class="header-section-number">8.2</span> An example using code <img src="https://github.com/google/imt/blob/main/man/figures/logo.png" align="right" height="138" alt=""></h2>
+<p>The <a href="https://github.com/google/imt">{imt}</a> package provides a convenient way to randomize while ensuring baseline equivalence. The <code>imt::randomize</code> function iteratively re-randomizes until achieving a specified level of baseline equivalence (see <a href="baseline.html#sec-baseline" class="quarto-xref"><span>Section 3.1</span></a>) or reaching a maximum number of attempts.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x1 =</span> <span class="fu">rnorm</span>(<span class="dv">10000</span>), </span>
@@ -461,7 +461,7 @@ Key Takeaway:
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Randomize</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>randomized <span class="ot">&lt;-</span> im<span class="sc">::</span>randomizer<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>randomized <span class="ot">&lt;-</span> imt<span class="sc">::</span>randomizer<span class="sc">$</span><span class="fu">new</span>(</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> my_data, </span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">12345</span>, </span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_attempts =</span> <span class="dv">1000</span>,</span>
@@ -473,18 +473,18 @@ Key Takeaway:
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>randomized<span class="sc">$</span>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10,000 × 3
-        x1     x2 treated
-     &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;  
- 1 -0.859   1.59  TRUE   
- 2  1.72   -1.60  TRUE   
- 3  1.07    0.680 TRUE   
- 4  0.742   1.62  TRUE   
- 5  0.0386 -0.563 FALSE  
- 6  0.213  -2.50  FALSE  
- 7 -0.233  -0.168 FALSE  
- 8  0.794   2.17  TRUE   
- 9 -0.316  -1.34  TRUE   
-10  1.98   -0.260 TRUE   
+       x1     x2 treated
+    &lt;dbl&gt;  &lt;dbl&gt; &lt;lgl&gt;  
+ 1 -0.126  0.728 TRUE   
+ 2  1.76   0.875 TRUE   
+ 3  1.33   0.283 TRUE   
+ 4  1.48  -1.15  TRUE   
+ 5  0.486 -2.03  FALSE  
+ 6  0.479 -0.624 FALSE  
+ 7 -0.503  0.268 FALSE  
+ 8  1.86   1.54  TRUE   
+ 9 -1.93   0.841 TRUE   
+10 -1.31  -0.295 TRUE   
 # ℹ 9,990 more rows</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get Balance Summary</span></span>
@@ -493,15 +493,15 @@ Key Takeaway:
 <pre><code># A tibble: 2 × 3
   variables std_diff balance      
   &lt;chr&gt;        &lt;dbl&gt; &lt;fct&gt;        
-1 x1          0.0491 Not Concerned
-2 x2         -0.0103 Not Concerned</code></pre>
+1 x1         -0.0148 Not Concerned
+2 x2         -0.0130 Not Concerned</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate Balance Plot</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>randomized<span class="sc">$</span>balance_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="rct_basic_files/figure-html/im--randomizer-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="rct_basic_files/figure-html/imt--randomizer-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -544,7 +544,7 @@ Key Takeaway:
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Randomizer Object</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>randomized <span class="ot">&lt;-</span> im<span class="sc">::</span>randomizer<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>randomized <span class="ot">&lt;-</span> imt<span class="sc">::</span>randomizer<span class="sc">$</span><span class="fu">new</span>(</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> my_data, </span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">seed =</span> <span class="dv">12345</span>, </span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_attempts =</span> <span class="dv">1000</span>,</span>
@@ -563,7 +563,7 @@ Key Takeaway:
 </div>
 </div>
 </div>
-<p>In this code, we’re using the im::randomizer function to create an object that will help us perform stratified randomization. We specify x3 as the variable to stratify by, ensuring that the treatment and control groups have a balanced distribution of individuals from both categories of x3.</p>
+<p>In this code, we’re using the imt::randomizer function to create an object that will help us perform stratified randomization. We specify x3 as the variable to stratify by, ensuring that the treatment and control groups have a balanced distribution of individuals from both categories of x3.</p>
 <p>By incorporating stratified randomization into our experimental design, we can effectively control for the influence of variable x3, enhancing the internal validity of our study and allowing for more precise estimates of causal effects.</p>
 <p>In conclusion, stratified randomization offers a powerful way to enhance the rigor and precision of experiments, particularly when dealing with potential confounding factors. While it may introduce some additional complexity and potentially require larger sample sizes, the benefits in terms of internal validity and the ability to draw more nuanced conclusions often outweigh these drawbacks. The thoughtful use of stratified randomization can be a valuable asset in the causal inference toolkit.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -1152,21 +1152,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>robust experiments and make more informed decisions based on their findings.</span>
 <span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a><span class="fu">## An example using code</span></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a><span class="fu">## An example using code &lt;img src="https://github.com/google/imt/blob/main/man/figures/logo.png" align="right" height="138" alt="" /&gt;</span></span>
 <span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>The {im} package provides a convenient way to randomize while ensuring baseline</span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>equivalence. The <span class="in">`im::randomize`</span> function iteratively re-randomizes until</span>
-<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>achieving a specified level of baseline equivalence (see @sec-baseline) or</span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>reaching a maximum number of attempts.</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>The <span class="co">[</span><span class="ot">{imt}</span><span class="co">](https://github.com/google/imt)</span> package provides a convenient way to</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>randomize while ensuring baseline equivalence. The <span class="in">`imt::randomize`</span> function</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>iteratively re-randomizes until achieving a specified level of baseline</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>equivalence (see @sec-baseline) or reaching a maximum number of attempts.</span>
 <span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="in">```{r im::randomizer}</span></span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="in">```{r imt::randomizer}</span></span>
 <span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a><span class="in">my_data &lt;- tibble::tibble(</span></span>
 <span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="in">  x1 = rnorm(10000), </span></span>
 <span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a><span class="in">  x2 = rnorm(10000)</span></span>
 <span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
 <span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="in"># Randomize</span></span>
-<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="in">randomized &lt;- im::randomizer$new(</span></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a><span class="in">randomized &lt;- imt::randomizer$new(</span></span>
 <span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="in">  data = my_data, </span></span>
 <span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="in">  seed = 12345, </span></span>
 <span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="in">  max_attempts = 1000,</span></span>
@@ -1254,7 +1254,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
 <span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a><span class="in"># Create a Randomizer Object</span></span>
-<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="in">randomized &lt;- im::randomizer$new(</span></span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="in">randomized &lt;- imt::randomizer$new(</span></span>
 <span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a><span class="in">  data = my_data, </span></span>
 <span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a><span class="in">  seed = 12345, </span></span>
 <span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a><span class="in">  max_attempts = 1000,</span></span>
@@ -1268,7 +1268,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a>In this code, we're using the im::randomizer function to create an object that</span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a>In this code, we're using the imt::randomizer function to create an object that</span>
 <span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a>will help us perform stratified randomization. We specify x3 as the variable to</span>
 <span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a>stratify by, ensuring that the treatment and control groups have a balanced</span>
 <span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>distribution of individuals from both categories of x3.</span>
@@ -1292,7 +1292,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ignacio82/book/edit/master/rct_basic.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><div class="page-columns page-rows-contents page-layout-article"><div class="social-share"><a href="https://www.linkedin.com/shareArticle?url=https://book.martinez.fyi/rct_basic.html&amp;title=Business Data Science: What Does it Mean to Be Data-Driven?" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in fa-fw fa-lg"></i></a>  <a href="mailto:?subject=Business Data Science: What Does it Mean to Be Data-Driven?&amp;body=Check out this link:https://book.martinez.fyi/rct_basic.html" target="_blank" class="email"><i class="fa-solid fa-envelope fa-fw fa-lg"></i></a><a href="javascript:void(0);" onclick="var mastodon_instance=prompt('Mastodon Instance / Server Name?'); if(typeof mastodon_instance==='string' &amp;&amp; mastodon_instance.length){this.href='https://'+mastodon_instance+'/share?text=Business Data Science: What Does it Mean to Be Data-Driven? https://book.martinez.fyi/rct_basic.html'}else{return false;}" target="_blank" class="mastodon"><i class="fa-brands fa-mastodon fa-fw fa-lg"></i></a></div></div>
-<script>var lightboxQuarto = GLightbox({"loop":false,"selector":".lightbox","descPosition":"bottom","openEffect":"zoom","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"selector":".lightbox","closeEffect":"zoom","openEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
