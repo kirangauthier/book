@@ -71,21 +71,21 @@ interference and inconsistency, researchers and practitioners can design more
 robust experiments and make more informed decisions based on their findings.
 :::
 
-## An example using code
+## An example using code <img src="https://github.com/google/imt/blob/main/man/figures/logo.png?raw=true" align="right" height="138" alt="" />
 
-The {im} package provides a convenient way to randomize while ensuring baseline
-equivalence. The `im::randomize` function iteratively re-randomizes until
-achieving a specified level of baseline equivalence (see @sec-baseline) or
-reaching a maximum number of attempts.
+The [{imt}](https://github.com/google/imt) package provides a convenient way to
+randomize while ensuring baseline equivalence. The `imt::randomize` function
+iteratively re-randomizes until achieving a specified level of baseline
+equivalence (see @sec-baseline) or reaching a maximum number of attempts.
 
-```{r im::randomizer}
+```{r imt::randomizer}
 my_data <- tibble::tibble(
   x1 = rnorm(10000), 
   x2 = rnorm(10000)
 )
 
 # Randomize
-randomized <- im::randomizer$new(
+randomized <- imt::randomizer$new(
   data = my_data, 
   seed = 12345, 
   max_attempts = 1000,
@@ -173,7 +173,7 @@ my_data <- tibble::tibble(
 )
 
 # Create a Randomizer Object
-randomized <- im::randomizer$new(
+randomized <- imt::randomizer$new(
   data = my_data, 
   seed = 12345, 
   max_attempts = 1000,
@@ -187,7 +187,7 @@ randomized$balance_plot
 ```
 
 
-In this code, we're using the im::randomizer function to create an object that
+In this code, we're using the imt::randomizer function to create an object that
 will help us perform stratified randomization. We specify x3 as the variable to
 stratify by, ensuring that the treatment and control groups have a balanced
 distribution of individuals from both categories of x3.

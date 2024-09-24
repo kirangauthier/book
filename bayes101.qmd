@@ -148,6 +148,76 @@ This is your posterior distribution. You've reallocated credibility based on the
 evidence, increasing your belief that the feature update and seasonality are the
 primary causes of the engagement drop.
 
+## Communicating Uncertainty: Credible Intervals vs. Confidence Intervals
+
+In Bayesian statistics, we often express our uncertainty about an estimated
+parameter using **credible intervals.** A 95% credible interval, for example, is
+a range of values that we believe, with 95% probability, contains the true value
+of the parameter. This interpretation is quite intuitive and aligns well with
+how we naturally think about uncertainty.
+
+It's important to contrast credible intervals with confidence intervals, which
+are frequently misinterpreted [@hoekstra2014robust]. While both express
+uncertainty, their interpretations differ:
+
+  - A 95% confidence interval is constructed such that, if we were to repeat the
+    experiment many times, 95% of the intervals we calculate would contain the
+    true parameter value. This interpretation is somewhat less intuitive and
+    focuses on the long-run behavior of the procedure rather than the specific
+    interval at hand.
+
+  - A 95% credible interval, on the other hand, directly states that there's
+    a 95% probability that the true parameter value lies within this particular
+    interval, given the observed data and our prior beliefs.
+
+In summary:
+
+|   **Feature**   | **Confidence Interval** |     **Credible Interval**    |
+|:---------------:|:-----------------------:|:----------------------------:|
+| Philosophy      | Frequentist             | Bayesian                     |
+| Interpretation  | Repeated sampling       | Probability of the parameter |
+| Prior knowledge | Not used                | Can be incorporated          |
+| Statement about | The interval itself     | The parameter                |
+
+### Analogy
+
+Imagine you're trying to estimate the height of a tree.
+
+Confidence interval: You take multiple measurements from different angles and
+use them to construct an interval. You say, "If I repeated this process many
+times, 95% of the intervals I create would contain the tree's true height."
+Credible interval: You consider your previous knowledge about trees in the area,
+combine it with your measurements, and say, "Based on my measurements and what I
+already know, there's a 95% probability that the tree's height is between X and
+Y meters." Credible intervals provide a more intuitive and direct interpretation
+of uncertainty about a parameter. However, they require specifying prior
+distributions, which can be subjective. Confidence intervals, while less
+intuitive, are widely used and don't require prior information.
+
+### Beyond Intervals: Posterior Probabilities for Tailored Insight
+
+Though credible intervals offer a convenient snapshot of uncertainty, they might
+not always be the optimal tool to inform decisions. Let's consider a scenario
+where we're assessing whether an intervention's impact surpasses a specific
+threshold. This threshold could be zero – indicating whether the intervention
+has any effect at all – or it could be any other relevant value, depending on
+the decision at hand.
+
+In the Bayesian framework, we can bypass the limitations of intervals and
+compute the probability of the impact exceeding our threshold directly from the
+posterior distribution. We simply determine the proportion of the distribution
+that lies beyond the threshold. This gives us the posterior probability that the
+parameter of interest is greater than our chosen value, providing a clear and
+actionable insight.
+
+It's worth noting that we might have multiple thresholds relevant to different
+decisions. For example, we might be interested in the probability that the
+impact is at least 'moderately' large, or the probability that it is
+'substantially' large. The Bayesian approach allows us to calculate these
+probabilities directly from the posterior, tailoring our uncertainty
+quantification to the specific decision context.
+
+
 ## The Case of Karl Broman's Socks: A Bayesian Adventure in Tiny Data
 
 ![Karl Broman's Socks](img/socks.png){fig-alt="[Karl Broman's Socks](https://x.com/kwbroman/status/523221976001679360)" fig-align="center" width=50%}
