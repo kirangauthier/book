@@ -412,14 +412,19 @@ window.Quarto = {
   <li><a href="#the-essence-of-bayesian-thinking" id="toc-the-essence-of-bayesian-thinking" class="nav-link active" data-scroll-target="#the-essence-of-bayesian-thinking"><span class="header-section-number">4.1</span> The Essence of Bayesian Thinking</a></li>
   <li><a href="#bayes-rule-the-heart-of-bayesian-statistics" id="toc-bayes-rule-the-heart-of-bayesian-statistics" class="nav-link" data-scroll-target="#bayes-rule-the-heart-of-bayesian-statistics"><span class="header-section-number">4.2</span> Bayes’ Rule: The Heart of Bayesian Statistics</a></li>
   <li><a href="#the-case-of-the-declining-user-engagement" id="toc-the-case-of-the-declining-user-engagement" class="nav-link" data-scroll-target="#the-case-of-the-declining-user-engagement"><span class="header-section-number">4.3</span> The Case of the Declining User Engagement</a></li>
-  <li><a href="#the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" id="toc-the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" class="nav-link" data-scroll-target="#the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data"><span class="header-section-number">4.4</span> The Case of Karl Broman’s Socks: A Bayesian Adventure in Tiny Data</a>
+  <li><a href="#communicating-uncertainty-credible-intervals-vs.-confidence-intervals" id="toc-communicating-uncertainty-credible-intervals-vs.-confidence-intervals" class="nav-link" data-scroll-target="#communicating-uncertainty-credible-intervals-vs.-confidence-intervals"><span class="header-section-number">4.4</span> Communicating Uncertainty: Credible Intervals vs.&nbsp;Confidence Intervals</a>
+  <ul class="collapse">
+  <li><a href="#analogy" id="toc-analogy" class="nav-link" data-scroll-target="#analogy">Analogy</a></li>
+  <li><a href="#beyond-intervals-posterior-probabilities-for-tailored-insight" id="toc-beyond-intervals-posterior-probabilities-for-tailored-insight" class="nav-link" data-scroll-target="#beyond-intervals-posterior-probabilities-for-tailored-insight">Beyond Intervals: Posterior Probabilities for Tailored Insight</a></li>
+  </ul></li>
+  <li><a href="#the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" id="toc-the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" class="nav-link" data-scroll-target="#the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data"><span class="header-section-number">4.5</span> The Case of Karl Broman’s Socks: A Bayesian Adventure in Tiny Data</a>
   <ul class="collapse">
   <li><a href="#the-bayesian-approach-to-the-sock-problem" id="toc-the-bayesian-approach-to-the-sock-problem" class="nav-link" data-scroll-target="#the-bayesian-approach-to-the-sock-problem">The Bayesian Approach to the Sock Problem</a></li>
   <li><a href="#visualizing-the-results" id="toc-visualizing-the-results" class="nav-link" data-scroll-target="#visualizing-the-results">Visualizing the Results</a></li>
   <li><a href="#results-and-interpretation" id="toc-results-and-interpretation" class="nav-link" data-scroll-target="#results-and-interpretation">Results and Interpretation</a></li>
   <li><a href="#a-note-on-priors" id="toc-a-note-on-priors" class="nav-link" data-scroll-target="#a-note-on-priors">A Note on Priors</a></li>
   </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">4.5</span> Conclusion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">4.6</span> Conclusion</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/ignacio82/book/edit/master/bayes101.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -518,8 +523,65 @@ P(\theta|D) = \frac{P(D|\theta)P(\theta)}{P(D)}
 </ul>
 <p>This is your posterior distribution. You’ve reallocated credibility based on the evidence, increasing your belief that the feature update and seasonality are the primary causes of the engagement drop.</p>
 </section>
-<section id="the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data"><span class="header-section-number">4.4</span> The Case of Karl Broman’s Socks: A Bayesian Adventure in Tiny Data</h2>
+<section id="communicating-uncertainty-credible-intervals-vs.-confidence-intervals" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="communicating-uncertainty-credible-intervals-vs.-confidence-intervals"><span class="header-section-number">4.4</span> Communicating Uncertainty: Credible Intervals vs.&nbsp;Confidence Intervals</h2>
+<p>In Bayesian statistics, we often express our uncertainty about an estimated parameter using <strong>credible intervals.</strong> A 95% credible interval, for example, is a range of values that we believe, with 95% probability, contains the true value of the parameter. This interpretation is quite intuitive and aligns well with how we naturally think about uncertainty.</p>
+<p>It’s important to contrast credible intervals with confidence intervals, which are frequently misinterpreted <span class="citation" data-cites="hoekstra2014robust">(<a href="references.html#ref-hoekstra2014robust" role="doc-biblioref">Hoekstra et al. 2014</a>)</span>. While both express uncertainty, their interpretations differ:</p>
+<ul>
+<li><p>A 95% confidence interval is constructed such that, if we were to repeat the experiment many times, 95% of the intervals we calculate would contain the true parameter value. This interpretation is somewhat less intuitive and focuses on the long-run behavior of the procedure rather than the specific interval at hand.</p></li>
+<li><p>A 95% credible interval, on the other hand, directly states that there’s a 95% probability that the true parameter value lies within this particular interval, given the observed data and our prior beliefs.</p></li>
+</ul>
+<p>In summary:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 34%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Feature</strong></th>
+<th style="text-align: center;"><strong>Confidence Interval</strong></th>
+<th style="text-align: center;"><strong>Credible Interval</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Philosophy</td>
+<td style="text-align: center;">Frequentist</td>
+<td style="text-align: center;">Bayesian</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Interpretation</td>
+<td style="text-align: center;">Repeated sampling</td>
+<td style="text-align: center;">Probability of the parameter</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Prior knowledge</td>
+<td style="text-align: center;">Not used</td>
+<td style="text-align: center;">Can be incorporated</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Statement about</td>
+<td style="text-align: center;">The interval itself</td>
+<td style="text-align: center;">The parameter</td>
+</tr>
+</tbody>
+</table>
+<section id="analogy" class="level3">
+<h3 class="anchored" data-anchor-id="analogy">Analogy</h3>
+<p>Imagine you’re trying to estimate the height of a tree.</p>
+<p>Confidence interval: You take multiple measurements from different angles and use them to construct an interval. You say, “If I repeated this process many times, 95% of the intervals I create would contain the tree’s true height.” Credible interval: You consider your previous knowledge about trees in the area, combine it with your measurements, and say, “Based on my measurements and what I already know, there’s a 95% probability that the tree’s height is between X and Y meters.” Credible intervals provide a more intuitive and direct interpretation of uncertainty about a parameter. However, they require specifying prior distributions, which can be subjective. Confidence intervals, while less intuitive, are widely used and don’t require prior information.</p>
+</section>
+<section id="beyond-intervals-posterior-probabilities-for-tailored-insight" class="level3">
+<h3 class="anchored" data-anchor-id="beyond-intervals-posterior-probabilities-for-tailored-insight">Beyond Intervals: Posterior Probabilities for Tailored Insight</h3>
+<p>Though credible intervals offer a convenient snapshot of uncertainty, they might not always be the optimal tool to inform decisions. Let’s consider a scenario where we’re assessing whether an intervention’s impact surpasses a specific threshold. This threshold could be zero – indicating whether the intervention has any effect at all – or it could be any other relevant value, depending on the decision at hand.</p>
+<p>In the Bayesian framework, we can bypass the limitations of intervals and compute the probability of the impact exceeding our threshold directly from the posterior distribution. We simply determine the proportion of the distribution that lies beyond the threshold. This gives us the posterior probability that the parameter of interest is greater than our chosen value, providing a clear and actionable insight.</p>
+<p>It’s worth noting that we might have multiple thresholds relevant to different decisions. For example, we might be interested in the probability that the impact is at least ‘moderately’ large, or the probability that it is ‘substantially’ large. The Bayesian approach allows us to calculate these probabilities directly from the posterior, tailoring our uncertainty quantification to the specific decision context.</p>
+</section>
+</section>
+<section id="the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="the-case-of-karl-bromans-socks-a-bayesian-adventure-in-tiny-data"><span class="header-section-number">4.5</span> The Case of Karl Broman’s Socks: A Bayesian Adventure in Tiny Data</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/socks.png" class="img-fluid figure-img" style="width:50.0%" alt="[Karl Broman's Socks](https://x.com/kwbroman/status/523221976001679360)"></p>
@@ -971,8 +1033,8 @@ shinyApp(ui, server)
 </code></pre>
 </section>
 </section>
-<section id="conclusion" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">4.5</span> Conclusion</h2>
+<section id="conclusion" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">4.6</span> Conclusion</h2>
 <p>Bayesian statistics offers a powerful and intuitive framework for business data science, aligning closely with how businesses make decisions. By incorporating prior knowledge, we can update our beliefs based on evidence and quantify uncertainty in a natural way. The concept of reallocating credibility across possibilities provides an intuitive way to think about learning from data.</p>
 <p>Furthermore, Bayesian methods are particularly well-suited to the “small data” scenarios often encountered in business. While “big data” garners much attention, many crucial business decisions hinge on limited information. The Bayesian framework allows us to begin with prior knowledge, update it with available data, and then communicate our findings in plain language.</p>
 <p>In essence, Bayesian statistics provides a flexible and powerful approach for tackling the complex and often uncertain world of business decision-making.</p>
@@ -1000,6 +1062,9 @@ Learn more
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-gelman2013bayesian" class="csl-entry" role="listitem">
 Gelman, A., J. B. Carlin, H. S. Stern, D. B. Dunson, A. Vehtari, and D. B. Rubin. 2013. <em>Bayesian Data Analysis, Third Edition</em>. Chapman &amp; Hall/CRC Texts in Statistical Science. Taylor &amp; Francis. <a href="http://www.stat.columbia.edu/~gelman/book/">http://www.stat.columbia.edu/~gelman/book/</a>.
+</div>
+<div id="ref-hoekstra2014robust" class="csl-entry" role="listitem">
+Hoekstra, Rink, Richard D Morey, Jeffrey N Rouder, and Eric-Jan Wagenmakers. 2014. <span>“Robust Misinterpretation of Confidence Intervals.”</span> <em>Psychonomic Bulletin &amp; Review</em> 21: 1157–64. <a href="https://doi.org/10.3758/s13423-013-0572-3">https://doi.org/10.3758/s13423-013-0572-3</a>.
 </div>
 <div id="ref-kruschke2018bayesian" class="csl-entry" role="listitem">
 Kruschke, John K, and Torrin M Liddell. 2018. <span>“Bayesian Data Analysis for Newcomers.”</span> <em>Psychonomic Bulletin &amp; Review</em> 25 (1): 155–77. <a href="https://doi.org/10.3758/s13423-017-1272-1">https://doi.org/10.3758/s13423-017-1272-1</a>.
@@ -1652,559 +1717,629 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>evidence, increasing your belief that the feature update and seasonality are the</span>
 <span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>primary causes of the engagement drop.</span>
 <span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Case of Karl Broman's Socks: A Bayesian Adventure in Tiny Data</span></span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="fu">## Communicating Uncertainty: Credible Intervals vs. Confidence Intervals</span></span>
 <span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a><span class="al">![Karl Broman's Socks](img/socks.png)</span>{fig-alt="<span class="co">[</span><span class="ot">Karl Broman's Socks</span><span class="co">](https://x.com/kwbroman/status/523221976001679360)</span>" fig-align="center" width=50%}</span>
-<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>To illustrate the power of Bayesian thinking, even with limited data, let's</span>
-<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>consider an intriguing example from Rasmus Bååth's Blog, which he calls "Tiny</span>
-<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>Data, Approximate Bayesian Computation and the Socks of Karl Broman" (see</span>
-<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>[original blog</span>
-<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>post](https://www.sumsar.net/blog/2014/10/tiny-data-and-the-socks-of-karl-broman/)).</span>
-<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>The problem is deceptively simple: Given that [Karl Broman has 11 unique socks</span>
-<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>in his laundry](https://x.com/kwbroman/status/523221976001679360), how many</span>
-<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>socks does he have in total? This is a perfect example of what Bååth calls "Tiny</span>
-<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>Data" - a situation where we have very limited information but still need to</span>
-<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a>make an inference. It's a scenario that business data scientists often face,</span>
-<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>where decisions need to be made with incomplete information.</span>
-<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Bayesian Approach to the Sock Problem</span></span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>In Bayesian statistics, we often express our uncertainty about an estimated</span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>parameter using **credible intervals.** A 95% credible interval, for example, is</span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>a range of values that we believe, with 95% probability, contains the true value</span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>of the parameter. This interpretation is quite intuitive and aligns well with</span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>how we naturally think about uncertainty.</span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>It's important to contrast credible intervals with confidence intervals, which</span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>are frequently misinterpreted <span class="co">[</span><span class="ot">@hoekstra2014robust</span><span class="co">]</span>. While both express</span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>uncertainty, their interpretations differ:</span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>A 95% confidence interval is constructed such that, if we were to repeat the</span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a>    experiment many times, 95% of the intervals we calculate would contain the</span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>    true parameter value. This interpretation is somewhat less intuitive and</span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>    focuses on the long-run behavior of the procedure rather than the specific</span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>    interval at hand.</span>
 <span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>Bååth tackles this problem using Approximate Bayesian Computation (ABC), an</span>
-<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>intuitive albeit computationally intensive method (see @rubin1984bayesianly).</span>
-<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>In this Bayesian adventure, we begin with two crucial pieces of information,</span>
-<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>encoded as prior probability distributions. The number of socks is a count</span>
-<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a>variable, so we'll employ a negative binomial data generating process. (We delve</span>
-<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>into this topic in more detail in @sec-negative-binomial.) For now, let's follow</span>
-<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>Bååth's lead and set ($\mu = 30$) and (size = 4).</span>
-<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a><span class="in">```{r prior_socks}</span></span>
-<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a><span class="in">library(ggplot2)</span></span>
-<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="in"># Dataframe of possible sock counts</span></span>
-<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a><span class="in">sock_counts &lt;- data.frame(n_socks = 0:100)</span></span>
-<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a><span class="in"># Calculate probabilities from the negative binomial distribution</span></span>
-<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="in">sock_counts$probability &lt;- dnbinom(sock_counts$n_socks, mu = 30, size = 4)</span></span>
-<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a><span class="in"># Create the histogram</span></span>
-<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(sock_counts, aes(x = n_socks, y = probability)) +</span></span>
-<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_col(fill = "skyblue", color = "black") +</span></span>
-<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a><span class="in">  scale_y_continuous(labels = scales::percent) +</span></span>
-<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal() +</span></span>
-<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Total Number of Socks", y = "Probability") +</span></span>
-<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a><span class="in">  ggtitle("Prior Distribution for Total Number of Socks")</span></span>
-<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>A 95% credible interval, on the other hand, directly states that there's</span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>    a 95% probability that the true parameter value lies within this particular</span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>    interval, given the observed data and our prior beliefs.</span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>In summary:</span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a>|   **Feature**   | **Confidence Interval** |     **Credible Interval**    |</span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>|:---------------:|:-----------------------:|:----------------------------:|</span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>| Philosophy      | Frequentist             | Bayesian                     |</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a>| Interpretation  | Repeated sampling       | Probability of the parameter |</span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>| Prior knowledge | Not used                | Can be incorporated          |</span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>| Statement about | The interval itself     | The parameter                |</span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### Analogy</span></span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a>Imagine you're trying to estimate the height of a tree.</span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a>Confidence interval: You take multiple measurements from different angles and</span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a>use them to construct an interval. You say, "If I repeated this process many</span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a>times, 95% of the intervals I create would contain the tree's true height."</span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a>Credible interval: You consider your previous knowledge about trees in the area,</span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a>combine it with your measurements, and say, "Based on my measurements and what I</span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a>already know, there's a 95% probability that the tree's height is between X and</span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a>Y meters." Credible intervals provide a more intuitive and direct interpretation</span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>of uncertainty about a parameter. However, they require specifying prior</span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a>distributions, which can be subjective. Confidence intervals, while less</span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a>intuitive, are widely used and don't require prior information.</span>
 <span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a>Next, we need to specify our beliefs about the proportion of socks that have a</span>
-<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a>pair. For this, we can use a beta data generating process. To remain consistent</span>
-<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>with the blog post, we'll set shape1 = 15 and shape2 = 2. This distribution is</span>
-<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a>skewed towards higher values, suggesting a belief that most socks in a laundry</span>
-<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>pile are likely to be paired. The parameters indicate an expectation</span>
-<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>around 0.88, reflecting the common experience that unmatched socks are less</span>
-<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>frequent.</span>
-<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{r prior_prop}</span></span>
-<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a><span class="in"># Create a sequence of proportions from 0 to 1</span></span>
-<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="in">proportions &lt;- seq(0, 1, length.out = 100)</span></span>
-<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="in"># Calculate density values from the beta distribution</span></span>
-<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a><span class="in">density_values &lt;- dbeta(proportions, shape1 = 15, shape2 = 2)</span></span>
-<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a><span class="in"># Create the density plot</span></span>
-<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data.frame(proportion = proportions, density = density_values),</span></span>
-<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a><span class="in">       aes(x = proportion, y = density)) +</span></span>
-<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(color = "darkgreen") +</span></span>
-<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal() +</span></span>
-<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Proportion of Paired Socks", y = "Density") +</span></span>
-<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a><span class="in">  ggtitle("Prior Distribution for Proportion of Paired Socks")</span></span>
-<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a><span class="fu">### Beyond Intervals: Posterior Probabilities for Tailored Insight</span></span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>Though credible intervals offer a convenient snapshot of uncertainty, they might</span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a>not always be the optimal tool to inform decisions. Let's consider a scenario</span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>where we're assessing whether an intervention's impact surpasses a specific</span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>threshold. This threshold could be zero – indicating whether the intervention</span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>has any effect at all – or it could be any other relevant value, depending on</span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>the decision at hand.</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a>In the Bayesian framework, we can bypass the limitations of intervals and</span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a>compute the probability of the impact exceeding our threshold directly from the</span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a>posterior distribution. We simply determine the proportion of the distribution</span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a>that lies beyond the threshold. This gives us the posterior probability that the</span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>parameter of interest is greater than our chosen value, providing a clear and</span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>actionable insight.</span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a>It's worth noting that we might have multiple thresholds relevant to different</span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>decisions. For example, we might be interested in the probability that the</span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a>impact is at least 'moderately' large, or the probability that it is</span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>'substantially' large. The Bayesian approach allows us to calculate these</span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>probabilities directly from the posterior, tailoring our uncertainty</span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>quantification to the specific decision context.</span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>These prior distributions encapsulate our initial beliefs before we observe any</span>
-<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>data. The Bayesian approach elegantly allows us to update these beliefs based on</span>
-<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>the evidence, leading to more informed posterior distributions.</span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Case of Karl Broman's Socks: A Bayesian Adventure in Tiny Data</span></span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a><span class="al">![Karl Broman's Socks](img/socks.png)</span>{fig-alt="<span class="co">[</span><span class="ot">Karl Broman's Socks</span><span class="co">](https://x.com/kwbroman/status/523221976001679360)</span>" fig-align="center" width=50%}</span>
 <span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a>Now, let's craft the R code for simulating draws from this data generating</span>
-<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a>process.</span>
-<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{r simulation, message=FALSE, warning=FALSE}</span></span>
-<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
-<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a><span class="in">library(furrr)</span></span>
-<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a><span class="in">library(patchwork)</span></span>
-<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(123)</span></span>
-<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a><span class="in"># Enable parallel processing with the number of cores available</span></span>
-<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a><span class="in">plan(multisession, workers = availableCores())</span></span>
-<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a><span class="in"># Define the number of socks picked</span></span>
-<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a><span class="in">n_picked &lt;- 11</span></span>
-<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a><span class="in"># Improved simulation function</span></span>
-<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a><span class="in">simulate_socks &lt;- function(n_picked) {</span></span>
-<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a><span class="in">  # Generate total number of socks from prior</span></span>
-<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a><span class="in">  n_socks &lt;- rnbinom(1, mu = 30, size = 4)</span></span>
-<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a><span class="in">  # Generate proportion of paired socks from prior</span></span>
-<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a><span class="in">  prop_pairs &lt;- rbeta(1, shape1 = 15, shape2 = 2)</span></span>
-<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a><span class="in">  # Calculate number of pairs and odd socks</span></span>
-<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a><span class="in">  n_pairs &lt;- round(floor(n_socks / 2) * prop_pairs)</span></span>
-<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a><span class="in">  n_odd &lt;- n_socks - n_pairs * 2</span></span>
-<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a><span class="in">  # Simulate picking socks</span></span>
-<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a><span class="in">  socks &lt;- rep(seq_len(n_pairs + n_odd), rep(c(2, 1), c(n_pairs, n_odd)))</span></span>
-<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a><span class="in">  picked_socks &lt;- sample(socks, size = min(n_picked, n_socks))</span></span>
-<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a><span class="in">  sock_counts &lt;- table(picked_socks)</span></span>
-<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a><span class="in">  # Return results</span></span>
-<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="in">  tibble(</span></span>
-<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="in">    unique = sum(sock_counts == 1),</span></span>
-<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="in">    pairs = sum(sock_counts == 2),</span></span>
-<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a><span class="in">    n_socks = n_socks,</span></span>
-<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a><span class="in">    n_pairs = n_pairs,</span></span>
-<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a><span class="in">    n_odd = n_odd,</span></span>
-<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a><span class="in">    prop_pairs = prop_pairs</span></span>
-<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a><span class="in"># Run simulations</span></span>
-<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a><span class="in">n_sims &lt;- 100000</span></span>
-<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a><span class="in">sock_sim &lt;- future_map_dfr(1:n_sims, ~simulate_socks(n_picked),</span></span>
-<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a><span class="in">                           .options = furrr_options(seed = 123))</span></span>
-<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a><span class="in"># Filter for matching simulations (11 unique socks, 0 pairs)</span></span>
-<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a><span class="in">post_samples &lt;- sock_sim %&gt;%</span></span>
-<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(unique == 11, pairs == 0)</span></span>
-<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a>To illustrate the power of Bayesian thinking, even with limited data, let's</span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a>consider an intriguing example from Rasmus Bååth's Blog, which he calls "Tiny</span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a>Data, Approximate Bayesian Computation and the Socks of Karl Broman" (see</span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>[original blog</span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a>post](https://www.sumsar.net/blog/2014/10/tiny-data-and-the-socks-of-karl-broman/)).</span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a>The problem is deceptively simple: Given that [Karl Broman has 11 unique socks</span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a>in his laundry](https://x.com/kwbroman/status/523221976001679360), how many</span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>socks does he have in total? This is a perfect example of what Bååth calls "Tiny</span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>Data" - a situation where we have very limited information but still need to</span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a>make an inference. It's a scenario that business data scientists often face,</span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a>where decisions need to be made with incomplete information.</span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Bayesian Approach to the Sock Problem</span></span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>Bååth tackles this problem using Approximate Bayesian Computation (ABC), an</span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>intuitive albeit computationally intensive method (see @rubin1984bayesianly).</span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a>In this Bayesian adventure, we begin with two crucial pieces of information,</span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a>encoded as prior probability distributions. The number of socks is a count</span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a>variable, so we'll employ a negative binomial data generating process. (We delve</span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a>into this topic in more detail in @sec-negative-binomial.) For now, let's follow</span>
+<span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a>Bååth's lead and set ($\mu = 30$) and (size = 4).</span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a><span class="in">```{r prior_socks}</span></span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a><span class="in">library(ggplot2)</span></span>
+<span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a><span class="in"># Dataframe of possible sock counts</span></span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a><span class="in">sock_counts &lt;- data.frame(n_socks = 0:100)</span></span>
+<span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a><span class="in"># Calculate probabilities from the negative binomial distribution</span></span>
+<span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a><span class="in">sock_counts$probability &lt;- dnbinom(sock_counts$n_socks, mu = 30, size = 4)</span></span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a><span class="in"># Create the histogram</span></span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(sock_counts, aes(x = n_socks, y = probability)) +</span></span>
+<span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_col(fill = "skyblue", color = "black") +</span></span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="in">  scale_y_continuous(labels = scales::percent) +</span></span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal() +</span></span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Total Number of Socks", y = "Probability") +</span></span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a><span class="in">  ggtitle("Prior Distribution for Total Number of Socks")</span></span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a>Next, we need to specify our beliefs about the proportion of socks that have a</span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a>pair. For this, we can use a beta data generating process. To remain consistent</span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a>with the blog post, we'll set shape1 = 15 and shape2 = 2. This distribution is</span>
+<span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a>skewed towards higher values, suggesting a belief that most socks in a laundry</span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a>pile are likely to be paired. The parameters indicate an expectation</span>
+<span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a>around 0.88, reflecting the common experience that unmatched socks are less</span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a>frequent.</span>
+<span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a><span class="in">```{r prior_prop}</span></span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a><span class="in"># Create a sequence of proportions from 0 to 1</span></span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a><span class="in">proportions &lt;- seq(0, 1, length.out = 100)</span></span>
 <span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a>This code implements the ABC method, which is a perfect illustration of the</span>
-<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a>"reallocation of credibility across possibilities" that Kruschke and Liddell</span>
-<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a>describe:</span>
-<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>We define prior distributions for the total number of socks (negative</span>
-<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a>    binomial) and the proportion of paired socks (beta). These represent our</span>
-<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a>    initial beliefs about the possibilities.</span>
-<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>We create a generative model that simulates picking socks from a laundry</span>
-<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a>    pile.</span>
-<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>We run this simulation many times (100,000 in this case), each time</span>
-<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a>    generating a possible scenario.</span>
-<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>We keep only those simulations that match our observed data (11 unique</span>
-<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a>    socks, 0 pairs). This step is where we reallocate credibility, focusing on</span>
-<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a>    the possibilities that are consistent with our observation.</span>
-<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>We analyze the results by calculating median values from the retained</span>
-<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a>    samples, which represent our updated beliefs.</span>
-<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizing the Results</span></span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a><span class="in"># Calculate density values from the beta distribution</span></span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a><span class="in">density_values &lt;- dbeta(proportions, shape1 = 15, shape2 = 2)</span></span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="in"># Create the density plot</span></span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="in">ggplot(data.frame(proportion = proportions, density = density_values),</span></span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a><span class="in">       aes(x = proportion, y = density)) +</span></span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_line(color = "darkgreen") +</span></span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal() +</span></span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(x = "Proportion of Paired Socks", y = "Density") +</span></span>
+<span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a><span class="in">  ggtitle("Prior Distribution for Proportion of Paired Socks")</span></span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a>These prior distributions encapsulate our initial beliefs before we observe any</span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a>data. The Bayesian approach elegantly allows us to update these beliefs based on</span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a>the evidence, leading to more informed posterior distributions.</span>
+<span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a>Now, let's craft the R code for simulating draws from this data generating</span>
+<span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a>process.</span>
 <span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a><span class="in">```{r viz}</span></span>
-<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a><span class="in"># Prepare data for plotting</span></span>
-<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a><span class="in">prior_data &lt;- sock_sim %&gt;%</span></span>
-<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a><span class="in">  count(n_socks) %&gt;%</span></span>
-<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(prop = n / sum(n),</span></span>
-<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a><span class="in">         type = "Prior")</span></span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a><span class="in">```{r simulation, message=FALSE, warning=FALSE}</span></span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a><span class="in">library(furrr)</span></span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a><span class="in">library(patchwork)</span></span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a><span class="in">set.seed(123)</span></span>
 <span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a><span class="in">posterior_data &lt;- post_samples %&gt;%</span></span>
-<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a><span class="in">  count(n_socks) %&gt;%</span></span>
-<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(prop = n / sum(n),</span></span>
-<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a><span class="in">         type = "Posterior")</span></span>
-<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a><span class="in">plot_data &lt;- bind_rows(prior_data, posterior_data)</span></span>
-<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a><span class="in"># Plot prior and posterior distributions</span></span>
-<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a><span class="in">p1 &lt;- ggplot(plot_data, aes(x = n_socks, y = prop, fill = type)) +</span></span>
-<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_col(position = "dodge", alpha = 0.7) +</span></span>
-<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a><span class="in">  scale_fill_manual(values = c("Prior" = "lightgreen", "Posterior" = "skyblue")) +</span></span>
-<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(title = "Prior and Posterior Distributions of Total Socks",</span></span>
-<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="in">       x = "Number of Socks", y = "", fill = "Distribution") +</span></span>
-<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal() +</span></span>
-<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a><span class="in">  theme(legend.position = "top")</span></span>
-<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="in"># Plot the posterior distribution of pairs and odd socks</span></span>
-<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a><span class="in">p2 &lt;- ggplot(post_samples, aes(x = n_pairs, y = n_odd)) +</span></span>
-<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_hex(bins = 30) +</span></span>
-<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a><span class="in">  scale_fill_viridis_c() +</span></span>
-<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(title = "Joint Posterior Distribution of Pairs and Odd Socks",</span></span>
-<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a><span class="in">       x = "Number of Pairs", y = "Number of Odd Socks") +</span></span>
-<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal()</span></span>
-<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a><span class="in"># Combine plots</span></span>
-<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a><span class="in">p1 / p2</span></span>
-<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a><span class="fu">### Results and Interpretation</span></span>
-<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a>After running this model, our best guess (median of the posterior) is that Karl</span>
-<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a>Broman has approximately:</span>
-<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a><span class="in">```{r summary}</span></span>
-<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a><span class="in"># Calculate summary statistics</span></span>
-<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a><span class="in">summary_stats &lt;- post_samples %&gt;%</span></span>
-<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a><span class="in">  summarize(</span></span>
-<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a><span class="in">    median_socks = median(n_socks),</span></span>
-<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a><span class="in">    median_pairs = median(n_pairs),</span></span>
-<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a><span class="in">    median_odd = median(n_odd),</span></span>
-<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a><span class="in">    ci_lower_socks = quantile(n_socks, 0.025),</span></span>
-<span id="cb7-346"><a href="#cb7-346" aria-hidden="true" tabindex="-1"></a><span class="in">    ci_upper_socks = quantile(n_socks, 0.975)</span></span>
-<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a><span class="in"># Enable parallel processing with the number of cores available</span></span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a><span class="in">plan(multisession, workers = availableCores())</span></span>
+<span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a><span class="in"># Define the number of socks picked</span></span>
+<span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a><span class="in">n_picked &lt;- 11</span></span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a><span class="in"># Improved simulation function</span></span>
+<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a><span class="in">simulate_socks &lt;- function(n_picked) {</span></span>
+<span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a><span class="in">  # Generate total number of socks from prior</span></span>
+<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a><span class="in">  n_socks &lt;- rnbinom(1, mu = 30, size = 4)</span></span>
+<span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="in">  # Generate proportion of paired socks from prior</span></span>
+<span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a><span class="in">  prop_pairs &lt;- rbeta(1, shape1 = 15, shape2 = 2)</span></span>
+<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a><span class="in">  # Calculate number of pairs and odd socks</span></span>
+<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a><span class="in">  n_pairs &lt;- round(floor(n_socks / 2) * prop_pairs)</span></span>
+<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="in">  n_odd &lt;- n_socks - n_pairs * 2</span></span>
+<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a><span class="in">  # Simulate picking socks</span></span>
+<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a><span class="in">  socks &lt;- rep(seq_len(n_pairs + n_odd), rep(c(2, 1), c(n_pairs, n_odd)))</span></span>
+<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a><span class="in">  picked_socks &lt;- sample(socks, size = min(n_picked, n_socks))</span></span>
+<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a><span class="in">  sock_counts &lt;- table(picked_socks)</span></span>
+<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a><span class="in">  # Return results</span></span>
+<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a><span class="in">  tibble(</span></span>
+<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a><span class="in">    unique = sum(sock_counts == 1),</span></span>
+<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a><span class="in">    pairs = sum(sock_counts == 2),</span></span>
+<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a><span class="in">    n_socks = n_socks,</span></span>
+<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a><span class="in">    n_pairs = n_pairs,</span></span>
+<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a><span class="in">    n_odd = n_odd,</span></span>
+<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a><span class="in">    prop_pairs = prop_pairs</span></span>
+<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a><span class="in"># Run simulations</span></span>
+<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a><span class="in">n_sims &lt;- 100000</span></span>
+<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a><span class="in">sock_sim &lt;- future_map_dfr(1:n_sims, ~simulate_socks(n_picked),</span></span>
+<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a><span class="in">                           .options = furrr_options(seed = 123))</span></span>
+<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a><span class="in"># Filter for matching simulations (11 unique socks, 0 pairs)</span></span>
+<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a><span class="in">post_samples &lt;- sock_sim %&gt;%</span></span>
+<span id="cb7-346"><a href="#cb7-346" aria-hidden="true" tabindex="-1"></a><span class="in">  filter(unique == 11, pairs == 0)</span></span>
+<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb7-348"><a href="#cb7-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-351"><a href="#cb7-351" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Total socks: <span class="in">`r summary_stats$median_socks`</span></span>
-<span id="cb7-352"><a href="#cb7-352" aria-hidden="true" tabindex="-1"></a>  (95% CI: <span class="in">`r summary_stats$ci_lower_socks`</span> - <span class="in">`r summary_stats$ci_upper_socks`</span>)</span>
-<span id="cb7-353"><a href="#cb7-353" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Pairs of socks: <span class="in">`r summary_stats$median_pairs`</span></span>
-<span id="cb7-354"><a href="#cb7-354" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Odd socks: <span class="in">`r summary_stats$median_odd`</span></span>
-<span id="cb7-355"><a href="#cb7-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-356"><a href="#cb7-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-357"><a href="#cb7-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-358"><a href="#cb7-358" aria-hidden="true" tabindex="-1"></a>Remarkably, when Karl later revealed the actual numbers, it turned out there</span>
-<span id="cb7-359"><a href="#cb7-359" aria-hidden="true" tabindex="-1"></a>were 21 pairs and 3 odd socks, totaling 45 socks. The estimate is surprisingly</span>
-<span id="cb7-360"><a href="#cb7-360" aria-hidden="true" tabindex="-1"></a>close, considering we only had one piece of information to work with! The</span>
-<span id="cb7-361"><a href="#cb7-361" aria-hidden="true" tabindex="-1"></a>visualizations provide additional insights:</span>
-<span id="cb7-362"><a href="#cb7-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-363"><a href="#cb7-363" aria-hidden="true" tabindex="-1"></a>The first plot shows how our beliefs about the total number of socks changed</span>
-<span id="cb7-364"><a href="#cb7-364" aria-hidden="true" tabindex="-1"></a>from the prior (green) to the posterior (blue) distribution after incorporating</span>
-<span id="cb7-365"><a href="#cb7-365" aria-hidden="true" tabindex="-1"></a>the data. This is a clear visualization of the reallocation of credibility</span>
-<span id="cb7-366"><a href="#cb7-366" aria-hidden="true" tabindex="-1"></a>across possibilities. The second plot illustrates the joint posterior</span>
-<span id="cb7-367"><a href="#cb7-367" aria-hidden="true" tabindex="-1"></a>distribution of pairs and odd socks, showing the range of plausible combinations</span>
-<span id="cb7-368"><a href="#cb7-368" aria-hidden="true" tabindex="-1"></a>given our model and data.</span>
-<span id="cb7-369"><a href="#cb7-369" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-370"><a href="#cb7-370" aria-hidden="true" tabindex="-1"></a>This example beautifully illustrates several key aspects of Bayesian thinking:</span>
-<span id="cb7-371"><a href="#cb7-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-372"><a href="#cb7-372" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Incorporation of prior knowledge: The model uses reasonable priors based on</span>
-<span id="cb7-373"><a href="#cb7-373" aria-hidden="true" tabindex="-1"></a>    general knowledge about sock ownership.</span>
-<span id="cb7-374"><a href="#cb7-374" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Handling uncertainty: The posterior distribution provides a range of</span>
-<span id="cb7-375"><a href="#cb7-375" aria-hidden="true" tabindex="-1"></a>    plausible values, not just a point estimate.</span>
-<span id="cb7-376"><a href="#cb7-376" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Learning from limited data: Even with just one piece of information (11</span>
-<span id="cb7-377"><a href="#cb7-377" aria-hidden="true" tabindex="-1"></a>    unique socks), we can make a surprisingly accurate inference.</span>
-<span id="cb7-378"><a href="#cb7-378" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Flexibility: The ABC approach allows us to work with a complex model that</span>
-<span id="cb7-379"><a href="#cb7-379" aria-hidden="true" tabindex="-1"></a>    would be difficult to handle with traditional methods.</span>
-<span id="cb7-380"><a href="#cb7-380" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Reallocation of credibility: We start with a wide range of possibilities and</span>
-<span id="cb7-381"><a href="#cb7-381" aria-hidden="true" tabindex="-1"></a>    narrow down to those most consistent with our observation.</span>
-<span id="cb7-382"><a href="#cb7-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-383"><a href="#cb7-383" aria-hidden="true" tabindex="-1"></a>In business contexts, we often face similar situations - limited data combined</span>
-<span id="cb7-384"><a href="#cb7-384" aria-hidden="true" tabindex="-1"></a>with domain expertise or prior experience. The sock example, while whimsical,</span>
-<span id="cb7-385"><a href="#cb7-385" aria-hidden="true" tabindex="-1"></a>demonstrates how Bayesian methods can be powerful in such real-world scenarios.</span>
-<span id="cb7-386"><a href="#cb7-386" aria-hidden="true" tabindex="-1"></a>As we progress through this book, we'll explore how these principles can be</span>
-<span id="cb7-387"><a href="#cb7-387" aria-hidden="true" tabindex="-1"></a>applied to more complex business problems.</span>
-<span id="cb7-388"><a href="#cb7-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-389"><a href="#cb7-389" aria-hidden="true" tabindex="-1"></a>As Kruschke and Liddell (2018) point out, one of the key advantages of Bayesian</span>
-<span id="cb7-390"><a href="#cb7-390" aria-hidden="true" tabindex="-1"></a>analysis is that "the posterior distribution can be directly examined to see</span>
-<span id="cb7-391"><a href="#cb7-391" aria-hidden="true" tabindex="-1"></a>which parameter values are most credible, and what range of parameter values</span>
-<span id="cb7-392"><a href="#cb7-392" aria-hidden="true" tabindex="-1"></a>covers the most credible values." This direct interpretation is particularly</span>
-<span id="cb7-393"><a href="#cb7-393" aria-hidden="true" tabindex="-1"></a>valuable in business settings, where we often need to communicate results to</span>
-<span id="cb7-394"><a href="#cb7-394" aria-hidden="true" tabindex="-1"></a>non-technical stakeholders.</span>
-<span id="cb7-395"><a href="#cb7-395" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-396"><a href="#cb7-396" aria-hidden="true" tabindex="-1"></a>For instance, in our sock example, we can straightforwardly say that </span>
-<span id="cb7-397"><a href="#cb7-397" aria-hidden="true" tabindex="-1"></a>"there's a 95% probability that the total number of socks is between</span>
-<span id="cb7-398"><a href="#cb7-398" aria-hidden="true" tabindex="-1"></a><span class="in">`r summary_stats$ci_lower_socks`</span> and <span class="in">`r summary_stats$ci_upper_socks`</span>."</span>
-<span id="cb7-399"><a href="#cb7-399" aria-hidden="true" tabindex="-1"></a>This statement is intuitive and directly addresses the uncertainty in our</span>
-<span id="cb7-400"><a href="#cb7-400" aria-hidden="true" tabindex="-1"></a>estimate, which is crucial for informed decision-making.</span>
-<span id="cb7-401"><a href="#cb7-401" aria-hidden="true" tabindex="-1"></a>Additionally, we can quantify probabilities for specific scenarios, such as:</span>
-<span id="cb7-402"><a href="#cb7-402" aria-hidden="true" tabindex="-1"></a>"The probability that there are at least 15 pairs</span>
-<span id="cb7-403"><a href="#cb7-403" aria-hidden="true" tabindex="-1"></a>is <span class="in">`r scales::percent(mean(post_samples$n_pairs &gt; 14))`</span>."</span>
+<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a>This code implements the ABC method, which is a perfect illustration of the</span>
+<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a>"reallocation of credibility across possibilities" that Kruschke and Liddell</span>
+<span id="cb7-351"><a href="#cb7-351" aria-hidden="true" tabindex="-1"></a>describe:</span>
+<span id="cb7-352"><a href="#cb7-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-353"><a href="#cb7-353" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>We define prior distributions for the total number of socks (negative</span>
+<span id="cb7-354"><a href="#cb7-354" aria-hidden="true" tabindex="-1"></a>    binomial) and the proportion of paired socks (beta). These represent our</span>
+<span id="cb7-355"><a href="#cb7-355" aria-hidden="true" tabindex="-1"></a>    initial beliefs about the possibilities.</span>
+<span id="cb7-356"><a href="#cb7-356" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>We create a generative model that simulates picking socks from a laundry</span>
+<span id="cb7-357"><a href="#cb7-357" aria-hidden="true" tabindex="-1"></a>    pile.</span>
+<span id="cb7-358"><a href="#cb7-358" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>We run this simulation many times (100,000 in this case), each time</span>
+<span id="cb7-359"><a href="#cb7-359" aria-hidden="true" tabindex="-1"></a>    generating a possible scenario.</span>
+<span id="cb7-360"><a href="#cb7-360" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>We keep only those simulations that match our observed data (11 unique</span>
+<span id="cb7-361"><a href="#cb7-361" aria-hidden="true" tabindex="-1"></a>    socks, 0 pairs). This step is where we reallocate credibility, focusing on</span>
+<span id="cb7-362"><a href="#cb7-362" aria-hidden="true" tabindex="-1"></a>    the possibilities that are consistent with our observation.</span>
+<span id="cb7-363"><a href="#cb7-363" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>We analyze the results by calculating median values from the retained</span>
+<span id="cb7-364"><a href="#cb7-364" aria-hidden="true" tabindex="-1"></a>    samples, which represent our updated beliefs.</span>
+<span id="cb7-365"><a href="#cb7-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-366"><a href="#cb7-366" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizing the Results</span></span>
+<span id="cb7-367"><a href="#cb7-367" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-368"><a href="#cb7-368" aria-hidden="true" tabindex="-1"></a><span class="in">```{r viz}</span></span>
+<span id="cb7-369"><a href="#cb7-369" aria-hidden="true" tabindex="-1"></a><span class="in"># Prepare data for plotting</span></span>
+<span id="cb7-370"><a href="#cb7-370" aria-hidden="true" tabindex="-1"></a><span class="in">prior_data &lt;- sock_sim %&gt;%</span></span>
+<span id="cb7-371"><a href="#cb7-371" aria-hidden="true" tabindex="-1"></a><span class="in">  count(n_socks) %&gt;%</span></span>
+<span id="cb7-372"><a href="#cb7-372" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(prop = n / sum(n),</span></span>
+<span id="cb7-373"><a href="#cb7-373" aria-hidden="true" tabindex="-1"></a><span class="in">         type = "Prior")</span></span>
+<span id="cb7-374"><a href="#cb7-374" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-375"><a href="#cb7-375" aria-hidden="true" tabindex="-1"></a><span class="in">posterior_data &lt;- post_samples %&gt;%</span></span>
+<span id="cb7-376"><a href="#cb7-376" aria-hidden="true" tabindex="-1"></a><span class="in">  count(n_socks) %&gt;%</span></span>
+<span id="cb7-377"><a href="#cb7-377" aria-hidden="true" tabindex="-1"></a><span class="in">  mutate(prop = n / sum(n),</span></span>
+<span id="cb7-378"><a href="#cb7-378" aria-hidden="true" tabindex="-1"></a><span class="in">         type = "Posterior")</span></span>
+<span id="cb7-379"><a href="#cb7-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-380"><a href="#cb7-380" aria-hidden="true" tabindex="-1"></a><span class="in">plot_data &lt;- bind_rows(prior_data, posterior_data)</span></span>
+<span id="cb7-381"><a href="#cb7-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-382"><a href="#cb7-382" aria-hidden="true" tabindex="-1"></a><span class="in"># Plot prior and posterior distributions</span></span>
+<span id="cb7-383"><a href="#cb7-383" aria-hidden="true" tabindex="-1"></a><span class="in">p1 &lt;- ggplot(plot_data, aes(x = n_socks, y = prop, fill = type)) +</span></span>
+<span id="cb7-384"><a href="#cb7-384" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_col(position = "dodge", alpha = 0.7) +</span></span>
+<span id="cb7-385"><a href="#cb7-385" aria-hidden="true" tabindex="-1"></a><span class="in">  scale_fill_manual(values = c("Prior" = "lightgreen", "Posterior" = "skyblue")) +</span></span>
+<span id="cb7-386"><a href="#cb7-386" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(title = "Prior and Posterior Distributions of Total Socks",</span></span>
+<span id="cb7-387"><a href="#cb7-387" aria-hidden="true" tabindex="-1"></a><span class="in">       x = "Number of Socks", y = "", fill = "Distribution") +</span></span>
+<span id="cb7-388"><a href="#cb7-388" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal() +</span></span>
+<span id="cb7-389"><a href="#cb7-389" aria-hidden="true" tabindex="-1"></a><span class="in">  theme(legend.position = "top")</span></span>
+<span id="cb7-390"><a href="#cb7-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-391"><a href="#cb7-391" aria-hidden="true" tabindex="-1"></a><span class="in"># Plot the posterior distribution of pairs and odd socks</span></span>
+<span id="cb7-392"><a href="#cb7-392" aria-hidden="true" tabindex="-1"></a><span class="in">p2 &lt;- ggplot(post_samples, aes(x = n_pairs, y = n_odd)) +</span></span>
+<span id="cb7-393"><a href="#cb7-393" aria-hidden="true" tabindex="-1"></a><span class="in">  geom_hex(bins = 30) +</span></span>
+<span id="cb7-394"><a href="#cb7-394" aria-hidden="true" tabindex="-1"></a><span class="in">  scale_fill_viridis_c() +</span></span>
+<span id="cb7-395"><a href="#cb7-395" aria-hidden="true" tabindex="-1"></a><span class="in">  labs(title = "Joint Posterior Distribution of Pairs and Odd Socks",</span></span>
+<span id="cb7-396"><a href="#cb7-396" aria-hidden="true" tabindex="-1"></a><span class="in">       x = "Number of Pairs", y = "Number of Odd Socks") +</span></span>
+<span id="cb7-397"><a href="#cb7-397" aria-hidden="true" tabindex="-1"></a><span class="in">  theme_minimal()</span></span>
+<span id="cb7-398"><a href="#cb7-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-399"><a href="#cb7-399" aria-hidden="true" tabindex="-1"></a><span class="in"># Combine plots</span></span>
+<span id="cb7-400"><a href="#cb7-400" aria-hidden="true" tabindex="-1"></a><span class="in">p1 / p2</span></span>
+<span id="cb7-401"><a href="#cb7-401" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-402"><a href="#cb7-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-403"><a href="#cb7-403" aria-hidden="true" tabindex="-1"></a><span class="fu">### Results and Interpretation</span></span>
 <span id="cb7-404"><a href="#cb7-404" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-405"><a href="#cb7-405" aria-hidden="true" tabindex="-1"></a>Moreover, Bayesian methods naturally handle the "small data" scenarios that are</span>
-<span id="cb7-406"><a href="#cb7-406" aria-hidden="true" tabindex="-1"></a>common in business. While big data gets a lot of attention, many important</span>
-<span id="cb7-407"><a href="#cb7-407" aria-hidden="true" tabindex="-1"></a>business decisions are made with limited information. The Bayesian framework</span>
-<span id="cb7-408"><a href="#cb7-408" aria-hidden="true" tabindex="-1"></a>allows us to start with prior knowledge (perhaps based on industry benchmarks or</span>
-<span id="cb7-409"><a href="#cb7-409" aria-hidden="true" tabindex="-1"></a>previous experience), update this with whatever data is available, and still</span>
-<span id="cb7-410"><a href="#cb7-410" aria-hidden="true" tabindex="-1"></a>produce meaningful results.</span>
-<span id="cb7-411"><a href="#cb7-411" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-412"><a href="#cb7-412" aria-hidden="true" tabindex="-1"></a><span class="fu">### A Note on Priors</span></span>
-<span id="cb7-413"><a href="#cb7-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-414"><a href="#cb7-414" aria-hidden="true" tabindex="-1"></a>It's important to remember that the less data you have, the more influential</span>
-<span id="cb7-415"><a href="#cb7-415" aria-hidden="true" tabindex="-1"></a>your priors become. Transparency about your priors is essential, as is</span>
-<span id="cb7-416"><a href="#cb7-416" aria-hidden="true" tabindex="-1"></a>investigating the sensitivity of your findings to different prior choices.</span>
-<span id="cb7-417"><a href="#cb7-417" aria-hidden="true" tabindex="-1"></a>However, don't shy away from using informative priors when justified by data.</span>
-<span id="cb7-418"><a href="#cb7-418" aria-hidden="true" tabindex="-1"></a>The interactive dashboard below utilizes {shinylive} (see @shinylive) to run</span>
-<span id="cb7-419"><a href="#cb7-419" aria-hidden="true" tabindex="-1"></a>these simulations directly in your browser, allowing you to experiment with</span>
-<span id="cb7-420"><a href="#cb7-420" aria-hidden="true" tabindex="-1"></a>various priors and observe their impact.</span>
-<span id="cb7-421"><a href="#cb7-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-422"><a href="#cb7-422" aria-hidden="true" tabindex="-1"></a><span class="in">```{shinylive-r}</span></span>
-<span id="cb7-423"><a href="#cb7-423" aria-hidden="true" tabindex="-1"></a><span class="in">#| standalone: true</span></span>
-<span id="cb7-424"><a href="#cb7-424" aria-hidden="true" tabindex="-1"></a><span class="in">#| viewerHeight: 800</span></span>
-<span id="cb7-425"><a href="#cb7-425" aria-hidden="true" tabindex="-1"></a><span class="in">library(shiny)</span></span>
-<span id="cb7-426"><a href="#cb7-426" aria-hidden="true" tabindex="-1"></a><span class="in">library(ggplot2)</span></span>
-<span id="cb7-427"><a href="#cb7-427" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
-<span id="cb7-428"><a href="#cb7-428" aria-hidden="true" tabindex="-1"></a><span class="in">library(furrr)</span></span>
-<span id="cb7-429"><a href="#cb7-429" aria-hidden="true" tabindex="-1"></a><span class="in">library(shinybusy)</span></span>
-<span id="cb7-430"><a href="#cb7-430" aria-hidden="true" tabindex="-1"></a><span class="in">library(shinydashboard)</span></span>
-<span id="cb7-431"><a href="#cb7-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-432"><a href="#cb7-432" aria-hidden="true" tabindex="-1"></a><span class="in"># Enable parallel processing with the number of cores available</span></span>
-<span id="cb7-433"><a href="#cb7-433" aria-hidden="true" tabindex="-1"></a><span class="in">plan(multisession, workers = availableCores())</span></span>
-<span id="cb7-434"><a href="#cb7-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-435"><a href="#cb7-435" aria-hidden="true" tabindex="-1"></a><span class="in"># Define the number of socks picked</span></span>
-<span id="cb7-436"><a href="#cb7-436" aria-hidden="true" tabindex="-1"></a><span class="in">n_picked &lt;- 11</span></span>
-<span id="cb7-437"><a href="#cb7-437" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-438"><a href="#cb7-438" aria-hidden="true" tabindex="-1"></a><span class="in">simulate_socks &lt;- function(n_picked, mu, size, shape1, shape2) {</span></span>
-<span id="cb7-439"><a href="#cb7-439" aria-hidden="true" tabindex="-1"></a><span class="in">  # Generate total number of socks from prior</span></span>
-<span id="cb7-440"><a href="#cb7-440" aria-hidden="true" tabindex="-1"></a><span class="in">  n_socks &lt;- rnbinom(1, mu = mu, size = size)</span></span>
-<span id="cb7-441"><a href="#cb7-441" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-442"><a href="#cb7-442" aria-hidden="true" tabindex="-1"></a><span class="in">  # Generate proportion of paired socks from prior</span></span>
-<span id="cb7-443"><a href="#cb7-443" aria-hidden="true" tabindex="-1"></a><span class="in">  prop_pairs &lt;- rbeta(1, shape1 = shape1, shape2 = shape2)</span></span>
-<span id="cb7-444"><a href="#cb7-444" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-445"><a href="#cb7-445" aria-hidden="true" tabindex="-1"></a><span class="in">  # Calculate number of pairs and odd socks</span></span>
-<span id="cb7-446"><a href="#cb7-446" aria-hidden="true" tabindex="-1"></a><span class="in">  n_pairs &lt;- round(floor(n_socks / 2) * prop_pairs)</span></span>
-<span id="cb7-447"><a href="#cb7-447" aria-hidden="true" tabindex="-1"></a><span class="in">  n_odd &lt;- n_socks - n_pairs * 2</span></span>
-<span id="cb7-448"><a href="#cb7-448" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-449"><a href="#cb7-449" aria-hidden="true" tabindex="-1"></a><span class="in">  # Simulate picking socks</span></span>
-<span id="cb7-450"><a href="#cb7-450" aria-hidden="true" tabindex="-1"></a><span class="in">  socks &lt;- rep(seq_len(n_pairs + n_odd), rep(c(2, 1), c(n_pairs, n_odd)))</span></span>
-<span id="cb7-451"><a href="#cb7-451" aria-hidden="true" tabindex="-1"></a><span class="in">  picked_socks &lt;- sample(socks, size = min(n_picked, n_socks))</span></span>
-<span id="cb7-452"><a href="#cb7-452" aria-hidden="true" tabindex="-1"></a><span class="in">  sock_counts &lt;- table(picked_socks)</span></span>
-<span id="cb7-453"><a href="#cb7-453" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-454"><a href="#cb7-454" aria-hidden="true" tabindex="-1"></a><span class="in">  # Return results</span></span>
-<span id="cb7-455"><a href="#cb7-455" aria-hidden="true" tabindex="-1"></a><span class="in">  tibble(</span></span>
-<span id="cb7-456"><a href="#cb7-456" aria-hidden="true" tabindex="-1"></a><span class="in">    unique = sum(sock_counts == 1),</span></span>
-<span id="cb7-457"><a href="#cb7-457" aria-hidden="true" tabindex="-1"></a><span class="in">    pairs = sum(sock_counts == 2),</span></span>
-<span id="cb7-458"><a href="#cb7-458" aria-hidden="true" tabindex="-1"></a><span class="in">    n_socks = n_socks,</span></span>
-<span id="cb7-459"><a href="#cb7-459" aria-hidden="true" tabindex="-1"></a><span class="in">    n_pairs = n_pairs,</span></span>
-<span id="cb7-460"><a href="#cb7-460" aria-hidden="true" tabindex="-1"></a><span class="in">    n_odd = n_odd,</span></span>
-<span id="cb7-461"><a href="#cb7-461" aria-hidden="true" tabindex="-1"></a><span class="in">    prop_pairs = prop_pairs</span></span>
-<span id="cb7-462"><a href="#cb7-462" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb7-463"><a href="#cb7-463" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb7-464"><a href="#cb7-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-465"><a href="#cb7-465" aria-hidden="true" tabindex="-1"></a><span class="in">ui &lt;- dashboardPage(</span></span>
-<span id="cb7-466"><a href="#cb7-466" aria-hidden="true" tabindex="-1"></a><span class="in">  skin = "black",</span></span>
-<span id="cb7-467"><a href="#cb7-467" aria-hidden="true" tabindex="-1"></a><span class="in">  dashboardHeader(title = "Karl's Socks"),</span></span>
-<span id="cb7-468"><a href="#cb7-468" aria-hidden="true" tabindex="-1"></a><span class="in">  dashboardSidebar(</span></span>
-<span id="cb7-469"><a href="#cb7-469" aria-hidden="true" tabindex="-1"></a><span class="in">    numericInput(</span></span>
-<span id="cb7-470"><a href="#cb7-470" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "seed",</span></span>
-<span id="cb7-471"><a href="#cb7-471" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Random Seed",</span></span>
-<span id="cb7-472"><a href="#cb7-472" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 123,</span></span>
-<span id="cb7-473"><a href="#cb7-473" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 1,</span></span>
-<span id="cb7-474"><a href="#cb7-474" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
-<span id="cb7-475"><a href="#cb7-475" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
-<span id="cb7-476"><a href="#cb7-476" aria-hidden="true" tabindex="-1"></a><span class="in">    numericInput(</span></span>
-<span id="cb7-477"><a href="#cb7-477" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "n_sims",</span></span>
-<span id="cb7-478"><a href="#cb7-478" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Number of Simulations",</span></span>
-<span id="cb7-479"><a href="#cb7-479" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 10000,</span></span>
-<span id="cb7-480"><a href="#cb7-480" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 100,</span></span>
-<span id="cb7-481"><a href="#cb7-481" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 100</span></span>
-<span id="cb7-482"><a href="#cb7-482" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
-<span id="cb7-483"><a href="#cb7-483" aria-hidden="true" tabindex="-1"></a><span class="in">    sliderInput(</span></span>
-<span id="cb7-484"><a href="#cb7-484" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "mu",</span></span>
-<span id="cb7-485"><a href="#cb7-485" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "mu",</span></span>
-<span id="cb7-486"><a href="#cb7-486" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 15,</span></span>
-<span id="cb7-487"><a href="#cb7-487" aria-hidden="true" tabindex="-1"></a><span class="in">      max = 60,</span></span>
-<span id="cb7-488"><a href="#cb7-488" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 40,</span></span>
-<span id="cb7-489"><a href="#cb7-489" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
-<span id="cb7-490"><a href="#cb7-490" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
-<span id="cb7-491"><a href="#cb7-491" aria-hidden="true" tabindex="-1"></a><span class="in">    sliderInput(</span></span>
-<span id="cb7-492"><a href="#cb7-492" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "size",</span></span>
-<span id="cb7-493"><a href="#cb7-493" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Size",</span></span>
-<span id="cb7-494"><a href="#cb7-494" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 3,</span></span>
-<span id="cb7-495"><a href="#cb7-495" aria-hidden="true" tabindex="-1"></a><span class="in">      max = 10,</span></span>
-<span id="cb7-496"><a href="#cb7-496" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 4,</span></span>
-<span id="cb7-497"><a href="#cb7-497" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
-<span id="cb7-498"><a href="#cb7-498" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
-<span id="cb7-499"><a href="#cb7-499" aria-hidden="true" tabindex="-1"></a><span class="in">    sliderInput(</span></span>
-<span id="cb7-500"><a href="#cb7-500" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "shape1",</span></span>
-<span id="cb7-501"><a href="#cb7-501" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Shape 1",</span></span>
-<span id="cb7-502"><a href="#cb7-502" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 2,</span></span>
-<span id="cb7-503"><a href="#cb7-503" aria-hidden="true" tabindex="-1"></a><span class="in">      max = 20,</span></span>
-<span id="cb7-504"><a href="#cb7-504" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 15,</span></span>
-<span id="cb7-505"><a href="#cb7-505" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
-<span id="cb7-506"><a href="#cb7-506" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
-<span id="cb7-507"><a href="#cb7-507" aria-hidden="true" tabindex="-1"></a><span class="in">    sliderInput(</span></span>
-<span id="cb7-508"><a href="#cb7-508" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "shape2",</span></span>
-<span id="cb7-509"><a href="#cb7-509" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Shape 2",</span></span>
-<span id="cb7-510"><a href="#cb7-510" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 2,</span></span>
-<span id="cb7-511"><a href="#cb7-511" aria-hidden="true" tabindex="-1"></a><span class="in">      max = 8,</span></span>
-<span id="cb7-512"><a href="#cb7-512" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 2,</span></span>
-<span id="cb7-513"><a href="#cb7-513" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
-<span id="cb7-514"><a href="#cb7-514" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
-<span id="cb7-515"><a href="#cb7-515" aria-hidden="true" tabindex="-1"></a><span class="in">    actionButton("run_sim", "Run Simulation")</span></span>
-<span id="cb7-516"><a href="#cb7-516" aria-hidden="true" tabindex="-1"></a><span class="in">  ),</span></span>
-<span id="cb7-517"><a href="#cb7-517" aria-hidden="true" tabindex="-1"></a><span class="in">  dashboardBody(</span></span>
-<span id="cb7-518"><a href="#cb7-518" aria-hidden="true" tabindex="-1"></a><span class="in">    use_busy_spinner(spin = "fading-circle"),</span></span>
-<span id="cb7-519"><a href="#cb7-519" aria-hidden="true" tabindex="-1"></a><span class="in">    fluidRow(</span></span>
-<span id="cb7-520"><a href="#cb7-520" aria-hidden="true" tabindex="-1"></a><span class="in">      box(</span></span>
-<span id="cb7-521"><a href="#cb7-521" aria-hidden="true" tabindex="-1"></a><span class="in">        title = "Prior Distribution for Total Number of Socks", </span></span>
-<span id="cb7-522"><a href="#cb7-522" aria-hidden="true" tabindex="-1"></a><span class="in">        status = "danger", solidHeader = TRUE,</span></span>
-<span id="cb7-523"><a href="#cb7-523" aria-hidden="true" tabindex="-1"></a><span class="in">        collapsible = TRUE,</span></span>
-<span id="cb7-524"><a href="#cb7-524" aria-hidden="true" tabindex="-1"></a><span class="in">        plotOutput("prior_socks")</span></span>
-<span id="cb7-525"><a href="#cb7-525" aria-hidden="true" tabindex="-1"></a><span class="in">      ),</span></span>
-<span id="cb7-526"><a href="#cb7-526" aria-hidden="true" tabindex="-1"></a><span class="in">      </span></span>
-<span id="cb7-527"><a href="#cb7-527" aria-hidden="true" tabindex="-1"></a><span class="in">      box(</span></span>
-<span id="cb7-528"><a href="#cb7-528" aria-hidden="true" tabindex="-1"></a><span class="in">        title = "Prior Distribution for Proportion of Paired Socks", </span></span>
-<span id="cb7-529"><a href="#cb7-529" aria-hidden="true" tabindex="-1"></a><span class="in">        status = "danger", solidHeader = TRUE,</span></span>
-<span id="cb7-530"><a href="#cb7-530" aria-hidden="true" tabindex="-1"></a><span class="in">        collapsible = TRUE,</span></span>
-<span id="cb7-531"><a href="#cb7-531" aria-hidden="true" tabindex="-1"></a><span class="in">        plotOutput("prior_prop")</span></span>
-<span id="cb7-532"><a href="#cb7-532" aria-hidden="true" tabindex="-1"></a><span class="in">      )</span></span>
-<span id="cb7-533"><a href="#cb7-533" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
-<span id="cb7-534"><a href="#cb7-534" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb7-535"><a href="#cb7-535" aria-hidden="true" tabindex="-1"></a><span class="in">    fluidRow(</span></span>
-<span id="cb7-536"><a href="#cb7-536" aria-hidden="true" tabindex="-1"></a><span class="in">      box(</span></span>
-<span id="cb7-537"><a href="#cb7-537" aria-hidden="true" tabindex="-1"></a><span class="in">        title = "Prior and Posterior Distributions of Total Socks", </span></span>
-<span id="cb7-538"><a href="#cb7-538" aria-hidden="true" tabindex="-1"></a><span class="in">        status = "danger", solidHeader = TRUE,</span></span>
-<span id="cb7-539"><a href="#cb7-539" aria-hidden="true" tabindex="-1"></a><span class="in">        collapsible = TRUE,</span></span>
-<span id="cb7-540"><a href="#cb7-540" aria-hidden="true" tabindex="-1"></a><span class="in">        plotOutput("distribution_plot")</span></span>
-<span id="cb7-541"><a href="#cb7-541" aria-hidden="true" tabindex="-1"></a><span class="in">      ),</span></span>
-<span id="cb7-542"><a href="#cb7-542" aria-hidden="true" tabindex="-1"></a><span class="in">      </span></span>
-<span id="cb7-543"><a href="#cb7-543" aria-hidden="true" tabindex="-1"></a><span class="in">      box(</span></span>
-<span id="cb7-544"><a href="#cb7-544" aria-hidden="true" tabindex="-1"></a><span class="in">        title = "Joint Posterior Distribution of Pairs and Odd Socks", </span></span>
-<span id="cb7-545"><a href="#cb7-545" aria-hidden="true" tabindex="-1"></a><span class="in">        status = "danger", solidHeader = TRUE,</span></span>
-<span id="cb7-546"><a href="#cb7-546" aria-hidden="true" tabindex="-1"></a><span class="in">        collapsible = TRUE,</span></span>
-<span id="cb7-547"><a href="#cb7-547" aria-hidden="true" tabindex="-1"></a><span class="in">        plotOutput("joint_plot")</span></span>
-<span id="cb7-548"><a href="#cb7-548" aria-hidden="true" tabindex="-1"></a><span class="in">      )</span></span>
-<span id="cb7-549"><a href="#cb7-549" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
-<span id="cb7-550"><a href="#cb7-550" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb7-551"><a href="#cb7-551" aria-hidden="true" tabindex="-1"></a><span class="in">    fluidRow(</span></span>
-<span id="cb7-552"><a href="#cb7-552" aria-hidden="true" tabindex="-1"></a><span class="in">      valueBoxOutput("pr_pairs")</span></span>
-<span id="cb7-553"><a href="#cb7-553" aria-hidden="true" tabindex="-1"></a><span class="in">    )</span></span>
-<span id="cb7-554"><a href="#cb7-554" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
-<span id="cb7-555"><a href="#cb7-555" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
-<span id="cb7-556"><a href="#cb7-556" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-557"><a href="#cb7-557" aria-hidden="true" tabindex="-1"></a><span class="in">server &lt;- function(input, output) {</span></span>
-<span id="cb7-558"><a href="#cb7-558" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-559"><a href="#cb7-559" aria-hidden="true" tabindex="-1"></a><span class="in">  sock_sim &lt;- eventReactive(input$run_sim, {</span></span>
-<span id="cb7-560"><a href="#cb7-560" aria-hidden="true" tabindex="-1"></a><span class="in">    show_modal_spinner()  </span></span>
-<span id="cb7-561"><a href="#cb7-561" aria-hidden="true" tabindex="-1"></a><span class="in">    on.exit(remove_modal_spinner())</span></span>
-<span id="cb7-562"><a href="#cb7-562" aria-hidden="true" tabindex="-1"></a><span class="in">    set.seed(input$seed)</span></span>
-<span id="cb7-563"><a href="#cb7-563" aria-hidden="true" tabindex="-1"></a><span class="in">    local_mu &lt;- input$mu</span></span>
-<span id="cb7-564"><a href="#cb7-564" aria-hidden="true" tabindex="-1"></a><span class="in">    local_size &lt;- input$size</span></span>
-<span id="cb7-565"><a href="#cb7-565" aria-hidden="true" tabindex="-1"></a><span class="in">    local_shape1 &lt;- input$shape1</span></span>
-<span id="cb7-566"><a href="#cb7-566" aria-hidden="true" tabindex="-1"></a><span class="in">    local_shape2 &lt;- input$shape2</span></span>
-<span id="cb7-567"><a href="#cb7-567" aria-hidden="true" tabindex="-1"></a><span class="in">    future_map_dfr(1:input$n_sims,</span></span>
-<span id="cb7-568"><a href="#cb7-568" aria-hidden="true" tabindex="-1"></a><span class="in">                   ~simulate_socks(n_picked = 11,</span></span>
-<span id="cb7-569"><a href="#cb7-569" aria-hidden="true" tabindex="-1"></a><span class="in">                                   mu = local_mu,</span></span>
-<span id="cb7-570"><a href="#cb7-570" aria-hidden="true" tabindex="-1"></a><span class="in">                                   size = local_size,</span></span>
-<span id="cb7-571"><a href="#cb7-571" aria-hidden="true" tabindex="-1"></a><span class="in">                                   shape1 = local_shape1,</span></span>
-<span id="cb7-572"><a href="#cb7-572" aria-hidden="true" tabindex="-1"></a><span class="in">                                   shape2 = local_shape2),</span></span>
-<span id="cb7-573"><a href="#cb7-573" aria-hidden="true" tabindex="-1"></a><span class="in">                   .options = furrr_options(seed = 123))</span></span>
-<span id="cb7-574"><a href="#cb7-574" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
-<span id="cb7-575"><a href="#cb7-575" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-576"><a href="#cb7-576" aria-hidden="true" tabindex="-1"></a><span class="in">  # Filter for matching simulations (11 unique socks, 0 pairs)</span></span>
-<span id="cb7-577"><a href="#cb7-577" aria-hidden="true" tabindex="-1"></a><span class="in">  post_samples &lt;- reactive({</span></span>
-<span id="cb7-578"><a href="#cb7-578" aria-hidden="true" tabindex="-1"></a><span class="in">    sock_sim() %&gt;% </span></span>
-<span id="cb7-579"><a href="#cb7-579" aria-hidden="true" tabindex="-1"></a><span class="in">      filter(unique == 11, pairs == 0)</span></span>
-<span id="cb7-580"><a href="#cb7-580" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
-<span id="cb7-581"><a href="#cb7-581" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-582"><a href="#cb7-582" aria-hidden="true" tabindex="-1"></a><span class="in">  output$pr_pairs &lt;- renderValueBox({</span></span>
-<span id="cb7-583"><a href="#cb7-583" aria-hidden="true" tabindex="-1"></a><span class="in">    req(post_samples())</span></span>
-<span id="cb7-584"><a href="#cb7-584" aria-hidden="true" tabindex="-1"></a><span class="in">    valueBox(</span></span>
-<span id="cb7-585"><a href="#cb7-585" aria-hidden="true" tabindex="-1"></a><span class="in">      scales::percent(mean(post_samples()$n_pairs &gt; 14)),</span></span>
-<span id="cb7-586"><a href="#cb7-586" aria-hidden="true" tabindex="-1"></a><span class="in">      "Pr[# Pairs &gt; 14]", icon = icon("socks"),</span></span>
-<span id="cb7-587"><a href="#cb7-587" aria-hidden="true" tabindex="-1"></a><span class="in">      color = "red"</span></span>
-<span id="cb7-588"><a href="#cb7-588" aria-hidden="true" tabindex="-1"></a><span class="in">    )</span></span>
-<span id="cb7-589"><a href="#cb7-589" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
-<span id="cb7-590"><a href="#cb7-590" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-591"><a href="#cb7-591" aria-hidden="true" tabindex="-1"></a><span class="in">  # Prepare data for plotting</span></span>
-<span id="cb7-592"><a href="#cb7-592" aria-hidden="true" tabindex="-1"></a><span class="in">  prior_data &lt;- reactive({</span></span>
-<span id="cb7-593"><a href="#cb7-593" aria-hidden="true" tabindex="-1"></a><span class="in">    sock_sim() %&gt;%</span></span>
-<span id="cb7-594"><a href="#cb7-594" aria-hidden="true" tabindex="-1"></a><span class="in">      count(n_socks) %&gt;%</span></span>
-<span id="cb7-595"><a href="#cb7-595" aria-hidden="true" tabindex="-1"></a><span class="in">      mutate(prop = n / sum(n),</span></span>
-<span id="cb7-596"><a href="#cb7-596" aria-hidden="true" tabindex="-1"></a><span class="in">             type = "Prior")</span></span>
-<span id="cb7-597"><a href="#cb7-597" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
-<span id="cb7-598"><a href="#cb7-598" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-599"><a href="#cb7-599" aria-hidden="true" tabindex="-1"></a><span class="in">  posterior_data &lt;- reactive({</span></span>
-<span id="cb7-600"><a href="#cb7-600" aria-hidden="true" tabindex="-1"></a><span class="in">    if(nrow(post_samples()) == 0) {</span></span>
-<span id="cb7-601"><a href="#cb7-601" aria-hidden="true" tabindex="-1"></a><span class="in">      return(tibble(n_socks = numeric(), prop = numeric(), type = character())) </span></span>
-<span id="cb7-602"><a href="#cb7-602" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
-<span id="cb7-603"><a href="#cb7-603" aria-hidden="true" tabindex="-1"></a><span class="in">    post_samples() %&gt;%</span></span>
-<span id="cb7-604"><a href="#cb7-604" aria-hidden="true" tabindex="-1"></a><span class="in">      count(n_socks) %&gt;%</span></span>
-<span id="cb7-605"><a href="#cb7-605" aria-hidden="true" tabindex="-1"></a><span class="in">      mutate(prop = n / sum(n),</span></span>
-<span id="cb7-606"><a href="#cb7-606" aria-hidden="true" tabindex="-1"></a><span class="in">             type = "Posterior")</span></span>
-<span id="cb7-607"><a href="#cb7-607" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
-<span id="cb7-608"><a href="#cb7-608" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-609"><a href="#cb7-609" aria-hidden="true" tabindex="-1"></a><span class="in">  output$prior_socks &lt;- renderPlot({</span></span>
-<span id="cb7-610"><a href="#cb7-610" aria-hidden="true" tabindex="-1"></a><span class="in">    # Dataframe of possible sock counts</span></span>
-<span id="cb7-611"><a href="#cb7-611" aria-hidden="true" tabindex="-1"></a><span class="in">    sock_counts &lt;- data.frame(n_socks = 0:100)</span></span>
-<span id="cb7-612"><a href="#cb7-612" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb7-613"><a href="#cb7-613" aria-hidden="true" tabindex="-1"></a><span class="in">    # Calculate probabilities from the negative binomial distribution</span></span>
-<span id="cb7-614"><a href="#cb7-614" aria-hidden="true" tabindex="-1"></a><span class="in">    sock_counts$probability &lt;- dnbinom(sock_counts$n_socks,</span></span>
-<span id="cb7-615"><a href="#cb7-615" aria-hidden="true" tabindex="-1"></a><span class="in">                                       mu = input$mu,</span></span>
-<span id="cb7-616"><a href="#cb7-616" aria-hidden="true" tabindex="-1"></a><span class="in">                                       size = input$size)</span></span>
-<span id="cb7-617"><a href="#cb7-617" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb7-618"><a href="#cb7-618" aria-hidden="true" tabindex="-1"></a><span class="in">    # Create the histogram</span></span>
-<span id="cb7-619"><a href="#cb7-619" aria-hidden="true" tabindex="-1"></a><span class="in">    ggplot(sock_counts, aes(x = n_socks, y = probability)) +</span></span>
-<span id="cb7-620"><a href="#cb7-620" aria-hidden="true" tabindex="-1"></a><span class="in">      geom_col(fill = "skyblue", color = "black")+ </span></span>
-<span id="cb7-621"><a href="#cb7-621" aria-hidden="true" tabindex="-1"></a><span class="in">      scale_y_continuous(labels = scales::percent) +</span></span>
-<span id="cb7-622"><a href="#cb7-622" aria-hidden="true" tabindex="-1"></a><span class="in">      theme_minimal() +</span></span>
-<span id="cb7-623"><a href="#cb7-623" aria-hidden="true" tabindex="-1"></a><span class="in">      labs(x = "Total Number of Socks", y = "Probability")</span></span>
-<span id="cb7-624"><a href="#cb7-624" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
-<span id="cb7-625"><a href="#cb7-625" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-626"><a href="#cb7-626" aria-hidden="true" tabindex="-1"></a><span class="in">  output$prior_prop &lt;- renderPlot({</span></span>
-<span id="cb7-627"><a href="#cb7-627" aria-hidden="true" tabindex="-1"></a><span class="in">    # Create a sequence of proportions from 0 to 1</span></span>
-<span id="cb7-628"><a href="#cb7-628" aria-hidden="true" tabindex="-1"></a><span class="in">    proportions &lt;- seq(0, 1, length.out = 100)</span></span>
-<span id="cb7-629"><a href="#cb7-629" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb7-630"><a href="#cb7-630" aria-hidden="true" tabindex="-1"></a><span class="in">    # Calculate density values from the beta distribution</span></span>
-<span id="cb7-631"><a href="#cb7-631" aria-hidden="true" tabindex="-1"></a><span class="in">    density_values &lt;- dbeta(proportions, shape1 = input$shape1,</span></span>
-<span id="cb7-632"><a href="#cb7-632" aria-hidden="true" tabindex="-1"></a><span class="in">                            shape2 = input$shape2)</span></span>
-<span id="cb7-633"><a href="#cb7-633" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb7-634"><a href="#cb7-634" aria-hidden="true" tabindex="-1"></a><span class="in">    # Create the density plot</span></span>
-<span id="cb7-635"><a href="#cb7-635" aria-hidden="true" tabindex="-1"></a><span class="in">    ggplot(data.frame(proportion = proportions, density = density_values),</span></span>
-<span id="cb7-636"><a href="#cb7-636" aria-hidden="true" tabindex="-1"></a><span class="in">           aes(x = proportion, y = density)) +</span></span>
-<span id="cb7-637"><a href="#cb7-637" aria-hidden="true" tabindex="-1"></a><span class="in">      geom_line(color = "darkgreen") +</span></span>
-<span id="cb7-638"><a href="#cb7-638" aria-hidden="true" tabindex="-1"></a><span class="in">      theme_minimal() +</span></span>
-<span id="cb7-639"><a href="#cb7-639" aria-hidden="true" tabindex="-1"></a><span class="in">      labs(x = "Proportion of Paired Socks", y = "Density")</span></span>
-<span id="cb7-640"><a href="#cb7-640" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
-<span id="cb7-641"><a href="#cb7-641" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-642"><a href="#cb7-642" aria-hidden="true" tabindex="-1"></a><span class="in">  output$distribution_plot &lt;- renderPlot({</span></span>
-<span id="cb7-643"><a href="#cb7-643" aria-hidden="true" tabindex="-1"></a><span class="in">    req(prior_data(), posterior_data())</span></span>
-<span id="cb7-644"><a href="#cb7-644" aria-hidden="true" tabindex="-1"></a><span class="in">    plot_data &lt;- bind_rows(prior_data(), posterior_data())</span></span>
-<span id="cb7-645"><a href="#cb7-645" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb7-646"><a href="#cb7-646" aria-hidden="true" tabindex="-1"></a><span class="in">    ggplot(plot_data, aes(x = n_socks, y = prop, fill = type)) +</span></span>
-<span id="cb7-647"><a href="#cb7-647" aria-hidden="true" tabindex="-1"></a><span class="in">      geom_col(position = "dodge", alpha = 0.7) +</span></span>
-<span id="cb7-648"><a href="#cb7-648" aria-hidden="true" tabindex="-1"></a><span class="in">      scale_fill_manual(values = c("Prior" = "lightgreen", "Posterior" = "skyblue")) +</span></span>
-<span id="cb7-649"><a href="#cb7-649" aria-hidden="true" tabindex="-1"></a><span class="in">      scale_y_continuous(labels = scales::percent) +</span></span>
-<span id="cb7-650"><a href="#cb7-650" aria-hidden="true" tabindex="-1"></a><span class="in">      labs(x = "Number of Socks", y = "Probability", fill = "Distribution") +</span></span>
-<span id="cb7-651"><a href="#cb7-651" aria-hidden="true" tabindex="-1"></a><span class="in">      theme_minimal() +</span></span>
-<span id="cb7-652"><a href="#cb7-652" aria-hidden="true" tabindex="-1"></a><span class="in">      theme(legend.position = "top")</span></span>
-<span id="cb7-653"><a href="#cb7-653" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
-<span id="cb7-654"><a href="#cb7-654" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
-<span id="cb7-655"><a href="#cb7-655" aria-hidden="true" tabindex="-1"></a><span class="in">  output$joint_plot &lt;- renderPlot({</span></span>
-<span id="cb7-656"><a href="#cb7-656" aria-hidden="true" tabindex="-1"></a><span class="in">    req(post_samples())</span></span>
-<span id="cb7-657"><a href="#cb7-657" aria-hidden="true" tabindex="-1"></a><span class="in">    if(nrow(post_samples()) &gt; 0) {</span></span>
-<span id="cb7-658"><a href="#cb7-658" aria-hidden="true" tabindex="-1"></a><span class="in">      ggplot(post_samples(), aes(x = n_pairs, y = n_odd)) +</span></span>
-<span id="cb7-659"><a href="#cb7-659" aria-hidden="true" tabindex="-1"></a><span class="in">        geom_hex(bins = 30) +</span></span>
-<span id="cb7-660"><a href="#cb7-660" aria-hidden="true" tabindex="-1"></a><span class="in">        scale_fill_viridis_c() +</span></span>
-<span id="cb7-661"><a href="#cb7-661" aria-hidden="true" tabindex="-1"></a><span class="in">        labs(x = "Number of Pairs", y = "Number of Odd Socks") +</span></span>
-<span id="cb7-662"><a href="#cb7-662" aria-hidden="true" tabindex="-1"></a><span class="in">        theme_minimal()</span></span>
-<span id="cb7-663"><a href="#cb7-663" aria-hidden="true" tabindex="-1"></a><span class="in">    } else {</span></span>
-<span id="cb7-664"><a href="#cb7-664" aria-hidden="true" tabindex="-1"></a><span class="in">      ggplot() + </span></span>
-<span id="cb7-665"><a href="#cb7-665" aria-hidden="true" tabindex="-1"></a><span class="in">        annotate("text", x = 0.5, y = 0.5, label = "No matching simulations found") +</span></span>
-<span id="cb7-666"><a href="#cb7-666" aria-hidden="true" tabindex="-1"></a><span class="in">        theme_void()</span></span>
-<span id="cb7-667"><a href="#cb7-667" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
-<span id="cb7-668"><a href="#cb7-668" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
-<span id="cb7-669"><a href="#cb7-669" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
-<span id="cb7-670"><a href="#cb7-670" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-671"><a href="#cb7-671" aria-hidden="true" tabindex="-1"></a><span class="in">shinyApp(ui, server)</span></span>
-<span id="cb7-672"><a href="#cb7-672" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-673"><a href="#cb7-673" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb7-674"><a href="#cb7-674" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-675"><a href="#cb7-675" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-676"><a href="#cb7-676" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conclusion</span></span>
-<span id="cb7-677"><a href="#cb7-677" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-678"><a href="#cb7-678" aria-hidden="true" tabindex="-1"></a>Bayesian statistics offers a powerful and intuitive framework for business data</span>
-<span id="cb7-679"><a href="#cb7-679" aria-hidden="true" tabindex="-1"></a>science, aligning closely with how businesses make decisions. By incorporating</span>
-<span id="cb7-680"><a href="#cb7-680" aria-hidden="true" tabindex="-1"></a>prior knowledge, we can update our beliefs based on evidence and quantify</span>
-<span id="cb7-681"><a href="#cb7-681" aria-hidden="true" tabindex="-1"></a>uncertainty in a natural way. The concept of reallocating credibility across</span>
-<span id="cb7-682"><a href="#cb7-682" aria-hidden="true" tabindex="-1"></a>possibilities provides an intuitive way to think about learning from data.</span>
-<span id="cb7-683"><a href="#cb7-683" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-684"><a href="#cb7-684" aria-hidden="true" tabindex="-1"></a>Furthermore, Bayesian methods are particularly well-suited to the "small data"</span>
-<span id="cb7-685"><a href="#cb7-685" aria-hidden="true" tabindex="-1"></a>scenarios often encountered in business. While "big data" garners much</span>
-<span id="cb7-686"><a href="#cb7-686" aria-hidden="true" tabindex="-1"></a>attention, many crucial business decisions hinge on limited information. The</span>
-<span id="cb7-687"><a href="#cb7-687" aria-hidden="true" tabindex="-1"></a>Bayesian framework allows us to begin with prior knowledge, update it with</span>
-<span id="cb7-688"><a href="#cb7-688" aria-hidden="true" tabindex="-1"></a>available data, and then communicate our findings in plain language.</span>
-<span id="cb7-689"><a href="#cb7-689" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-690"><a href="#cb7-690" aria-hidden="true" tabindex="-1"></a>In essence, Bayesian statistics provides a flexible and powerful approach for</span>
-<span id="cb7-691"><a href="#cb7-691" aria-hidden="true" tabindex="-1"></a>tackling the complex and often uncertain world of business decision-making.</span>
-<span id="cb7-692"><a href="#cb7-692" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-693"><a href="#cb7-693" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb7-694"><a href="#cb7-694" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learn more</span></span>
-<span id="cb7-695"><a href="#cb7-695" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>@kruschke2018bayesian Bayesian data analysis for newcomers.</span>
-<span id="cb7-696"><a href="#cb7-696" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>@mcelreath2018statistical Statistical Rethinking: A Bayesian Course with</span>
-<span id="cb7-697"><a href="#cb7-697" aria-hidden="true" tabindex="-1"></a>    Examples in R and Stan</span>
-<span id="cb7-698"><a href="#cb7-698" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>@gelman2013bayesian Bayesian Data Analysis.</span>
-<span id="cb7-699"><a href="#cb7-699" aria-hidden="true" tabindex="-1"></a>::: </span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb7-405"><a href="#cb7-405" aria-hidden="true" tabindex="-1"></a>After running this model, our best guess (median of the posterior) is that Karl</span>
+<span id="cb7-406"><a href="#cb7-406" aria-hidden="true" tabindex="-1"></a>Broman has approximately:</span>
+<span id="cb7-407"><a href="#cb7-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-408"><a href="#cb7-408" aria-hidden="true" tabindex="-1"></a><span class="in">```{r summary}</span></span>
+<span id="cb7-409"><a href="#cb7-409" aria-hidden="true" tabindex="-1"></a><span class="in"># Calculate summary statistics</span></span>
+<span id="cb7-410"><a href="#cb7-410" aria-hidden="true" tabindex="-1"></a><span class="in">summary_stats &lt;- post_samples %&gt;%</span></span>
+<span id="cb7-411"><a href="#cb7-411" aria-hidden="true" tabindex="-1"></a><span class="in">  summarize(</span></span>
+<span id="cb7-412"><a href="#cb7-412" aria-hidden="true" tabindex="-1"></a><span class="in">    median_socks = median(n_socks),</span></span>
+<span id="cb7-413"><a href="#cb7-413" aria-hidden="true" tabindex="-1"></a><span class="in">    median_pairs = median(n_pairs),</span></span>
+<span id="cb7-414"><a href="#cb7-414" aria-hidden="true" tabindex="-1"></a><span class="in">    median_odd = median(n_odd),</span></span>
+<span id="cb7-415"><a href="#cb7-415" aria-hidden="true" tabindex="-1"></a><span class="in">    ci_lower_socks = quantile(n_socks, 0.025),</span></span>
+<span id="cb7-416"><a href="#cb7-416" aria-hidden="true" tabindex="-1"></a><span class="in">    ci_upper_socks = quantile(n_socks, 0.975)</span></span>
+<span id="cb7-417"><a href="#cb7-417" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb7-418"><a href="#cb7-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-419"><a href="#cb7-419" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-420"><a href="#cb7-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-421"><a href="#cb7-421" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Total socks: <span class="in">`r summary_stats$median_socks`</span></span>
+<span id="cb7-422"><a href="#cb7-422" aria-hidden="true" tabindex="-1"></a>  (95% CI: <span class="in">`r summary_stats$ci_lower_socks`</span> - <span class="in">`r summary_stats$ci_upper_socks`</span>)</span>
+<span id="cb7-423"><a href="#cb7-423" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Pairs of socks: <span class="in">`r summary_stats$median_pairs`</span></span>
+<span id="cb7-424"><a href="#cb7-424" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Odd socks: <span class="in">`r summary_stats$median_odd`</span></span>
+<span id="cb7-425"><a href="#cb7-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-426"><a href="#cb7-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-427"><a href="#cb7-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-428"><a href="#cb7-428" aria-hidden="true" tabindex="-1"></a>Remarkably, when Karl later revealed the actual numbers, it turned out there</span>
+<span id="cb7-429"><a href="#cb7-429" aria-hidden="true" tabindex="-1"></a>were 21 pairs and 3 odd socks, totaling 45 socks. The estimate is surprisingly</span>
+<span id="cb7-430"><a href="#cb7-430" aria-hidden="true" tabindex="-1"></a>close, considering we only had one piece of information to work with! The</span>
+<span id="cb7-431"><a href="#cb7-431" aria-hidden="true" tabindex="-1"></a>visualizations provide additional insights:</span>
+<span id="cb7-432"><a href="#cb7-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-433"><a href="#cb7-433" aria-hidden="true" tabindex="-1"></a>The first plot shows how our beliefs about the total number of socks changed</span>
+<span id="cb7-434"><a href="#cb7-434" aria-hidden="true" tabindex="-1"></a>from the prior (green) to the posterior (blue) distribution after incorporating</span>
+<span id="cb7-435"><a href="#cb7-435" aria-hidden="true" tabindex="-1"></a>the data. This is a clear visualization of the reallocation of credibility</span>
+<span id="cb7-436"><a href="#cb7-436" aria-hidden="true" tabindex="-1"></a>across possibilities. The second plot illustrates the joint posterior</span>
+<span id="cb7-437"><a href="#cb7-437" aria-hidden="true" tabindex="-1"></a>distribution of pairs and odd socks, showing the range of plausible combinations</span>
+<span id="cb7-438"><a href="#cb7-438" aria-hidden="true" tabindex="-1"></a>given our model and data.</span>
+<span id="cb7-439"><a href="#cb7-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-440"><a href="#cb7-440" aria-hidden="true" tabindex="-1"></a>This example beautifully illustrates several key aspects of Bayesian thinking:</span>
+<span id="cb7-441"><a href="#cb7-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-442"><a href="#cb7-442" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Incorporation of prior knowledge: The model uses reasonable priors based on</span>
+<span id="cb7-443"><a href="#cb7-443" aria-hidden="true" tabindex="-1"></a>    general knowledge about sock ownership.</span>
+<span id="cb7-444"><a href="#cb7-444" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Handling uncertainty: The posterior distribution provides a range of</span>
+<span id="cb7-445"><a href="#cb7-445" aria-hidden="true" tabindex="-1"></a>    plausible values, not just a point estimate.</span>
+<span id="cb7-446"><a href="#cb7-446" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Learning from limited data: Even with just one piece of information (11</span>
+<span id="cb7-447"><a href="#cb7-447" aria-hidden="true" tabindex="-1"></a>    unique socks), we can make a surprisingly accurate inference.</span>
+<span id="cb7-448"><a href="#cb7-448" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Flexibility: The ABC approach allows us to work with a complex model that</span>
+<span id="cb7-449"><a href="#cb7-449" aria-hidden="true" tabindex="-1"></a>    would be difficult to handle with traditional methods.</span>
+<span id="cb7-450"><a href="#cb7-450" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Reallocation of credibility: We start with a wide range of possibilities and</span>
+<span id="cb7-451"><a href="#cb7-451" aria-hidden="true" tabindex="-1"></a>    narrow down to those most consistent with our observation.</span>
+<span id="cb7-452"><a href="#cb7-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-453"><a href="#cb7-453" aria-hidden="true" tabindex="-1"></a>In business contexts, we often face similar situations - limited data combined</span>
+<span id="cb7-454"><a href="#cb7-454" aria-hidden="true" tabindex="-1"></a>with domain expertise or prior experience. The sock example, while whimsical,</span>
+<span id="cb7-455"><a href="#cb7-455" aria-hidden="true" tabindex="-1"></a>demonstrates how Bayesian methods can be powerful in such real-world scenarios.</span>
+<span id="cb7-456"><a href="#cb7-456" aria-hidden="true" tabindex="-1"></a>As we progress through this book, we'll explore how these principles can be</span>
+<span id="cb7-457"><a href="#cb7-457" aria-hidden="true" tabindex="-1"></a>applied to more complex business problems.</span>
+<span id="cb7-458"><a href="#cb7-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-459"><a href="#cb7-459" aria-hidden="true" tabindex="-1"></a>As Kruschke and Liddell (2018) point out, one of the key advantages of Bayesian</span>
+<span id="cb7-460"><a href="#cb7-460" aria-hidden="true" tabindex="-1"></a>analysis is that "the posterior distribution can be directly examined to see</span>
+<span id="cb7-461"><a href="#cb7-461" aria-hidden="true" tabindex="-1"></a>which parameter values are most credible, and what range of parameter values</span>
+<span id="cb7-462"><a href="#cb7-462" aria-hidden="true" tabindex="-1"></a>covers the most credible values." This direct interpretation is particularly</span>
+<span id="cb7-463"><a href="#cb7-463" aria-hidden="true" tabindex="-1"></a>valuable in business settings, where we often need to communicate results to</span>
+<span id="cb7-464"><a href="#cb7-464" aria-hidden="true" tabindex="-1"></a>non-technical stakeholders.</span>
+<span id="cb7-465"><a href="#cb7-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-466"><a href="#cb7-466" aria-hidden="true" tabindex="-1"></a>For instance, in our sock example, we can straightforwardly say that </span>
+<span id="cb7-467"><a href="#cb7-467" aria-hidden="true" tabindex="-1"></a>"there's a 95% probability that the total number of socks is between</span>
+<span id="cb7-468"><a href="#cb7-468" aria-hidden="true" tabindex="-1"></a><span class="in">`r summary_stats$ci_lower_socks`</span> and <span class="in">`r summary_stats$ci_upper_socks`</span>."</span>
+<span id="cb7-469"><a href="#cb7-469" aria-hidden="true" tabindex="-1"></a>This statement is intuitive and directly addresses the uncertainty in our</span>
+<span id="cb7-470"><a href="#cb7-470" aria-hidden="true" tabindex="-1"></a>estimate, which is crucial for informed decision-making.</span>
+<span id="cb7-471"><a href="#cb7-471" aria-hidden="true" tabindex="-1"></a>Additionally, we can quantify probabilities for specific scenarios, such as:</span>
+<span id="cb7-472"><a href="#cb7-472" aria-hidden="true" tabindex="-1"></a>"The probability that there are at least 15 pairs</span>
+<span id="cb7-473"><a href="#cb7-473" aria-hidden="true" tabindex="-1"></a>is <span class="in">`r scales::percent(mean(post_samples$n_pairs &gt; 14))`</span>."</span>
+<span id="cb7-474"><a href="#cb7-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-475"><a href="#cb7-475" aria-hidden="true" tabindex="-1"></a>Moreover, Bayesian methods naturally handle the "small data" scenarios that are</span>
+<span id="cb7-476"><a href="#cb7-476" aria-hidden="true" tabindex="-1"></a>common in business. While big data gets a lot of attention, many important</span>
+<span id="cb7-477"><a href="#cb7-477" aria-hidden="true" tabindex="-1"></a>business decisions are made with limited information. The Bayesian framework</span>
+<span id="cb7-478"><a href="#cb7-478" aria-hidden="true" tabindex="-1"></a>allows us to start with prior knowledge (perhaps based on industry benchmarks or</span>
+<span id="cb7-479"><a href="#cb7-479" aria-hidden="true" tabindex="-1"></a>previous experience), update this with whatever data is available, and still</span>
+<span id="cb7-480"><a href="#cb7-480" aria-hidden="true" tabindex="-1"></a>produce meaningful results.</span>
+<span id="cb7-481"><a href="#cb7-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-482"><a href="#cb7-482" aria-hidden="true" tabindex="-1"></a><span class="fu">### A Note on Priors</span></span>
+<span id="cb7-483"><a href="#cb7-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-484"><a href="#cb7-484" aria-hidden="true" tabindex="-1"></a>It's important to remember that the less data you have, the more influential</span>
+<span id="cb7-485"><a href="#cb7-485" aria-hidden="true" tabindex="-1"></a>your priors become. Transparency about your priors is essential, as is</span>
+<span id="cb7-486"><a href="#cb7-486" aria-hidden="true" tabindex="-1"></a>investigating the sensitivity of your findings to different prior choices.</span>
+<span id="cb7-487"><a href="#cb7-487" aria-hidden="true" tabindex="-1"></a>However, don't shy away from using informative priors when justified by data.</span>
+<span id="cb7-488"><a href="#cb7-488" aria-hidden="true" tabindex="-1"></a>The interactive dashboard below utilizes {shinylive} (see @shinylive) to run</span>
+<span id="cb7-489"><a href="#cb7-489" aria-hidden="true" tabindex="-1"></a>these simulations directly in your browser, allowing you to experiment with</span>
+<span id="cb7-490"><a href="#cb7-490" aria-hidden="true" tabindex="-1"></a>various priors and observe their impact.</span>
+<span id="cb7-491"><a href="#cb7-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-492"><a href="#cb7-492" aria-hidden="true" tabindex="-1"></a><span class="in">```{shinylive-r}</span></span>
+<span id="cb7-493"><a href="#cb7-493" aria-hidden="true" tabindex="-1"></a><span class="in">#| standalone: true</span></span>
+<span id="cb7-494"><a href="#cb7-494" aria-hidden="true" tabindex="-1"></a><span class="in">#| viewerHeight: 800</span></span>
+<span id="cb7-495"><a href="#cb7-495" aria-hidden="true" tabindex="-1"></a><span class="in">library(shiny)</span></span>
+<span id="cb7-496"><a href="#cb7-496" aria-hidden="true" tabindex="-1"></a><span class="in">library(ggplot2)</span></span>
+<span id="cb7-497"><a href="#cb7-497" aria-hidden="true" tabindex="-1"></a><span class="in">library(dplyr)</span></span>
+<span id="cb7-498"><a href="#cb7-498" aria-hidden="true" tabindex="-1"></a><span class="in">library(furrr)</span></span>
+<span id="cb7-499"><a href="#cb7-499" aria-hidden="true" tabindex="-1"></a><span class="in">library(shinybusy)</span></span>
+<span id="cb7-500"><a href="#cb7-500" aria-hidden="true" tabindex="-1"></a><span class="in">library(shinydashboard)</span></span>
+<span id="cb7-501"><a href="#cb7-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-502"><a href="#cb7-502" aria-hidden="true" tabindex="-1"></a><span class="in"># Enable parallel processing with the number of cores available</span></span>
+<span id="cb7-503"><a href="#cb7-503" aria-hidden="true" tabindex="-1"></a><span class="in">plan(multisession, workers = availableCores())</span></span>
+<span id="cb7-504"><a href="#cb7-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-505"><a href="#cb7-505" aria-hidden="true" tabindex="-1"></a><span class="in"># Define the number of socks picked</span></span>
+<span id="cb7-506"><a href="#cb7-506" aria-hidden="true" tabindex="-1"></a><span class="in">n_picked &lt;- 11</span></span>
+<span id="cb7-507"><a href="#cb7-507" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-508"><a href="#cb7-508" aria-hidden="true" tabindex="-1"></a><span class="in">simulate_socks &lt;- function(n_picked, mu, size, shape1, shape2) {</span></span>
+<span id="cb7-509"><a href="#cb7-509" aria-hidden="true" tabindex="-1"></a><span class="in">  # Generate total number of socks from prior</span></span>
+<span id="cb7-510"><a href="#cb7-510" aria-hidden="true" tabindex="-1"></a><span class="in">  n_socks &lt;- rnbinom(1, mu = mu, size = size)</span></span>
+<span id="cb7-511"><a href="#cb7-511" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-512"><a href="#cb7-512" aria-hidden="true" tabindex="-1"></a><span class="in">  # Generate proportion of paired socks from prior</span></span>
+<span id="cb7-513"><a href="#cb7-513" aria-hidden="true" tabindex="-1"></a><span class="in">  prop_pairs &lt;- rbeta(1, shape1 = shape1, shape2 = shape2)</span></span>
+<span id="cb7-514"><a href="#cb7-514" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-515"><a href="#cb7-515" aria-hidden="true" tabindex="-1"></a><span class="in">  # Calculate number of pairs and odd socks</span></span>
+<span id="cb7-516"><a href="#cb7-516" aria-hidden="true" tabindex="-1"></a><span class="in">  n_pairs &lt;- round(floor(n_socks / 2) * prop_pairs)</span></span>
+<span id="cb7-517"><a href="#cb7-517" aria-hidden="true" tabindex="-1"></a><span class="in">  n_odd &lt;- n_socks - n_pairs * 2</span></span>
+<span id="cb7-518"><a href="#cb7-518" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-519"><a href="#cb7-519" aria-hidden="true" tabindex="-1"></a><span class="in">  # Simulate picking socks</span></span>
+<span id="cb7-520"><a href="#cb7-520" aria-hidden="true" tabindex="-1"></a><span class="in">  socks &lt;- rep(seq_len(n_pairs + n_odd), rep(c(2, 1), c(n_pairs, n_odd)))</span></span>
+<span id="cb7-521"><a href="#cb7-521" aria-hidden="true" tabindex="-1"></a><span class="in">  picked_socks &lt;- sample(socks, size = min(n_picked, n_socks))</span></span>
+<span id="cb7-522"><a href="#cb7-522" aria-hidden="true" tabindex="-1"></a><span class="in">  sock_counts &lt;- table(picked_socks)</span></span>
+<span id="cb7-523"><a href="#cb7-523" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-524"><a href="#cb7-524" aria-hidden="true" tabindex="-1"></a><span class="in">  # Return results</span></span>
+<span id="cb7-525"><a href="#cb7-525" aria-hidden="true" tabindex="-1"></a><span class="in">  tibble(</span></span>
+<span id="cb7-526"><a href="#cb7-526" aria-hidden="true" tabindex="-1"></a><span class="in">    unique = sum(sock_counts == 1),</span></span>
+<span id="cb7-527"><a href="#cb7-527" aria-hidden="true" tabindex="-1"></a><span class="in">    pairs = sum(sock_counts == 2),</span></span>
+<span id="cb7-528"><a href="#cb7-528" aria-hidden="true" tabindex="-1"></a><span class="in">    n_socks = n_socks,</span></span>
+<span id="cb7-529"><a href="#cb7-529" aria-hidden="true" tabindex="-1"></a><span class="in">    n_pairs = n_pairs,</span></span>
+<span id="cb7-530"><a href="#cb7-530" aria-hidden="true" tabindex="-1"></a><span class="in">    n_odd = n_odd,</span></span>
+<span id="cb7-531"><a href="#cb7-531" aria-hidden="true" tabindex="-1"></a><span class="in">    prop_pairs = prop_pairs</span></span>
+<span id="cb7-532"><a href="#cb7-532" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb7-533"><a href="#cb7-533" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb7-534"><a href="#cb7-534" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-535"><a href="#cb7-535" aria-hidden="true" tabindex="-1"></a><span class="in">ui &lt;- dashboardPage(</span></span>
+<span id="cb7-536"><a href="#cb7-536" aria-hidden="true" tabindex="-1"></a><span class="in">  skin = "black",</span></span>
+<span id="cb7-537"><a href="#cb7-537" aria-hidden="true" tabindex="-1"></a><span class="in">  dashboardHeader(title = "Karl's Socks"),</span></span>
+<span id="cb7-538"><a href="#cb7-538" aria-hidden="true" tabindex="-1"></a><span class="in">  dashboardSidebar(</span></span>
+<span id="cb7-539"><a href="#cb7-539" aria-hidden="true" tabindex="-1"></a><span class="in">    numericInput(</span></span>
+<span id="cb7-540"><a href="#cb7-540" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "seed",</span></span>
+<span id="cb7-541"><a href="#cb7-541" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Random Seed",</span></span>
+<span id="cb7-542"><a href="#cb7-542" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 123,</span></span>
+<span id="cb7-543"><a href="#cb7-543" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 1,</span></span>
+<span id="cb7-544"><a href="#cb7-544" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
+<span id="cb7-545"><a href="#cb7-545" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
+<span id="cb7-546"><a href="#cb7-546" aria-hidden="true" tabindex="-1"></a><span class="in">    numericInput(</span></span>
+<span id="cb7-547"><a href="#cb7-547" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "n_sims",</span></span>
+<span id="cb7-548"><a href="#cb7-548" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Number of Simulations",</span></span>
+<span id="cb7-549"><a href="#cb7-549" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 10000,</span></span>
+<span id="cb7-550"><a href="#cb7-550" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 100,</span></span>
+<span id="cb7-551"><a href="#cb7-551" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 100</span></span>
+<span id="cb7-552"><a href="#cb7-552" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
+<span id="cb7-553"><a href="#cb7-553" aria-hidden="true" tabindex="-1"></a><span class="in">    sliderInput(</span></span>
+<span id="cb7-554"><a href="#cb7-554" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "mu",</span></span>
+<span id="cb7-555"><a href="#cb7-555" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "mu",</span></span>
+<span id="cb7-556"><a href="#cb7-556" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 15,</span></span>
+<span id="cb7-557"><a href="#cb7-557" aria-hidden="true" tabindex="-1"></a><span class="in">      max = 60,</span></span>
+<span id="cb7-558"><a href="#cb7-558" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 40,</span></span>
+<span id="cb7-559"><a href="#cb7-559" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
+<span id="cb7-560"><a href="#cb7-560" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
+<span id="cb7-561"><a href="#cb7-561" aria-hidden="true" tabindex="-1"></a><span class="in">    sliderInput(</span></span>
+<span id="cb7-562"><a href="#cb7-562" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "size",</span></span>
+<span id="cb7-563"><a href="#cb7-563" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Size",</span></span>
+<span id="cb7-564"><a href="#cb7-564" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 3,</span></span>
+<span id="cb7-565"><a href="#cb7-565" aria-hidden="true" tabindex="-1"></a><span class="in">      max = 10,</span></span>
+<span id="cb7-566"><a href="#cb7-566" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 4,</span></span>
+<span id="cb7-567"><a href="#cb7-567" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
+<span id="cb7-568"><a href="#cb7-568" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
+<span id="cb7-569"><a href="#cb7-569" aria-hidden="true" tabindex="-1"></a><span class="in">    sliderInput(</span></span>
+<span id="cb7-570"><a href="#cb7-570" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "shape1",</span></span>
+<span id="cb7-571"><a href="#cb7-571" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Shape 1",</span></span>
+<span id="cb7-572"><a href="#cb7-572" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 2,</span></span>
+<span id="cb7-573"><a href="#cb7-573" aria-hidden="true" tabindex="-1"></a><span class="in">      max = 20,</span></span>
+<span id="cb7-574"><a href="#cb7-574" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 15,</span></span>
+<span id="cb7-575"><a href="#cb7-575" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
+<span id="cb7-576"><a href="#cb7-576" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
+<span id="cb7-577"><a href="#cb7-577" aria-hidden="true" tabindex="-1"></a><span class="in">    sliderInput(</span></span>
+<span id="cb7-578"><a href="#cb7-578" aria-hidden="true" tabindex="-1"></a><span class="in">      inputId = "shape2",</span></span>
+<span id="cb7-579"><a href="#cb7-579" aria-hidden="true" tabindex="-1"></a><span class="in">      label = "Shape 2",</span></span>
+<span id="cb7-580"><a href="#cb7-580" aria-hidden="true" tabindex="-1"></a><span class="in">      min = 2,</span></span>
+<span id="cb7-581"><a href="#cb7-581" aria-hidden="true" tabindex="-1"></a><span class="in">      max = 8,</span></span>
+<span id="cb7-582"><a href="#cb7-582" aria-hidden="true" tabindex="-1"></a><span class="in">      value = 2,</span></span>
+<span id="cb7-583"><a href="#cb7-583" aria-hidden="true" tabindex="-1"></a><span class="in">      step = 1</span></span>
+<span id="cb7-584"><a href="#cb7-584" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
+<span id="cb7-585"><a href="#cb7-585" aria-hidden="true" tabindex="-1"></a><span class="in">    actionButton("run_sim", "Run Simulation")</span></span>
+<span id="cb7-586"><a href="#cb7-586" aria-hidden="true" tabindex="-1"></a><span class="in">  ),</span></span>
+<span id="cb7-587"><a href="#cb7-587" aria-hidden="true" tabindex="-1"></a><span class="in">  dashboardBody(</span></span>
+<span id="cb7-588"><a href="#cb7-588" aria-hidden="true" tabindex="-1"></a><span class="in">    use_busy_spinner(spin = "fading-circle"),</span></span>
+<span id="cb7-589"><a href="#cb7-589" aria-hidden="true" tabindex="-1"></a><span class="in">    fluidRow(</span></span>
+<span id="cb7-590"><a href="#cb7-590" aria-hidden="true" tabindex="-1"></a><span class="in">      box(</span></span>
+<span id="cb7-591"><a href="#cb7-591" aria-hidden="true" tabindex="-1"></a><span class="in">        title = "Prior Distribution for Total Number of Socks", </span></span>
+<span id="cb7-592"><a href="#cb7-592" aria-hidden="true" tabindex="-1"></a><span class="in">        status = "danger", solidHeader = TRUE,</span></span>
+<span id="cb7-593"><a href="#cb7-593" aria-hidden="true" tabindex="-1"></a><span class="in">        collapsible = TRUE,</span></span>
+<span id="cb7-594"><a href="#cb7-594" aria-hidden="true" tabindex="-1"></a><span class="in">        plotOutput("prior_socks")</span></span>
+<span id="cb7-595"><a href="#cb7-595" aria-hidden="true" tabindex="-1"></a><span class="in">      ),</span></span>
+<span id="cb7-596"><a href="#cb7-596" aria-hidden="true" tabindex="-1"></a><span class="in">      </span></span>
+<span id="cb7-597"><a href="#cb7-597" aria-hidden="true" tabindex="-1"></a><span class="in">      box(</span></span>
+<span id="cb7-598"><a href="#cb7-598" aria-hidden="true" tabindex="-1"></a><span class="in">        title = "Prior Distribution for Proportion of Paired Socks", </span></span>
+<span id="cb7-599"><a href="#cb7-599" aria-hidden="true" tabindex="-1"></a><span class="in">        status = "danger", solidHeader = TRUE,</span></span>
+<span id="cb7-600"><a href="#cb7-600" aria-hidden="true" tabindex="-1"></a><span class="in">        collapsible = TRUE,</span></span>
+<span id="cb7-601"><a href="#cb7-601" aria-hidden="true" tabindex="-1"></a><span class="in">        plotOutput("prior_prop")</span></span>
+<span id="cb7-602"><a href="#cb7-602" aria-hidden="true" tabindex="-1"></a><span class="in">      )</span></span>
+<span id="cb7-603"><a href="#cb7-603" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
+<span id="cb7-604"><a href="#cb7-604" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb7-605"><a href="#cb7-605" aria-hidden="true" tabindex="-1"></a><span class="in">    fluidRow(</span></span>
+<span id="cb7-606"><a href="#cb7-606" aria-hidden="true" tabindex="-1"></a><span class="in">      box(</span></span>
+<span id="cb7-607"><a href="#cb7-607" aria-hidden="true" tabindex="-1"></a><span class="in">        title = "Prior and Posterior Distributions of Total Socks", </span></span>
+<span id="cb7-608"><a href="#cb7-608" aria-hidden="true" tabindex="-1"></a><span class="in">        status = "danger", solidHeader = TRUE,</span></span>
+<span id="cb7-609"><a href="#cb7-609" aria-hidden="true" tabindex="-1"></a><span class="in">        collapsible = TRUE,</span></span>
+<span id="cb7-610"><a href="#cb7-610" aria-hidden="true" tabindex="-1"></a><span class="in">        plotOutput("distribution_plot")</span></span>
+<span id="cb7-611"><a href="#cb7-611" aria-hidden="true" tabindex="-1"></a><span class="in">      ),</span></span>
+<span id="cb7-612"><a href="#cb7-612" aria-hidden="true" tabindex="-1"></a><span class="in">      </span></span>
+<span id="cb7-613"><a href="#cb7-613" aria-hidden="true" tabindex="-1"></a><span class="in">      box(</span></span>
+<span id="cb7-614"><a href="#cb7-614" aria-hidden="true" tabindex="-1"></a><span class="in">        title = "Joint Posterior Distribution of Pairs and Odd Socks", </span></span>
+<span id="cb7-615"><a href="#cb7-615" aria-hidden="true" tabindex="-1"></a><span class="in">        status = "danger", solidHeader = TRUE,</span></span>
+<span id="cb7-616"><a href="#cb7-616" aria-hidden="true" tabindex="-1"></a><span class="in">        collapsible = TRUE,</span></span>
+<span id="cb7-617"><a href="#cb7-617" aria-hidden="true" tabindex="-1"></a><span class="in">        plotOutput("joint_plot")</span></span>
+<span id="cb7-618"><a href="#cb7-618" aria-hidden="true" tabindex="-1"></a><span class="in">      )</span></span>
+<span id="cb7-619"><a href="#cb7-619" aria-hidden="true" tabindex="-1"></a><span class="in">    ),</span></span>
+<span id="cb7-620"><a href="#cb7-620" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb7-621"><a href="#cb7-621" aria-hidden="true" tabindex="-1"></a><span class="in">    fluidRow(</span></span>
+<span id="cb7-622"><a href="#cb7-622" aria-hidden="true" tabindex="-1"></a><span class="in">      valueBoxOutput("pr_pairs")</span></span>
+<span id="cb7-623"><a href="#cb7-623" aria-hidden="true" tabindex="-1"></a><span class="in">    )</span></span>
+<span id="cb7-624"><a href="#cb7-624" aria-hidden="true" tabindex="-1"></a><span class="in">  )</span></span>
+<span id="cb7-625"><a href="#cb7-625" aria-hidden="true" tabindex="-1"></a><span class="in">)</span></span>
+<span id="cb7-626"><a href="#cb7-626" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-627"><a href="#cb7-627" aria-hidden="true" tabindex="-1"></a><span class="in">server &lt;- function(input, output) {</span></span>
+<span id="cb7-628"><a href="#cb7-628" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-629"><a href="#cb7-629" aria-hidden="true" tabindex="-1"></a><span class="in">  sock_sim &lt;- eventReactive(input$run_sim, {</span></span>
+<span id="cb7-630"><a href="#cb7-630" aria-hidden="true" tabindex="-1"></a><span class="in">    show_modal_spinner()  </span></span>
+<span id="cb7-631"><a href="#cb7-631" aria-hidden="true" tabindex="-1"></a><span class="in">    on.exit(remove_modal_spinner())</span></span>
+<span id="cb7-632"><a href="#cb7-632" aria-hidden="true" tabindex="-1"></a><span class="in">    set.seed(input$seed)</span></span>
+<span id="cb7-633"><a href="#cb7-633" aria-hidden="true" tabindex="-1"></a><span class="in">    local_mu &lt;- input$mu</span></span>
+<span id="cb7-634"><a href="#cb7-634" aria-hidden="true" tabindex="-1"></a><span class="in">    local_size &lt;- input$size</span></span>
+<span id="cb7-635"><a href="#cb7-635" aria-hidden="true" tabindex="-1"></a><span class="in">    local_shape1 &lt;- input$shape1</span></span>
+<span id="cb7-636"><a href="#cb7-636" aria-hidden="true" tabindex="-1"></a><span class="in">    local_shape2 &lt;- input$shape2</span></span>
+<span id="cb7-637"><a href="#cb7-637" aria-hidden="true" tabindex="-1"></a><span class="in">    future_map_dfr(1:input$n_sims,</span></span>
+<span id="cb7-638"><a href="#cb7-638" aria-hidden="true" tabindex="-1"></a><span class="in">                   ~simulate_socks(n_picked = 11,</span></span>
+<span id="cb7-639"><a href="#cb7-639" aria-hidden="true" tabindex="-1"></a><span class="in">                                   mu = local_mu,</span></span>
+<span id="cb7-640"><a href="#cb7-640" aria-hidden="true" tabindex="-1"></a><span class="in">                                   size = local_size,</span></span>
+<span id="cb7-641"><a href="#cb7-641" aria-hidden="true" tabindex="-1"></a><span class="in">                                   shape1 = local_shape1,</span></span>
+<span id="cb7-642"><a href="#cb7-642" aria-hidden="true" tabindex="-1"></a><span class="in">                                   shape2 = local_shape2),</span></span>
+<span id="cb7-643"><a href="#cb7-643" aria-hidden="true" tabindex="-1"></a><span class="in">                   .options = furrr_options(seed = 123))</span></span>
+<span id="cb7-644"><a href="#cb7-644" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb7-645"><a href="#cb7-645" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-646"><a href="#cb7-646" aria-hidden="true" tabindex="-1"></a><span class="in">  # Filter for matching simulations (11 unique socks, 0 pairs)</span></span>
+<span id="cb7-647"><a href="#cb7-647" aria-hidden="true" tabindex="-1"></a><span class="in">  post_samples &lt;- reactive({</span></span>
+<span id="cb7-648"><a href="#cb7-648" aria-hidden="true" tabindex="-1"></a><span class="in">    sock_sim() %&gt;% </span></span>
+<span id="cb7-649"><a href="#cb7-649" aria-hidden="true" tabindex="-1"></a><span class="in">      filter(unique == 11, pairs == 0)</span></span>
+<span id="cb7-650"><a href="#cb7-650" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb7-651"><a href="#cb7-651" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-652"><a href="#cb7-652" aria-hidden="true" tabindex="-1"></a><span class="in">  output$pr_pairs &lt;- renderValueBox({</span></span>
+<span id="cb7-653"><a href="#cb7-653" aria-hidden="true" tabindex="-1"></a><span class="in">    req(post_samples())</span></span>
+<span id="cb7-654"><a href="#cb7-654" aria-hidden="true" tabindex="-1"></a><span class="in">    valueBox(</span></span>
+<span id="cb7-655"><a href="#cb7-655" aria-hidden="true" tabindex="-1"></a><span class="in">      scales::percent(mean(post_samples()$n_pairs &gt; 14)),</span></span>
+<span id="cb7-656"><a href="#cb7-656" aria-hidden="true" tabindex="-1"></a><span class="in">      "Pr[# Pairs &gt; 14]", icon = icon("socks"),</span></span>
+<span id="cb7-657"><a href="#cb7-657" aria-hidden="true" tabindex="-1"></a><span class="in">      color = "red"</span></span>
+<span id="cb7-658"><a href="#cb7-658" aria-hidden="true" tabindex="-1"></a><span class="in">    )</span></span>
+<span id="cb7-659"><a href="#cb7-659" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb7-660"><a href="#cb7-660" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-661"><a href="#cb7-661" aria-hidden="true" tabindex="-1"></a><span class="in">  # Prepare data for plotting</span></span>
+<span id="cb7-662"><a href="#cb7-662" aria-hidden="true" tabindex="-1"></a><span class="in">  prior_data &lt;- reactive({</span></span>
+<span id="cb7-663"><a href="#cb7-663" aria-hidden="true" tabindex="-1"></a><span class="in">    sock_sim() %&gt;%</span></span>
+<span id="cb7-664"><a href="#cb7-664" aria-hidden="true" tabindex="-1"></a><span class="in">      count(n_socks) %&gt;%</span></span>
+<span id="cb7-665"><a href="#cb7-665" aria-hidden="true" tabindex="-1"></a><span class="in">      mutate(prop = n / sum(n),</span></span>
+<span id="cb7-666"><a href="#cb7-666" aria-hidden="true" tabindex="-1"></a><span class="in">             type = "Prior")</span></span>
+<span id="cb7-667"><a href="#cb7-667" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb7-668"><a href="#cb7-668" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-669"><a href="#cb7-669" aria-hidden="true" tabindex="-1"></a><span class="in">  posterior_data &lt;- reactive({</span></span>
+<span id="cb7-670"><a href="#cb7-670" aria-hidden="true" tabindex="-1"></a><span class="in">    if(nrow(post_samples()) == 0) {</span></span>
+<span id="cb7-671"><a href="#cb7-671" aria-hidden="true" tabindex="-1"></a><span class="in">      return(tibble(n_socks = numeric(), prop = numeric(), type = character())) </span></span>
+<span id="cb7-672"><a href="#cb7-672" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
+<span id="cb7-673"><a href="#cb7-673" aria-hidden="true" tabindex="-1"></a><span class="in">    post_samples() %&gt;%</span></span>
+<span id="cb7-674"><a href="#cb7-674" aria-hidden="true" tabindex="-1"></a><span class="in">      count(n_socks) %&gt;%</span></span>
+<span id="cb7-675"><a href="#cb7-675" aria-hidden="true" tabindex="-1"></a><span class="in">      mutate(prop = n / sum(n),</span></span>
+<span id="cb7-676"><a href="#cb7-676" aria-hidden="true" tabindex="-1"></a><span class="in">             type = "Posterior")</span></span>
+<span id="cb7-677"><a href="#cb7-677" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb7-678"><a href="#cb7-678" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-679"><a href="#cb7-679" aria-hidden="true" tabindex="-1"></a><span class="in">  output$prior_socks &lt;- renderPlot({</span></span>
+<span id="cb7-680"><a href="#cb7-680" aria-hidden="true" tabindex="-1"></a><span class="in">    # Dataframe of possible sock counts</span></span>
+<span id="cb7-681"><a href="#cb7-681" aria-hidden="true" tabindex="-1"></a><span class="in">    sock_counts &lt;- data.frame(n_socks = 0:100)</span></span>
+<span id="cb7-682"><a href="#cb7-682" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb7-683"><a href="#cb7-683" aria-hidden="true" tabindex="-1"></a><span class="in">    # Calculate probabilities from the negative binomial distribution</span></span>
+<span id="cb7-684"><a href="#cb7-684" aria-hidden="true" tabindex="-1"></a><span class="in">    sock_counts$probability &lt;- dnbinom(sock_counts$n_socks,</span></span>
+<span id="cb7-685"><a href="#cb7-685" aria-hidden="true" tabindex="-1"></a><span class="in">                                       mu = input$mu,</span></span>
+<span id="cb7-686"><a href="#cb7-686" aria-hidden="true" tabindex="-1"></a><span class="in">                                       size = input$size)</span></span>
+<span id="cb7-687"><a href="#cb7-687" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb7-688"><a href="#cb7-688" aria-hidden="true" tabindex="-1"></a><span class="in">    # Create the histogram</span></span>
+<span id="cb7-689"><a href="#cb7-689" aria-hidden="true" tabindex="-1"></a><span class="in">    ggplot(sock_counts, aes(x = n_socks, y = probability)) +</span></span>
+<span id="cb7-690"><a href="#cb7-690" aria-hidden="true" tabindex="-1"></a><span class="in">      geom_col(fill = "skyblue", color = "black")+ </span></span>
+<span id="cb7-691"><a href="#cb7-691" aria-hidden="true" tabindex="-1"></a><span class="in">      scale_y_continuous(labels = scales::percent) +</span></span>
+<span id="cb7-692"><a href="#cb7-692" aria-hidden="true" tabindex="-1"></a><span class="in">      theme_minimal() +</span></span>
+<span id="cb7-693"><a href="#cb7-693" aria-hidden="true" tabindex="-1"></a><span class="in">      labs(x = "Total Number of Socks", y = "Probability")</span></span>
+<span id="cb7-694"><a href="#cb7-694" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb7-695"><a href="#cb7-695" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-696"><a href="#cb7-696" aria-hidden="true" tabindex="-1"></a><span class="in">  output$prior_prop &lt;- renderPlot({</span></span>
+<span id="cb7-697"><a href="#cb7-697" aria-hidden="true" tabindex="-1"></a><span class="in">    # Create a sequence of proportions from 0 to 1</span></span>
+<span id="cb7-698"><a href="#cb7-698" aria-hidden="true" tabindex="-1"></a><span class="in">    proportions &lt;- seq(0, 1, length.out = 100)</span></span>
+<span id="cb7-699"><a href="#cb7-699" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb7-700"><a href="#cb7-700" aria-hidden="true" tabindex="-1"></a><span class="in">    # Calculate density values from the beta distribution</span></span>
+<span id="cb7-701"><a href="#cb7-701" aria-hidden="true" tabindex="-1"></a><span class="in">    density_values &lt;- dbeta(proportions, shape1 = input$shape1,</span></span>
+<span id="cb7-702"><a href="#cb7-702" aria-hidden="true" tabindex="-1"></a><span class="in">                            shape2 = input$shape2)</span></span>
+<span id="cb7-703"><a href="#cb7-703" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb7-704"><a href="#cb7-704" aria-hidden="true" tabindex="-1"></a><span class="in">    # Create the density plot</span></span>
+<span id="cb7-705"><a href="#cb7-705" aria-hidden="true" tabindex="-1"></a><span class="in">    ggplot(data.frame(proportion = proportions, density = density_values),</span></span>
+<span id="cb7-706"><a href="#cb7-706" aria-hidden="true" tabindex="-1"></a><span class="in">           aes(x = proportion, y = density)) +</span></span>
+<span id="cb7-707"><a href="#cb7-707" aria-hidden="true" tabindex="-1"></a><span class="in">      geom_line(color = "darkgreen") +</span></span>
+<span id="cb7-708"><a href="#cb7-708" aria-hidden="true" tabindex="-1"></a><span class="in">      theme_minimal() +</span></span>
+<span id="cb7-709"><a href="#cb7-709" aria-hidden="true" tabindex="-1"></a><span class="in">      labs(x = "Proportion of Paired Socks", y = "Density")</span></span>
+<span id="cb7-710"><a href="#cb7-710" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb7-711"><a href="#cb7-711" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-712"><a href="#cb7-712" aria-hidden="true" tabindex="-1"></a><span class="in">  output$distribution_plot &lt;- renderPlot({</span></span>
+<span id="cb7-713"><a href="#cb7-713" aria-hidden="true" tabindex="-1"></a><span class="in">    req(prior_data(), posterior_data())</span></span>
+<span id="cb7-714"><a href="#cb7-714" aria-hidden="true" tabindex="-1"></a><span class="in">    plot_data &lt;- bind_rows(prior_data(), posterior_data())</span></span>
+<span id="cb7-715"><a href="#cb7-715" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb7-716"><a href="#cb7-716" aria-hidden="true" tabindex="-1"></a><span class="in">    ggplot(plot_data, aes(x = n_socks, y = prop, fill = type)) +</span></span>
+<span id="cb7-717"><a href="#cb7-717" aria-hidden="true" tabindex="-1"></a><span class="in">      geom_col(position = "dodge", alpha = 0.7) +</span></span>
+<span id="cb7-718"><a href="#cb7-718" aria-hidden="true" tabindex="-1"></a><span class="in">      scale_fill_manual(values = c("Prior" = "lightgreen", "Posterior" = "skyblue")) +</span></span>
+<span id="cb7-719"><a href="#cb7-719" aria-hidden="true" tabindex="-1"></a><span class="in">      scale_y_continuous(labels = scales::percent) +</span></span>
+<span id="cb7-720"><a href="#cb7-720" aria-hidden="true" tabindex="-1"></a><span class="in">      labs(x = "Number of Socks", y = "Probability", fill = "Distribution") +</span></span>
+<span id="cb7-721"><a href="#cb7-721" aria-hidden="true" tabindex="-1"></a><span class="in">      theme_minimal() +</span></span>
+<span id="cb7-722"><a href="#cb7-722" aria-hidden="true" tabindex="-1"></a><span class="in">      theme(legend.position = "top")</span></span>
+<span id="cb7-723"><a href="#cb7-723" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb7-724"><a href="#cb7-724" aria-hidden="true" tabindex="-1"></a><span class="in">  </span></span>
+<span id="cb7-725"><a href="#cb7-725" aria-hidden="true" tabindex="-1"></a><span class="in">  output$joint_plot &lt;- renderPlot({</span></span>
+<span id="cb7-726"><a href="#cb7-726" aria-hidden="true" tabindex="-1"></a><span class="in">    req(post_samples())</span></span>
+<span id="cb7-727"><a href="#cb7-727" aria-hidden="true" tabindex="-1"></a><span class="in">    if(nrow(post_samples()) &gt; 0) {</span></span>
+<span id="cb7-728"><a href="#cb7-728" aria-hidden="true" tabindex="-1"></a><span class="in">      ggplot(post_samples(), aes(x = n_pairs, y = n_odd)) +</span></span>
+<span id="cb7-729"><a href="#cb7-729" aria-hidden="true" tabindex="-1"></a><span class="in">        geom_hex(bins = 30) +</span></span>
+<span id="cb7-730"><a href="#cb7-730" aria-hidden="true" tabindex="-1"></a><span class="in">        scale_fill_viridis_c() +</span></span>
+<span id="cb7-731"><a href="#cb7-731" aria-hidden="true" tabindex="-1"></a><span class="in">        labs(x = "Number of Pairs", y = "Number of Odd Socks") +</span></span>
+<span id="cb7-732"><a href="#cb7-732" aria-hidden="true" tabindex="-1"></a><span class="in">        theme_minimal()</span></span>
+<span id="cb7-733"><a href="#cb7-733" aria-hidden="true" tabindex="-1"></a><span class="in">    } else {</span></span>
+<span id="cb7-734"><a href="#cb7-734" aria-hidden="true" tabindex="-1"></a><span class="in">      ggplot() + </span></span>
+<span id="cb7-735"><a href="#cb7-735" aria-hidden="true" tabindex="-1"></a><span class="in">        annotate("text", x = 0.5, y = 0.5, label = "No matching simulations found") +</span></span>
+<span id="cb7-736"><a href="#cb7-736" aria-hidden="true" tabindex="-1"></a><span class="in">        theme_void()</span></span>
+<span id="cb7-737"><a href="#cb7-737" aria-hidden="true" tabindex="-1"></a><span class="in">    }</span></span>
+<span id="cb7-738"><a href="#cb7-738" aria-hidden="true" tabindex="-1"></a><span class="in">  })</span></span>
+<span id="cb7-739"><a href="#cb7-739" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb7-740"><a href="#cb7-740" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-741"><a href="#cb7-741" aria-hidden="true" tabindex="-1"></a><span class="in">shinyApp(ui, server)</span></span>
+<span id="cb7-742"><a href="#cb7-742" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-743"><a href="#cb7-743" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-744"><a href="#cb7-744" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-745"><a href="#cb7-745" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-746"><a href="#cb7-746" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conclusion</span></span>
+<span id="cb7-747"><a href="#cb7-747" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-748"><a href="#cb7-748" aria-hidden="true" tabindex="-1"></a>Bayesian statistics offers a powerful and intuitive framework for business data</span>
+<span id="cb7-749"><a href="#cb7-749" aria-hidden="true" tabindex="-1"></a>science, aligning closely with how businesses make decisions. By incorporating</span>
+<span id="cb7-750"><a href="#cb7-750" aria-hidden="true" tabindex="-1"></a>prior knowledge, we can update our beliefs based on evidence and quantify</span>
+<span id="cb7-751"><a href="#cb7-751" aria-hidden="true" tabindex="-1"></a>uncertainty in a natural way. The concept of reallocating credibility across</span>
+<span id="cb7-752"><a href="#cb7-752" aria-hidden="true" tabindex="-1"></a>possibilities provides an intuitive way to think about learning from data.</span>
+<span id="cb7-753"><a href="#cb7-753" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-754"><a href="#cb7-754" aria-hidden="true" tabindex="-1"></a>Furthermore, Bayesian methods are particularly well-suited to the "small data"</span>
+<span id="cb7-755"><a href="#cb7-755" aria-hidden="true" tabindex="-1"></a>scenarios often encountered in business. While "big data" garners much</span>
+<span id="cb7-756"><a href="#cb7-756" aria-hidden="true" tabindex="-1"></a>attention, many crucial business decisions hinge on limited information. The</span>
+<span id="cb7-757"><a href="#cb7-757" aria-hidden="true" tabindex="-1"></a>Bayesian framework allows us to begin with prior knowledge, update it with</span>
+<span id="cb7-758"><a href="#cb7-758" aria-hidden="true" tabindex="-1"></a>available data, and then communicate our findings in plain language.</span>
+<span id="cb7-759"><a href="#cb7-759" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-760"><a href="#cb7-760" aria-hidden="true" tabindex="-1"></a>In essence, Bayesian statistics provides a flexible and powerful approach for</span>
+<span id="cb7-761"><a href="#cb7-761" aria-hidden="true" tabindex="-1"></a>tackling the complex and often uncertain world of business decision-making.</span>
+<span id="cb7-762"><a href="#cb7-762" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-763"><a href="#cb7-763" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb7-764"><a href="#cb7-764" aria-hidden="true" tabindex="-1"></a><span class="fu">## Learn more</span></span>
+<span id="cb7-765"><a href="#cb7-765" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>@kruschke2018bayesian Bayesian data analysis for newcomers.</span>
+<span id="cb7-766"><a href="#cb7-766" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>@mcelreath2018statistical Statistical Rethinking: A Bayesian Course with</span>
+<span id="cb7-767"><a href="#cb7-767" aria-hidden="true" tabindex="-1"></a>    Examples in R and Stan</span>
+<span id="cb7-768"><a href="#cb7-768" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>@gelman2013bayesian Bayesian Data Analysis.</span>
+<span id="cb7-769"><a href="#cb7-769" aria-hidden="true" tabindex="-1"></a>::: </span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ignacio82/book/edit/master/bayes101.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><div class="page-columns page-rows-contents page-layout-article"><div class="social-share"><a href="https://www.linkedin.com/shareArticle?url=https://book.martinez.fyi/&amp;title=Business Data Science" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in fa-fw fa-lg"></i></a>  <a href="mailto:?subject=Business Data Science&amp;body=Check out this link:https://book.martinez.fyi/" target="_blank" class="email"><i class="fa-solid fa-envelope fa-fw fa-lg"></i></a><a href="javascript:void(0);" onclick="var mastodon_instance=prompt('Mastodon Instance / Server Name?'); if(typeof mastodon_instance==='string' &amp;&amp; mastodon_instance.length){this.href='https://'+mastodon_instance+'/share?text=Business Data Science https://book.martinez.fyi/'}else{return false;}" target="_blank" class="mastodon"><i class="fa-brands fa-mastodon fa-fw fa-lg"></i></a></div></div>
-<script>var lightboxQuarto = GLightbox({"selector":".lightbox","loop":false,"openEffect":"zoom","closeEffect":"zoom","descPosition":"bottom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
