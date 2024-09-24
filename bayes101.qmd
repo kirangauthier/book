@@ -183,16 +183,19 @@ In summary:
 
 Imagine you're trying to estimate the height of a tree.
 
-Confidence interval: You take multiple measurements from different angles and
-use them to construct an interval. You say, "If I repeated this process many
-times, 95% of the intervals I create would contain the tree's true height."
-Credible interval: You consider your previous knowledge about trees in the area,
-combine it with your measurements, and say, "Based on my measurements and what I
-already know, there's a 95% probability that the tree's height is between X and
-Y meters." Credible intervals provide a more intuitive and direct interpretation
-of uncertainty about a parameter. However, they require specifying prior
-distributions, which can be subjective. Confidence intervals, while less
-intuitive, are widely used and don't require prior information.
+  - **Confidence interval:** You take multiple measurements from different
+    angles and use them to construct an interval. You say, "If I repeated this
+    process many times, 95% of the intervals I create would contain the tree's
+    true height."
+
+  - **Credible interval:** You consider your previous knowledge about trees in
+    the area, combine it with your measurements, and say, "Based on my
+    measurements and what I already know, there's a 95% probability that the
+    tree's height is between X and Y meters." Credible intervals provide a more
+    intuitive and direct interpretation of uncertainty about a parameter.
+    However, they require specifying prior distributions, which can be
+    subjective. Confidence intervals, while less intuitive, are widely used and
+    don't require prior information.
 
 ### Beyond Intervals: Posterior Probabilities for Tailored Insight
 
