@@ -45,7 +45,8 @@ book:
       chapters: 
         - blm.qmd     
         - meta-analysis.qmd
-        - beyond_normality.qmd        
+        - beyond_normality.qmd     
+        - hurdle.qmd
     - part: stochastictrees.qmd 
       chapters: 
         - bart.qmd
