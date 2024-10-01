@@ -56,7 +56,7 @@ Let's delve into the mathematical underpinnings, keeping it as intuitive as poss
 **Log-Normal Component**
 
 * Let $Y_i$ be the outcome variable.
-* If $Z_i = 0$ (i.e., the outcome is positive), then:
+* If $Z_i = 1$ (i.e., the outcome is positive), then:
 
   * $log(Y_i) \sim Normal(\mu_i, \sigma_{lnorm}^2)$ 
   * where $\mu_i = \alpha_{lnorm} + \tilde{X}_i \beta_{lnorm} + \tau_{lnorm} T_i$

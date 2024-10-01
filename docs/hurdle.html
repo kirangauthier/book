@@ -485,7 +485,7 @@ window.Quarto = {
 <p><strong>Log-Normal Component</strong></p>
 <ul>
 <li><p>Let <span class="math inline">\(Y_i\)</span> be the outcome variable.</p></li>
-<li><p>If <span class="math inline">\(Z_i = 0\)</span> (i.e., the outcome is positive), then:</p>
+<li><p>If <span class="math inline">\(Z_i = 1\)</span> (i.e., the outcome is positive), then:</p>
 <ul>
 <li><span class="math inline">\(log(Y_i) \sim Normal(\mu_i, \sigma_{lnorm}^2)\)</span></li>
 <li>where <span class="math inline">\(\mu_i = \alpha_{lnorm} + \tilde{X}_i \beta_{lnorm} + \tau_{lnorm} T_i\)</span></li>
@@ -1356,7 +1356,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a>**Log-Normal Component**</span>
 <span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Let $Y_i$ be the outcome variable.</span>
-<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>If $Z_i = 0$ (i.e., the outcome is positive), then:</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>If $Z_i = 1$ (i.e., the outcome is positive), then:</span>
 <span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a><span class="ss">  * </span>$log(Y_i) \sim Normal(\mu_i, \sigma_{lnorm}^2)$ </span>
 <span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a><span class="ss">  * </span>where $\mu_i = \alpha_{lnorm} + \tilde{X}_i \beta_{lnorm} + \tau_{lnorm} T_i$</span>
@@ -1655,7 +1655,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ignacio82/book/edit/master/hurdle.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div></div></footer><div class="page-columns page-rows-contents page-layout-article"><div class="social-share"><a href="https://www.linkedin.com/shareArticle?url=https://book.martinez.fyi/hurdle.html&amp;title=Business Data Science: Hurdle Models" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in fa-fw fa-lg"></i></a>  <a href="mailto:?subject=Business Data Science: Hurdle Models&amp;body=Check out this link:https://book.martinez.fyi/hurdle.html" target="_blank" class="email"><i class="fa-solid fa-envelope fa-fw fa-lg"></i></a><a href="javascript:void(0);" onclick="var mastodon_instance=prompt('Mastodon Instance / Server Name?'); if(typeof mastodon_instance==='string' &amp;&amp; mastodon_instance.length){this.href='https://'+mastodon_instance+'/share?text=Business Data Science: Hurdle Models https://book.martinez.fyi/hurdle.html'}else{return false;}" target="_blank" class="mastodon"><i class="fa-brands fa-mastodon fa-fw fa-lg"></i></a></div></div>
-<script>var lightboxQuarto = GLightbox({"loop":false,"openEffect":"zoom","selector":".lightbox","descPosition":"bottom","closeEffect":"zoom"});
+<script>var lightboxQuarto = GLightbox({"selector":".lightbox","closeEffect":"zoom","loop":false,"descPosition":"bottom","openEffect":"zoom"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
