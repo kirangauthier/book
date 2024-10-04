@@ -4,7 +4,8 @@ filters:
   - shinylive
 ---
 
-![Bayes' Rule](img/bayes.webp){.lightbox}
+<img src="img/bayes.webp" align="right" height="280" alt="Bayes 101" />
+
 In the bustling marketplace of ideas that is modern data science, Bayesian
 statistics stands out as a powerful and intuitive approach to understanding
 uncertainty and making decisions. For business data scientists, it offers a

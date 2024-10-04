@@ -51,7 +51,8 @@ glossary_add(term = "Program Improvement",
              replace = TRUE) 
 
 ```
-![Business DS](img/businessDS.jpg){.lightbox}
+
+<img src="img/businessDS.jpg" align="right" height="280" alt="What Does it Mean to Be Data-Driven?" />
 
 In today's tech-driven world, data is king. Every click, swipe, and search
 generates a breadcrumb of information. Alas, although most decision-makers want

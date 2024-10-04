@@ -8,7 +8,7 @@ share:
   mastodon: true
 ---
 
-![Baseline Equivalence](img/baseline.jpg){.lightbox}
+<img src="img/baseline.jpg" align="right" height="280" alt="Baseline Equivalence" />
 
 In the quest to discern the true impact of an intervention, we must first
 establish a level playing field. The concept of **baseline equivalence** serves

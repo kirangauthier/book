@@ -9,7 +9,7 @@ share:
 ---
 ## The Basic Idea {#sec-potential}
 
-![Potential outcome](img/potential.jpg){.lightbox}
+<img src="img/potential.jpg" align="right" height="280" alt="The Potential Outcomes Framework" />
 
 The potential outcomes framework, also known as the Rubin Causal Model, provides
 a formal mathematical approach to defining and estimating causal effects. This
