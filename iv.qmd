@@ -11,7 +11,7 @@ author:
   - name: Ignacio Martinez
 ---
 
-![Nudge](img/nudge.jpg){.lightbox}
+<img src="img/nudge.jpg" align="right" height="280" alt="Nudge" />
 
 In the dynamic world of business, a recurring question is, "What if our users
 took a particular action? What would be the impact?" Yet, randomly assigning
@@ -141,10 +141,11 @@ While REDs are powerful, they come with their own set of challenges:
 
 ## Examples with synthetic data
 
+<img src="img/biva.png" align="right" height="138" alt="BIVA" />
+
 Now, let's dive into a practical example to illustrate how REDs work in a
 business context.
 
-![BIVA](img/biva.png){.lightbox}
 Imagine you work for a social media company that has just developed a new AI
 tool allowing creators to reach audiences regardless of their native language.
 This feature is computationally intensive, so you only want to maintain it if
