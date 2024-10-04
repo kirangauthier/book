@@ -82,11 +82,13 @@ in the potential outcomes framework. This connection underscores the importance
 of assessing and establishing baseline equivalence in any causal inference
 study, whether experimental or observational.
 
-## The {im} Package in R
+## The {imt} Package in R
 
-The R package {im} package provides a convenient way to check baseline
-equivalence using the `im::checkBaseline` function and visualize the results
-with `im::balancePlot`.
+<img src="https://raw.githubusercontent.com/google/imt/refs/heads/main/man/figures/logo.png" align="right" height="138" alt="logo of the imt package" />
+
+The R package [{imt}](https://github.com/google/imt) package provides a convenient way to check baseline
+equivalence using the `imt::checkBaseline` function and visualize the results
+with `imt::balancePlot`.
 
 ```{r baseline}
 set.seed(123)
@@ -105,13 +107,13 @@ data <- data.frame(
 )
 
 # Check baseline equivalence
-baseline_results <- im::checkBaseline(
+baseline_results <- imt::checkBaseline(
   data,
   variables = c("time_spent_in_app", "premium_subscriber", "device_type"),
   treatment = "treatment"
 )
 
-im::balancePlot(data = baseline_results)
+imt::balancePlot(data = baseline_results)
 ```
 
 ## The Importance of Baseline Equivalence
