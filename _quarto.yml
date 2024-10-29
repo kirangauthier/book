@@ -11,6 +11,7 @@ book:
   site-url: https://book.martinez.fyi
   repo-url: https://github.com/ignacio82/book
   repo-branch: master
+  favicon: hex.png
 
   comments:
     utterances:
