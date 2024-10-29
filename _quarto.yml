@@ -80,6 +80,11 @@ format:
       email: true
       mastodon: true
   
+citation:
+  type: book
+  container-title: "Business Data Science: A guide for data-driven decisions"
+  url: https:/book.martinez.fyi
+google-scholar: true 
 
 resources:
   - CNAME
