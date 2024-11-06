@@ -1,7 +1,10 @@
 ---
 title: Introduction
+css:
+  - ":root { --my-color: #4d00ff; }"  
 ---
 
+\newcommand{\kgcol}{\textcolor{var(--my-color)}}
 
 ```{r}
 #| warning: false
@@ -16,7 +19,7 @@ glossary_path("glossary.yml")
 In the modern business landscape, data isn't just an asset – it's the raw
 material from which informed decisions are forged. Data, however, does not speak
 for itself. The extraction of actionable insights requires not only technical
-prowess, but a sophisticated understanding of causal inference. This is where
+prowess, but a sophisticated understanding of $\sout{causal inference}$ $\kgcol{the nature of causality and the data generating process}$. This is where
 the business data scientist steps in, acting as the voice of data, translating
 its complex signals into meaningful narratives that drive strategic
 decision-making. The field is particularly well-suited for those with a
