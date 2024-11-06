@@ -21,11 +21,11 @@ material from which informed decisions are forged. Data, however, does not speak
 for itself. The extraction of actionable insights requires not only technical
 prowess, but a sophisticated understanding of $\sout{causal inference}$ $\kgcol{the nature of causality and the data generating process}$. This is where
 the business data scientist steps in, acting as the voice of data, translating
-its complex signals into meaningful narratives that drive strategic
+its complex signals into $\sout{meaningful}$ $\kgcol{compelling / cohesive}$ narratives that drive strategic
 decision-making. The field is particularly well-suited for those with a
 background in economics, as economists generally possess the analytical skills,
-statistical training, and problem-solving mindset essential to excel in this
-role.
+statistical training, and problem-solving mindset essential to $\sout{excel in this
+role}$ $\kgcol{derive meaningful insights, and iteratively refine the models, and conclusions given noisy, and often incomplete, data}$.
 
 However, it's important to note that this does not mean all economists will
 automatically make good business data scientists, nor that only economists are
@@ -44,24 +44,24 @@ and influence the underlying causes and effects within a business context. The
 business data scientist is a unique breed, blending the rigor of a statistician
 with the acumen of a strategist. They are experts in applying an analytical lens
 to business problems, leveraging techniques from causal inference, advanced
-statistical modeling, and forecasting. They possess the ability to discern the
+statistical modeling, and forecasting $\kgcol{add experimental design here?}$. They possess the ability to discern the
 optimal approach for a given problem, communicating complex findings clearly to
 both technical and non-technical stakeholders.
 
 While proficient in data extraction from large datasets (e.g., using SQL), what
 truly sets these professionals apart is a deep-seated understanding of the
 assumptions underpinning their chosen methods, allowing them to critically
-evaluate results and avoid blind reliance on off-the-shelf tools. Furthermore,
+evaluate results and avoid blind reliance on off-the-shelf tools. $\kgnote{We caution that if one does not truly understand the internal machinations of a given method, one becomes a slave to their warped view of the world. In the past, these models were a necessary evil due to the complexities of fitting more flexible models, however, due to the efforts of the open-source community, languages like }$ `[Stan](https://mc-stan.org/)`, `[PyMC](https://www.pymc.io/welcome.html)`, and `[JAX](https://jax.readthedocs.io/en/latest/quickstart.html)` $\kgnote{are a huge step forward in challenging the assumptions of conventional models, and more faithfully reproducing the data generating process.}$ $\kgnote{this doesn't flow well anymore, lmk if you want me to move}$ Furthermore,
 they are adaptable problem-solvers, capable of implementing advanced
 methodologies from scratch or even designing entirely novel approaches when
 faced with unconventional challenges.
 
 Throughout this book, we'll navigate the core principles of causal inference,
-learning how to confidently identify cause-and-effect relationships within data.
+learning how to confidently identify cause-and-effect relationships within data $\kgnote{, and how these relationships are themselves testable assumptions for future models}.
 We'll delve into the critical role of experimental design, covering randomized
-controlled trials, from simple A/B tests to Bayesian adaptive designs. We'll
+controlled trials, from simple A/B tests to Bayesian adaptive designs $\kgnote{as a tool to isolate the impact of our interventions}$. We'll
 also explore observational methods for when experiments are not possible,
-elucidating how to analyze their outcomes to reach valid conclusions. Our focus
+elucidating how to analyze their outcomes to reach valid conclusions $\kgnote{, and most importantly, communicating the limitations associated with them to avoid an overzealous interpretation of their results}$. Our focus
 will be on techniques to mitigate inherent biases and draw meaningful insights
 from non-experimental data.
 
@@ -83,6 +83,8 @@ By the book's conclusion, you'll possess a basic foundation in business data
 science and the confidence to leverage data as a driving force for
 decision-making within your organization. Let's embark on this illuminating
 journey together, unlocking the power of data to propel your business success.
+
+$\kgnote{This needs to be fleshed out, but I got the idea from Thomas and wanted to talk about it here. In many business settings, stakeholders will be unwilling to randomize... implications around not being able to learn about that group. OR In many settings, the cost of excluding some individuals from an eligible population comes at a cost to the business, the cost of this lost revenue, for example, can be weighed against the reduction of uncertainty of knowing something about the group. We suggest that the true cost of the data is then **the cost changing one decision**. something like that, Thomas had mentioned it to me when he was in the city and I liked it. could also got the route of "consider that the worst outcome is an inconclusive result" or something along those lines. }
 
 ## Disclaimer
 
