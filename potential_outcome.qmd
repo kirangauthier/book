@@ -6,7 +6,12 @@ share:
   linkedin: true
   email: true
   mastodon: true
+css:
+  - ":root { --my-color: #4d00ff; }"  
 ---
+
+\newcommand{\kgcol}{\textcolor{var(--my-color)}} 
+
 ## The Basic Idea {#sec-potential}
 
 <img src="img/potential.jpg" align="right" height="280" alt="The Potential Outcomes Framework" />
@@ -16,50 +21,53 @@ a formal mathematical approach to defining and estimating causal effects. This
 framework, developed by Donald Rubin building on work by Jerzy Neyman, is
 central to modern causal inference and has become increasingly important in
 business data science. At its core, the potential outcomes framework posits that
-each unit (e.g., person, company, product) has a set of potential outcomes
-corresponding to each possible treatment condition. For instance:
+each unit (e.g., person, company, product) has a set of potential outcomes$\kgnote{, Y}$
+corresponding to each possible treatment condition$\kgnote{, T}$. $\kgnote{In many settings, the treatment has two distinct possibilites, a unit is either treated, } {T=1} \kgnote{or untreated, } {T=0} {. Often, units who are treated are identified to be part of the "treatment group", whereas units who are untreated are part of the "control". The shorthand } $Y(1)$ { abbreviates the clearer, but more visually busy } $Y(T=1)$ \kgnote{which can be read as "the potential outcome for units in the treated group". The same can be said for } $Y(T=0)$ \kgnote{ which is the potential outcome for the control, or untreated, group.} $\sout{For instance:}$ $\kgnote{Some common examples might be:}$ 
 
 1. A tech company testing a new app interface might consider:
-    - $Y(1)$: user engagement if exposed to the new interface 
-    - $Y(0)$: user engagement if exposed to the old interface
+    - $Y(1)$: user engagement if exposed to the $\kgnote{add bolds} \textbf{new}$ interface 
+    - $Y(0)$: user engagement if exposed to the $\textbf{old}$ interface
 2. An e-commerce platform implementing a recommendation system might examine:
-    - $Y(1)$: customer purchase amount with personalized recommendations
-    - $Y(0)$: customer purchase amount without personalized recommendations
+    - $Y(1)$: customer purchase amount $\textbf{with}$ personalized recommendations
+    - $Y(0)$: customer purchase amount $\textbf{without}$ personalized recommendations
 3. A SaaS company offering a free trial could look at:
-    - $Y(1)$: conversion rate if offered a 30-day free trial 
-    - $Y(0)$: conversion rate if not offered a free trial
+    - $Y(1)$: conversion rate if $\textbf{offered}$ a 30-day free trial 
+    - $Y(0)$: conversion rate if $\textbf{not offered}$ a free trial
 
 The causal effect for an individual is then defined as the difference between
 these potential outcomes: $Y(1) - Y(0)$. However, we face what
 @holland1986statistics termed the "fundamental problem of causal inference" - we
 can only observe one of these potential outcomes for each unit. If a customer is
 exposed to the new interface, we observe $Y(1)$ but $Y(0)$ remains unobserved
-(and vice versa). This makes causal inference inherently a missing data problem,
+(and vice versa). $\kgnote{if you liked the 2 universes, we can add it here and restructure this}$ This makes causal inference inherently a missing data problem,
 a concept we'll explore further later in this chapter.
 
 ## Key Concepts and Estimands
 
 Several important concepts and estimands are central to the potential outcomes
 framework. The Average Treatment Effect (ATE) is the average causal effect
-across the entire population, defined as $E[Y(1) - Y(0)]$. This gives us an
-overall measure of the treatment's impact.
+across the entire population, defined as $E[Y(1) - Y(0)]$. $\kgnote{Coming back to our example about monitoring the time spent on our app after releasing the new feature, the ATE is our estimate of the average change in watch time across all app users, which } \sout{This} gives us an
+overall measure of the treatment's impact. 
 
-When we're interested in how the treatment effect varies across different
-subgroups, we look at the Conditional Average Treatment Effect (CATE). This is
+\kgnote{Importantly, the ATE can often be diluted, for the moment, suppose there are only two groups of users for our app. The first group is composed of users for whom the new feature makes absolutely no difference for, the expected difference in their potential outcomes is close to zero, because they don't care about the feature, $\mathbb{E}[Y(1 \mid \text{group}_\text{don't care}) - Y(0 \mid \text{group}_\text{don't care})] \approx 0$. Aside: Remember that expectations, $\mathbb{E}(x) = \sum_N x p(x)$ are just mathematical expressions which help us recover the mean, so $\mathbb{E}[Y(1 \mid \text{group}_\text{don't care}) - Y(0 \mid \text{group}_\text{don't care})] = \frac{1}{N} \sum_N Y(1 \mid \text{group}_\text{don't care}) - Y(0 \mid \text{group}_\text{don't care}) \approx 0$. For the other group, who love the feature, the amount of time spent on the app increases meaningfully, $\mathbb{E}[Y(1 \mid \text{group})_\text{care}) - Y(0 \mid \text{group}_\text{care})] \gt 0$. The ATE is a weighted average of the potential outcomes of both groups, where the weights are the proportion of users in each group. As the number of users in the first group outweighs the number of users in the second group, the ATE is pulled towards zero, and the business might decide to not launch the feature because it seemingly has little effect, even though a small, but important group of users loved the new feature.} 
+
+$\sout{When we're interested} \kgnote{Being aware of the possibility that different subgroups may experience meaningfully different treatment effects, and that we might care to understand them is the first step in addressing the limitations of the ATE. As we had said, the ATE is a weighted average of smaller subgroups treatment effects, where the weights are the proportion of units in any group. When we estimate the ATE for any given subgroup, we're interested in the}$ Conditional Average Treatment Effect (CATE). This is
 defined as $E[Y(1) - Y(0) | X]$, where X represents a specific set of
-covariates. CATE allows us to understand how the treatment effect might differ
+covariates$\kgnote{, features, or more generally *contexts*, that our units can fall into / be described by. We've seen the CATE before, when we discussed the two groups above, $\text{group}_\text{don't care}$ and $\text{group}_\text{care}$, we were estimating the CATE for each group, and adding them to recover the ATE. The}$ CATE allows us to understand how the treatment effect might differ
 for various segments of our population.
 
-Sometimes, we're particularly interested in the effect on those who actually
-received the treatment. This is captured by the Average Treatment Effect on the
+$\kgnote{There is, however, no free lunch, estimating the CATE comes at the cost of splitting our initial sample of units into distinct subgroups, by defintion. We'll introduce this thought here, and expand on it in Chapters XX and YY, but our ability to estimate an uncertain quantity, like a treatment effect, is inversely related to the sample size in the group. This can also be phrased in terms of the `r glossary("bias-variance tradeoff", "Bias-variance tradeoff")`. Being ignorant to the subgroups, and estimating the population effect through the ATE, we'll arrive at a confident estimate of the magnitude of the treatment (low-variance), but we'll struggle to reconcile the ATE with the treatment effect for any subgroup (high-bias). Acknowledging the presence of the subgroups, and estimating the treatment effects in each of these contexts, we'll be less confident in the treatment effect for any subgroup (high-variance), but we'll be able to distinguish the treatment effect associated with any given group (low-bias). Later, in Chapter XX, we'll discuss how the estimates from these subgroups can be adaptively pooled using hierarchical models, and how this helps both stabilize our estimates, and explicitly model the heterogeneity observed between subgroups.} 
+
+Sometimes, $\kgnote{our treatment assignment doesn't reflect the subgroup of units which actually were treated. For example, say we push the new feature to the app, but some fraction of users in the treated group don't log into the app during our experiment. Although they were part of the treatment group, $T=1$, they were not treated, this is \sout{we're particularly interested in the effect on those who actually
+received the treatment. This}$ is captured by the Average Treatment Effect on the
 Treated (ATT), defined as $E[Y(1) - Y(0) | W = 1]$, where W is the treatment
-indicator. In certain scenarios, such as when using instrumental variables, we
+indicator. In certain scenarios, such as when using instrumental variables $\kgnote{(Chapter XX)}$, we
 might focus on the Local Average Treatment Effect (LATE), which represents the
 average treatment effect for a specific subpopulation of compliers.
 
 A crucial assumption in many causal analyses is **ignorability**. This assumes
 that treatment assignment is independent of the potential outcomes given
-observed covariates. Mathematically, this can be expressed as:
+observed covariates$\kgnote{, or that, conditional on the observed covariates, the treatment assignment is as good as random}$. Mathematically, this can be expressed as:
 $(Y(1), Y(0)) ⊥ W | X$ where $W$ is the treatment assignment and $X$ are the
 observed covariates. For instance, in our e-commerce recommendation system
 example, ignorability would mean that whether a customer sees personalized
@@ -76,7 +84,7 @@ observational studies, each with its own strengths and challenges:
 is controlled by the researcher. This control ensures that the ignorability
 assumption holds by design. For example, when A/B testing a new website design,
 the randomization of which users see which version ensures that potential
-outcomes are independent of the assignment. This makes causal inference more
+outcomes are independent of the assignment. This makes $\sout{causal inference} \kgnote{the estimation of the treatment effect associated with users seeing the new website design}$ more
 straightforward but may not always be feasible in business settings due to
 ethical, practical, or cost constraints.
 
@@ -86,8 +94,8 @@ loyalty program on customer retention, customers typically choose whether to
 join the program rather than being randomly assigned. In these cases, we need to
 carefully consider and account for potential confounders to approximate the
 conditions of an experiment. This often involves sophisticated statistical
-techniques to adjust for differences between the treatment and control groups,
-such as propensity score matching or inverse probability weighting.
+techniques to adjust for $\kgnote{inherent}$ differences between the treatment and control groups,
+such as propensity score matching or inverse probability weighting $\kgnote{which adjust for the non-randomness of the treatment assingment by estimating the probability that the unit (regardless of whether they were treated or not) received the treatment they did}$. 
 
 ## Heterogeneous Treatment Effects
 
@@ -101,7 +109,10 @@ example:
   - A product feature might significantly boost engagement for power users but
     have minimal impact on casual users.
 
-Understanding these heterogeneous effects can lead to more targeted and
+$\kgnote{I didn't see this section and wrote it above, but can just move it down here}$ 
+
+
+$\kgnote{I think we can add to this, I'm a huge proponent of understanding and **appreciating** heterogeneity.} Understanding these heterogeneous effects can lead to more targeted and
 effective business strategies, such as personalized marketing campaigns or
 tailored product features.
 
@@ -119,14 +130,14 @@ common issue. For example:
     of the product's impact.
 
 Recognizing and addressing selection bias is crucial for making valid causal
-inferences in business settings.
+inferences in business settings $\kgnote{as well as communicating these different contexts to our model, ... this is probably a good point to mention exchangeability & ignorance, or mention it again ...}$. 
 
 ## Connections to Missing Data
 
 The link between causal inference and missing data is profound. In the potential
 outcomes framework, we're always missing at least one potential outcome for each
 unit. This is similar to the problem of missing data in surveys or experiments
-where some values are unobserved.
+where some values are unobserved$\sout{.} \kgnote{and more generally shares a deep connection with Bayesian statistics where there is no hard boundary between observed data $Y$, and unknown, or latent parameters, $\boldsymbol{\theta}$. ... parameters as random variables rather than fixed? ... Bishop "Pattern Recognition and Machine Learning" -- latent variables as "hidden" data? ... the symmetry of the joint, Bayes' theorem $p(\boldsymbol{\theta} \mid Y)$ and $p(Y \mid \boldsymbol{\theta})$ ... not sure how much you want to get into it here}
 
 Methods developed for handling missing data have direct analogues in causal
 inference. For example, multiple imputation techniques can be adapted to impute
@@ -143,7 +154,7 @@ unobserved data, given the observed data.
 Understanding these connections can provide valuable insights and tools for
 addressing the inherent missing data problem in causal inference. By leveraging
 techniques from both fields, researchers can develop more robust methods for
-estimating causal effects in a variety of real-world scenarios.
+estimating causal effects in a variety of real-world scenarios$\sout{.} \kgnote{and refining their insights as they learn more about the nature of the system under study.}$ 
 
 ## Conclusion
 
