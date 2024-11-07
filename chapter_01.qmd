@@ -6,7 +6,11 @@ share:
   linkedin: true
   email: true
   mastodon: true
+css:
+  - ":root { --my-color: #4d00ff; }"  
 ---
+
+\newcommand{\kgcol}{\textcolor{var(--my-color)}} 
 
 ```{r}
 #| warning: false
@@ -58,13 +62,13 @@ In today's tech-driven world, data is king. Every click, swipe, and search
 generates a breadcrumb of information. Alas, although most decision-makers want
 to be `r glossary("data-driven")`, data does not speak for itself.
 
-So, what does it mean to be `r glossary("data-driven")`? At its core, it's about
+So, what does it mean to be `r glossary("data-driven")` $\kgnote{these links are broken in the webpage}? At its core, it's about
 using data to inform decisions, not just describe them. It's about moving beyond
 `r glossary("Correlation", "correlation")` – the "what goes with what" – and
 understanding causation, the "why" behind the patterns we see. To be truly
 `r glossary("data-driven")`, there must be some level of evidence that the data
 can provide that would make you choose a different path than the one you would
-have otherwise taken.
+have otherwise taken $\kgnote{this is a great point, and what I wanted to emphasize with Thomas' quote, but this is well said.}.
 
 This is where `r glossary("causal inference")` steps in.
 `r glossary("Causal inference")` is the science of drawing cause-and-effect
@@ -81,8 +85,8 @@ conclusions from data. It allows us to answer questions like:
 `r glossary("data-driven")` puzzle. It lets us move beyond
 `r glossary("Correlation", "correlation")` and identify the true drivers of
 business outcomes. `r glossary("Impact evaluation")` builds on this, putting
-numbers to the effects of a program, policy, or intervention. Think of it as
-measuring the impact of a specific business decision.
+numbers to the effects of a program, policy, or intervention $\kgnote{along with bounds on the upper and lower ends of our estimated effect, consistent with the observed data}$. Think of it as
+$\sout{measuring the impact}$ $\kgnote{isolating the effect of} $\kgnote{making a}$ specific business decision $sout{.}$ $\kgnote{given what we know, and what we happen to be ignorant of.}$ $\kgnote{I think this is a nice place to reference Richard's "small-world" of the model, and the "large-world" that it lives in, our experiment, our estimates, ignorance, and interpretations live in the "small-world" of the model, but the data that we observe, and its consequences are "large-world" effects. Our goal is to iteratively refine our understanding of the "large-world" by identifying inadequacies of the "small-world" model, and the testable hypotheses that our causal model prescribes are ways to better align these two worlds.}$ 
 
 Data can also be used to improve the ongoing operations and effectiveness of a
 program, a process known as
@@ -90,24 +94,24 @@ program, a process known as
 continuously collecting data on how the program is running, identifying any
 bottlenecks or areas for enhancement, and making adjustments as needed. Think of
 program improvement as an ongoing feedback loop, constantly refining and
-optimizing the program based on real-world data.
+optimizing the program based on real-world data. $\kgnote{this paragraph flows well from the "large-" and "small-worlds"}$ 
 
 Now, let's delve a bit deeper. Imagine you're a decision-maker at a social media
 company pondering a new feature. You have data showing that users who engage
 with the feature spend more time on the platform. This is a
 `r glossary("Correlation", "correlation")`, but it doesn't tell the whole story.
-What if those users were already naturally the most engaged?
+$\sout{What if those users were already naturally the most engaged?}$ $\kgnote{You know that users who are most engaged on the app are possibly (1) more primed to engage with the new feature, and (2) more willing to try new a new feature than more casual users. In this case, the increased time associated with the users who spend time on the app is a problem of } \textit{self-selection} \kgnote{ and not because of the feature conferring any additional benefit. We've just managed to identify those users who are naturally most engaged to try out our new feature, but without a careful interpretation of the results, we might ... not confuse or misinterpret but fool ourselves ... into thinking that the app will have a widespread benefit to app users at large, when in reality, it has no effect at all.}$ 
 
 This is where the concept of the counterfactual becomes crucial. The
 counterfactual is what would have happened if we hadn't implemented the new
-feature – it's the `r glossary("potential outcome")` had we not made the change.
+feature – it's the `r glossary("potential outcome")` had we not made the change. 
 While Jerzy Neyman hinted at this idea in 1923 [see @neyman1923applications],
 Donald Rubin fully developed the concept in the 1970s [see
 @rubin1974estimating; also @rubin1978bayesian] . Given that we can only observe
 one potential outcome for each unit, the counterfactual is inherently missing
 data. Hence, causal inference can be viewed as a missing data problem. For a
 review of variety of causal inference methods from this perspective see
-@ding2018causal.
+@ding2018causal. $\kgnote{let's expand on this: The idea of a counterfactual, or potential outcome, might feel fairly abstract to some, but it's helpful to think about the counterfactual in the following way. Imagine two parallel universes, identical in every way except in universe 1, the app includes the new feature, and in universe 2, it does not. Because we live in universe 1, where the feature was launched, the counterfactual is observing what happens in universe 2. In this sense, there are no "potential" outcomes, we could measure the time spent on platform in universe 1, and the time spent on platform in universe 2, these are both real numbers with no uncertainty. Because the only thing that differs between our two universes is the presence of the new feature, the change in time spent can be uniquely attributed to its inclusion. Any concurrent marketing campaigns internally, or externally, or changes in economic conditions over the course of our measurement happen in both universes equally. As you may notice, however, there is no alternative universe that we've identified, at least yet. In the meantime, as business data scientists, we consider } \textit{what might have happened} \kgnote{ had we been able to peer into universe 2, and its potential outcomes given that we only have access to universe 1.}$ 
 
 Choosing the right counterfactual is critical for drawing valid causal
 conclusions. The wrong counterfactual can lead to misleading results and
