@@ -2,7 +2,11 @@
 title: "Bayes 101"
 filters:
   - shinylive
+css:
+  - ":root { --my-color: #4d00ff; }"  
 ---
+
+\newcommand{\kgnote}{\textcolor{var(--my-color)}} 
 
 <img src="img/bayes.webp" align="right" height="280" alt="Bayes 101" />
 
@@ -93,6 +97,8 @@ start with our prior beliefs about the parameters $P(\theta)$, consider how
 likely the data are given those parameters $P(D|\theta)$, and end up with an
 updated (posterior) belief about the parameters $P(\theta|D)$.  
 
+$\kgnote{can add in here about the likelihood as the engine, or the heart, how it's the one common feature between Bayesian and frequentist stats, priors as regularizers, how to connect the posterior to the joint, $P(\boldsymbol{\theta} \mid D) \propto P(D \mid \boldsymbol{\theta}) P(\boldsymbol{\theta})$, and also $P(\boldsymbol{\theta}, D) = P(\boldsymbol{\theta} \mid D) P(D) = P(D \mid \boldsymbol{\theta}) P(\boldsymbol{\theta})}$ 
+
 ## The Case of the Declining User Engagement
 
 Even if you haven't formally studied Bayesian statistics, your brain is already
@@ -147,56 +153,62 @@ After considering the evidence, you might update your beliefs as follows:
 
 This is your posterior distribution. You've reallocated credibility based on the
 evidence, increasing your belief that the feature update and seasonality are the
-primary causes of the engagement drop.
+primary causes of the engagement drop. $\kgnote{this is why i think the joint should be emphasized above, rarely do we care about the marginal likelihood, and it could be introduced in later chapters as the integral of the joint over the parameter space, but it's not necessary. I also think adding in the sentence "the reasons with the largest posterior mass for the drop are those that are most likely given the data, and our prior beliefs." would be useful to clearly emphasize the role of the posterior in updating our prior given data. also, it might be a good thing to plot out, and introduce the concept of ignorance, where if we were a new hire, with no reason to distinguish between the discrete choices presented in the likelihood, we might suggest a uniform prior over our four choices, and how our decision criteria would change from this, as a way to show how expert knowledge can be infused into the problem -- however, i think this runs the issue of readers thinking that we can distort our posterior inferences by using different priors, which is not a point i'd want to emphasize. let me know what you think Ignacio.}$ 
 
 ## Communicating Uncertainty: Credible Intervals vs. Confidence Intervals
 
-In Bayesian statistics, we often express our uncertainty about an estimated
+$\kgnote{Credible intervals are an expressive way to communicate the uncertainty we have in our parameter estimates. These intervals can be of any size, if we follow convention, we usually refer to 95% credible intervals which coincies with the range of values that we believe with 95% probability contains the true value of the parameter. This interpretation is quite intuitive, and aligns well with how one might naturally think about uncertainty.}$ 
+
+$\sout{In Bayesian statistics, we often express our uncertainty about an estimated
 parameter using **credible intervals.** A 95% credible interval, for example, is
 a range of values that we believe, with 95% probability, contains the true value
 of the parameter. This interpretation is quite intuitive and aligns well with
-how we naturally think about uncertainty.
+how we naturally think about uncertainty.}$ 
 
-It's important to contrast credible intervals with confidence intervals, which
-are frequently misinterpreted [@hoekstra2014robust]. While both express
+$\kgnote{Keep in mind, these credible & confidence intervals are only exact in the ``small world'' of our model, when the data generating process coincides with our model. Care must be taken when communicating the uncertainty in any parameter when this assumption is violated.}$ 
+
+It's important to contrast credible intervals with confidence intervals, $\sout{which
+are frequently misinterpreted}$ $\kgnote{as confidence intervals are frequently misinterpreted for credible intervals}$ [@hoekstra2014robust]. While both express
 uncertainty, their interpretations differ:
-
-  - A 95% confidence interval is constructed such that, if we were to repeat the
-    experiment many times, 95% of the intervals we calculate would contain the
-    true parameter value. This interpretation is somewhat less intuitive and
-    focuses on the long-run behavior of the procedure rather than the specific
-    interval at hand.
 
   - A 95% credible interval, on the other hand, directly states that there's
     a 95% probability that the true parameter value lies within this particular
     interval, given the observed data and our prior beliefs.
 
+  - A 95% confidence interval is constructed such that, if we were to repeat the
+    experiment many$\kgnote{, many}$ times, 95% of the intervals we calculate would $\kgnote{be expected to}$ contain the
+    true parameter value. This interpretation is somewhat less intuitive and
+    focuses on the long-run behavior $\sout{of the procedure}$ $\kgnote{of repeated observations or experiments}$ rather than the specific
+    $\sout{interval}$ $\kgnote{observations of a given experiment}$ at hand.
+
 In summary:
 
-|   **Feature**   | **Confidence Interval** |     **Credible Interval**    |
-|:---------------:|:-----------------------:|:----------------------------:|
-| Philosophy      | Frequentist             | Bayesian                     |
-| Interpretation  | Repeated sampling       | Probability of the parameter |
-| Prior knowledge | Not used                | Can be incorporated          |
-| Statement about | The interval itself     | The parameter                |
+|   **Feature**   |     **Credible Interval**    | **Confidence Interval** |
+|:---------------:|:----------------------------:|:-----------------------:|
+| Philosophy      | Bayesian                     | Frequentist             |
+| Interpretation  | Probability of the parameter | Repeated sampling       |
+| Prior knowledge | Can be incorporated          | Not used                |
+| Statement about | The parameter                | The interval itself     |
 
 ### Analogy
 
-Imagine you're trying to estimate the height of a tree.
-
-  - **Confidence interval:** You take multiple measurements from different
-    angles and use them to construct an interval. You say, "If I repeated this
-    process many times, 95% of the intervals I create would contain the tree's
-    true height."
+Imagine you're trying to estimate the height of a tree. $\kgnote{now i'm of the opinion (1) confidence, (2) credible, lmk what you think Ignacio, I can change the ordering.}$ 
 
   - **Credible interval:** You consider your previous knowledge about trees in
-    the area, combine it with your measurements, and say, "Based on my
-    measurements and what I already know, there's a 95% probability that the
-    tree's height is between X and Y meters." Credible intervals provide a more
+    the area $\kgnote{(prior)}$, combine it with your measurements $\kgnote{(data)}, and say, "Based on my
+    measurements and what I already know, there's a 95% probability that $\sout{the} \kgnote{this}$
+    tree's height is between X and Y meters." 
+
+Credible intervals provide a more
     intuitive and direct interpretation of uncertainty about a parameter.
-    However, they require specifying prior distributions, which can be
-    subjective. Confidence intervals, while less intuitive, are widely used and
-    don't require prior information.
+    However, $\kgnote{there is no free lunch, as}$ they require specifying prior distributions, which can be
+    subjective $\kgnote{but still grounded in reality}$. Confidence intervals, while less intuitive, are widely used and
+    don't require prior information $\kgnote{which might avoid any perceived / subjective bias from the prior}$. $\kgnote{In many settings with some appreciable amount of data, the likelihood will dominate the prior and the posterior will align with the most likely set of parameters conditional on the data, and not our initial beliefs, but this tension around the specification of prior distributions is the source of much hand wringing in statistics. We'll demonstrate in Chapters XX and YY that by specifying "weakly informative" priors, we get the best of both worlds, a likelihood-dominated posterior, and a soft regularization towards plausible values of our parameters. But for right now, you'll just have to take our word for it.}$ 
+
+- **Confidence interval:** $\kgnote{You measure the height of a tree from multiple different positions around its base and} \sout{You take multiple measurements from different
+    angles and} use them to construct an interval $\kgnote{of the tree's height}$. You say, "If I repeated this
+    process many times, 95% of the intervals I create would contain the tree's
+    true height."
 
 ### Beyond Intervals: Posterior Probabilities for Tailored Insight
 
@@ -212,7 +224,7 @@ compute the probability of the impact exceeding our threshold directly from the
 posterior distribution. We simply determine the proportion of the distribution
 that lies beyond the threshold. This gives us the posterior probability that the
 parameter of interest is greater than our chosen value, providing a clear and
-actionable insight.
+actionable insight. $\kgnote{This is because of the fact that the posterior distribution summarizes all available information about our parameters conditional on the observed data, it is also why compressing the posterior into statistics -- this is probably a digression about why single values, like thresholds, are easy to communicate, but compress the information of the posterior into a single value, by definition you lose information -- not sure if we want to make this point here, but it's worthwhile, also to my point about why percentages shed information 400/1000 and 4/10 are both 0.4 but one of them I'm way more certain of in my posterior summary -- revisit.}$ 
 
 It's worth noting that we might have multiple thresholds relevant to different
 decisions. For example, we might be interested in the probability that the
@@ -762,7 +774,7 @@ Bayesian framework allows us to begin with prior knowledge, update it with
 available data, and then communicate our findings in plain language.
 
 In essence, Bayesian statistics provides a flexible and powerful approach for
-tackling the complex and often uncertain world of business decision-making.
+tackling the complex and often uncertain world of business decision-making. $\kgnote{this is such an awesome example}$ 
 
 ::: {.callout-tip}
 ## Learn more
