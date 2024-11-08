@@ -6,16 +6,24 @@ share:
   linkedin: true
   email: true
   mastodon: true
+css:
+  - ":root { --my-color: #4d00ff; }"  
 ---
+
+\newcommand{\kgnote}{\textcolor{var(--my-color)}} 
 
 <img src="img/baseline.jpg" align="right" height="280" alt="Baseline Equivalence" />
 
 In the quest to discern the true impact of an intervention, we must first
-establish a level playing field. The concept of **baseline equivalence** serves
+establish a level playing field, $\kgnote{if all other things are equal prior to our intervention, then the difference in potential outcomes can be uniquely attributed to our decision to intervene on some units, and not on others. This is closely related to our example about two parallel universes ... }. The concept of **baseline equivalence** serves
 this purpose, ensuring that the groups under comparison are similar enough in
 key observed characteristics before the intervention takes place. Any
 discrepancies at baseline could muddy the waters, making it difficult to isolate
-the intervention's effect from pre-existing differences.
+the intervention's effect from pre-existing differences. $\kgnote{However, we must also recognize our own ignorance, we can only establish equivalence for covariates we have measured, and measured reliably. If having a nutritious breakfast was strongly predictive of users spending more time on our app the day of our experiment, then we might wrongfully ascribe the impact of our new launch to . Only if we knew which of our users had a nutritious breakfast could we isolate the true impact of the feature launch. ... do we want to make this point equally from both groups or just say that the treatment group were those who had nutritious breakfasts? I rewrote this section more fully below.}
+
+\kgnote{Let's say for example, we've built a shiny new feature that we're interested in pushing to our app. We have everything set up to run a conventional A/B test, and have confirmed that our treatment and control groups satisfy baseline equivalence. This shiny new feature was highly recommended on our forums, so we're almost certainly going to roll it out, but we run our A/B test and see that the time spent on the app decreased significantly for treated users, how could this be? By checking for baseline equivalence, we confirmed that the two groups look similar in all the dimensions of their observable characteristics, so the difference in their potential outcomes should be due to the treatment assignment alone. The key word here is *observable*, there can be one of any number of unobserved characteristics that bias our interpretation of the treatment effect due to our ignorance about their existence. For example, what if our shiny new feature had a bug that required a significant amount of processing power and caused older phones to crash when users clicked on it? If we had information about the make and year of the phone, we could have balanced the assignment across these groups, and seen that for users with new phones, the treatment effect was strongly positive, but in this case we'd be led to the incorrect conclusion that the feature itself led to the decreased time spent on the app. <probably too contrived, let me know what you think Ignacio>} 
+
+\kgnote{need to go back and redefine what a covariate is, something like ``Covariates are characteristics or variables that we measure about our units (e.g., individuals, users, etc.)'' They can be age, gender, device type, ... <to continue if agree>. } 
 
 Baseline equivalence is particularly crucial in scenarios where sample sizes are
 small or when we're dealing with observational studies. Let's say a company
@@ -32,7 +40,7 @@ other relevant observables. A common approach is to calculate the **effect
 size**, a standardized measure of the magnitude of an effect.
 
 
-For **continuous variables**, Hedges' g statistic is a popular choice
+For **continuous variables**, $\kgnote{and with some assumptions around normality, independence, and the variance in our treatment and control groups being roughly equal,} Hedges' g statistic is a popular choice
 (@hedges1981distribution):
 
 
@@ -60,6 +68,8 @@ where:
 - $p_c$ is the mean of the outcome in the comparison group
 - $\omega := 1 - \frac{3}{4(n_t+n_c)-9}$ is the small sample size correction.
 
+$\kgnote{The same ideas around independence and some new ideas about the proportionality of the odds are assumed for Cox's index to be valid. As opposed to feeling confident that you've satified baseline equivalence with the above tests, or any other summary statistic, think about it more as not having catastrophically failed yet. These are just suggestions, and as with any <placeholder> in statistics, this is more of an art than a science. Be conscious of the assumptions underlying the tests you apply, and of lurking unobserved confounders that might taint your interpretation of results. It's also the unfortunate reality that throwing the `r glossary("kitchen sink")` at our model and including all covariates indiscriminately also biases our treatment effect <is this discussed in any Chapter??>} $\kgnote{We caution, however, that the burden of thinking about which covariates should be adjusted for is strictly on the shoulders of the modeler. As McElreath writes "regression is an oracle, but a cruel one" <go check the actual wording if keeping this>, and we must be aware of the causal structure of the relationship between our variables in order to estimate ...} 
+
 The general rule of thumb is that an absolute effect size greater than 0.25
 signals a lack of baseline equivalence, and statistical adjustments are unlikely
 to fully remedy the situation. If the absolute effect size lies between 0.05
@@ -80,7 +90,7 @@ By striving for baseline equivalence, we're essentially attempting to create
 conditions that allow us to more accurately estimate the causal effects defined
 in the potential outcomes framework. This connection underscores the importance
 of assessing and establishing baseline equivalence in any causal inference
-study, whether experimental or observational.
+study, whether experimental or observational. 
 
 ## The {imt} Package in R
 
@@ -88,7 +98,7 @@ study, whether experimental or observational.
 
 The R package [{imt}](https://github.com/google/imt) package provides a convenient way to check baseline
 equivalence using the `imt::checkBaseline` function and visualize the results
-with `imt::balancePlot`.
+with `imt::balancePlot`. $\kgnote{Here, we draw 1000 samples, each representing the time spent in the app, whether or not the subscriber is in the premium tier, and their device type for each individual. Finally, we assign <individuals, units?> to treatment or control. Notice that even though, on average, 20% of subscribers will be in the premium tier, we can still satisfy baseline equivalence by randomizing them equally between the treatment and control.} 
 
 ```{r baseline}
 set.seed(123)
@@ -116,10 +126,17 @@ baseline_results <- imt::checkBaseline(
 imt::balancePlot(data = baseline_results)
 ```
 
+$\kgnote{This is also a powerful example in the utility of using synthetic data to valdiate the implementation of algorithms, as bugs and <placeholder> can be readily detected. In fact, there is a direct analog to modeling the data generating process, the engine of Bayesian inference, and <this is a really good point but I don't know how to introduce it, what's I'm trying say is that there's a duality between inferential and generative modeling, every inferential model can be inverted to be a generative model and you can check if you can recover the "true" hidden parameters when they're obfuscated by noise. remember to tell the reader that this is the best case scenario, you're recovering non-time-varying parameters and data generated identically from the model you're using for inference. it's a useful tool to see if estimation of your model's parameters is even computationally feasible, and again a quick way to check for bugs  -- this connects to simulation based calibration -- there's also the fact that the whole point of Bayesian inference is to write out the data generating process, so you can just generate data from the data generating process -- this is related to prior predictive simulation, and it gives you bounds on what to reasonably expect to infer -- could also introduce ideas from Bayesian workflow here. 
+
+In fact, as we explore in Chapters XX and YY, generating synthetic data 
+
+and the data generating process. } 
+
+
 ## The Importance of Baseline Equivalence
 
 Whether your study design is experimental or observational, the principle of
-baseline equivalence should always be top of mind. It's a fundamental building
+baseline equivalence should always be top of mind. It's a $\sout{fundamental} \kgnote{necessary but not sufficient}$ building
 block for drawing valid causal inferences.
 
 Remember, we can only assess baseline equivalence for the characteristics we can
