@@ -4,7 +4,7 @@ css:
   - ":root { --my-color: #4d00ff; }"  
 ---
 
-\newcommand{\kgcol}{\textcolor{var(--my-color)}}
+\newcommand{\kgnote}{\textcolor{var(--my-color)}}
 
 ```{r}
 #| warning: false
