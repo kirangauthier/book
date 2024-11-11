@@ -6,7 +6,12 @@ share:
   linkedin: true
   email: true
   mastodon: true
+css:
+  - ":root { --my-color: #4d00ff; }"  
 ---
+
+\newcommand{\kgnote}{\textcolor{var(--my-color)}} 
+
 ```{r}
 #| warning: false
 #| echo: false
@@ -52,7 +57,9 @@ glossary_add(term = "Meaningful threshold",
 
 ```
 
-![Decisions First](img/decisions_first.png){.lightbox}
+![Decisions First](img/decisions_first.png){.lightbox} 
+
+$\kgnote{might want to regenerate the image, reads "decisisions first"}$ 
 
 In the world of `r glossary("data-driven")` decision-making, it's all too easy to
 fall into the trap of the "null ritual." This ritual, as @gigerenzer2004null
@@ -60,16 +67,26 @@ point out, involves a slavish adherence to Null Hypothesis Significance Testing
 (NHST) without truly grasping its foundations or limitations. It's akin to
 following a recipe without tasting the ingredients - you might end up with a
 statistically significant result, but one that lacks real-world meaning or
-utility.
+utility. $\kgnote{Before we write off NHST as unanimously bad, or some replacement technique as ``better'', consider for a moment what the NHST seeks to accomplish. In plain English, it seeks to detect absolutely **any** difference between two distributions, rejecting the null hypothesis that there is *no difference* between two groups, or *no effect* of treatment in 1- or 2-directions depending on the test, accepting that we commit false positives at a rate of $\alpha$. Let's take it to both extremes, and explore what can go wrong. Say we're using NHST to test the difference in salinity in two freshwater streams. Let's assume our salinity-measuring instruments are perfectly calibrated, as we take more samples from either stream, we can more confident in the level of salt in either stream. If we take enough samples, NHST provides a good framework to conclusively report that the salinity level in stream A is different than the level of salinity in stream B. But what if we only took samples from stream A? And for argument's sake, let's assume we left the poor graduate student out in the water to collect 100,000 samples. 
+
+NHST would advise us to reject the null if there is **any** difference in the sample means, as the standard errors in the mean salinity levels tend toward 0. We've reached "statistical significance" at the expense of our common sense. If $\mu_\text{sample 1} = 0.01 + 0.0000000001$ and $\mu_\text{sample 2} = 0.100000002  ... redo these numbers, with the updated sample size above, communicate De Moivre's  $\text{SE} = \frac{\sigma}{\sqrt{n})$ but the point is it can be weaponized, statistical significance $\neq$ practical significance, esp when applying blindly 
+
+... this is a good place for a demo, pretty easy to code up, and might be useful ... 
+
+As another kink in the NHST, what if salinity testing proved to be very expensive that day due to the looming presence of bears (I don't like this but I like the idea, lmk what you think Ignacio). ... outliers and heavy tails, more likely to observe an extreme result, question the tabular lookup for Z-scores, think about the data-generating process and in this case explicitly the problem of unobserved confounders, if we collect on two days and upstream a tree falls, diverts the flow, and leads to different conclusions (maybe we convert salinity to flowrate), probably even better because flowrate has some variance -- or do we want to make the point that there is one true value, and we're looking to estimate? lmk what you think}$ 
+
+
 
 Instead of mindlessly performing this ritual, we need a more thoughtful,
-purposeful approach. Enter the r glossary("Decisions First Framework"). This
+purposeful approach. Enter the $\kgnote{`}$r glossary("Decisions First Framework") $\kgnote{`}$. This
 approach flips the script, putting the focus squarely on the decisions we need
 to make and using data as a tool to illuminate the path forward. It helps us
 sidestep several pitfalls, including what @manski2020lure calls the 
 `r glossary("Lure of Incredible Certitude")`- the tendency to present research
 findings with unwarranted certainty, often driven by pressure to provide
 clear-cut answers even when the data is ambiguous or uncertain.
+
+$\kgnote{Evidence for this claim can be found everywhere, but especially in the social and ... sciences. It also goes by many names, including the "replicability crisis", and ... . The point being that single studies, ... what's the point we want to make here, gets into the larger question on the garden of forking data, and the file cabinet problem, maybe don't want to get into it at the moment ...}$ 
 
 One crucial reason for this shift is that NHST often misses the mark when it
 comes to answering the practical questions businesses need to address. Moreover,
@@ -91,7 +108,7 @@ intervals, it emphasizes estimating probabilities that are relevant to the
 decisions at hand. It acknowledges the inherent uncertainty in data and seeks to
 quantify and integrate it into the decision-making process. In essence,
 `r glossary("Bayesian Statistics")` allows us to use data to reallocate
-credibility across various possibilities.
+credibility across various possibilities. $\kgnote{Further, ... want to add something here about testable hypotheses in causal models and the utility of viewing them through the Bayesian paradigm? this could also be about feeding data back into the model to iteratively refine / learn more about the system under study ...}$
 
 
 ## Define the Decision(s): The Cornerstone of Data-Driven Choices
@@ -101,7 +118,7 @@ decision(s) you need to make**. This might involve launching a new product,
 adjusting pricing strategies, or optimizing marketing campaigns. Some decisions
 will be binary, but that's not always the case. The key is that the optimal
 decision should hinge on the information available. If no amount of evidence
-will change your mind, there's little point in designing a study to collect it.
+will change your mind, there's little point in designing a study to collect it. $\kgnote{this is exactly Thomas' quote, and what I wanted to articulate earlier.}$ 
 
 ## Formulate Data-Driven Questions: Asking the Right Questions
 
@@ -178,7 +195,7 @@ After conducting your study, present the results clearly, concisely, and
 accessibly. Avoid jargon that could confuse your audience. Even a meticulously
 designed study can lead to misinformed decisions if the findings are poorly
 communicated. Be transparent about your learnings, acknowledge any limitations
-of the study, and highlight new questions that have arisen.
+of the study, and highlight new questions that have arisen. 
 
 In discussing limitations, it's crucial to distinguish between
 `r glossary("Internal Validity")` (the confidence that the observed effects 
@@ -188,6 +205,8 @@ Even with a flawless experimental design, questions of external validity might
 remain. For example, a chatbot study conducted with tech-savvy users might
 not apply to an older demographic.
 
+$\kgnote{As a final note, be especially skeptical of estimates derived from small sample sizes, ... should we include a sentence here about [Type M and S errors?](http://www.stat.columbia.edu/~gelman/research/published/retropower20.pdf), ..., and cognizant of Twyman’s Law which states "Any figure that looks interesting or different is usually wrong".}$ 
+
 ## Real-World Constraints and the Path Forward
 
 Real-world constraints often prevent us from conducting the "perfect" study with
@@ -196,7 +215,7 @@ view evidence quality as a spectrum, not a binary. Learning is an ongoing
 process. Embrace uncertainty, acknowledging that no single study provides all
 the answers. Instead of thinking in terms of "success" or "failure," consider
 the weight of evidence, the specific context, and the potential risks and
-rewards when making decisions.
+rewards when making decisions. $\kgnote{this is perfectly said}$ 
 
 By adopting the "Decisions First" framework and embracing a Bayesian approach,
 you can transform data analysis from a ritualistic exercise into a powerful tool
